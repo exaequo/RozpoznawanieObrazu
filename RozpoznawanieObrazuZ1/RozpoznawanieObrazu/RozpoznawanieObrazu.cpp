@@ -23,7 +23,6 @@ int main()
 	//std::cout << "Nbr of training labels (train-labels-idx1-ubyte) = " << dataset.training_labels.size() << std::endl;	//and this
 	/*std::cout << "Nbr of test images (t10k-images-idx3-ubyte) = " << dataset.test_images.size() << std::endl;
 	std::cout << "Nbr of test labels (t10k-labels-idx1-ubyte) = " << dataset.test_labels.size() << std::endl;*/
-
 	//int k = 0;
 	//std::cout << "Which element do you want to see?\n Write number and press ENTER.\n";
 	//std::cin >> k;
@@ -53,9 +52,8 @@ int main()
 	//	std::cin >> k;
 	//}
 
-	
-	
-	//std::vector<ClassifableObject> data{};
+		
+	std::vector<ClassifableObject> data{};
 	
 	if (true)
 	{
@@ -66,20 +64,17 @@ int main()
 		extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
 		sav.saveToFile(extr.getObjects(), att);
 		std::cout << "SAVED\n";
-		/*sav.saveToFile({ClassifableObject{ 3,1,{} }, 
-						ClassifableObject{ 3,1,{} },
-						ClassifableObject{ 3,2,{} } }, { "att1", "att2", "att4" });
+		
 
-		std::cout << "LOADED FROM FILE\n";
-
-		sav.loadFromFile(data, att);*/
+		sav.loadFromFile(data, att);
 	}
 	std::cout << "DONE\n";
-	/*for (auto single : data)
-	{
-		std::cout << "DATA: " << single.toFileFormat() << "\n";
-	}*/
 
+	for (int i = 0; i < 100; ++i)
+	{
+		std::cout << "DATA " << i << ": " << data[i].toFileFormat() << "\n";
+	}
+	
 	system("pause");
 	return 0;
 }

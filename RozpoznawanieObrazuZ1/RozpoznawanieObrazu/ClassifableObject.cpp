@@ -2,7 +2,7 @@
 #include "ClassifableObject.h"
 #include <exception>
 #include <sstream>
-#include <iostream>
+#include <iomanip>
 
 ClassifableObject::ClassifableObject(int numOfAtt, int objectClass) : numberOfAttributes{numOfAtt}, objectClass{ objectClass }, predictedClass{-1} //, data{data}
 {
@@ -11,8 +11,6 @@ ClassifableObject::ClassifableObject(int numOfAtt, int objectClass) : numberOfAt
 
 ClassifableObject::ClassifableObject(const std::vector<std::string> & line) : predictedClass{-1}//, data{}
 {
-	std::cout << "LOADING OBJ: " << line.size() << "\n";
-	
 	numberOfAttributes = line.size() - 1; // first information in the data is about the object class
 	attributes = std::vector<float>(numberOfAttributes, 0.f); //create array of attributes filled with zeroes
 
@@ -46,11 +44,11 @@ std::string ClassifableObject::toFileFormat() const
 {
 	std::ostringstream ss; //create stream
 	
-	ss << objectClass << ","; //add the class
+	ss << std::setw(2) << objectClass << ","; //add the class
 
 	for (int i = 0; i < numberOfAttributes; ++i) //iterate over attributes adding them to stream
 	{
-		ss << attributes[i];
+		ss << std::setw(4) << attributes[i];
 		if (i != numberOfAttributes - 1) { ss << ","; } //if its not the last attribute, add "," between
 	}
 

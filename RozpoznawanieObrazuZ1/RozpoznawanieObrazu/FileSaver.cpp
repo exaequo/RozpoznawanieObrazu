@@ -2,6 +2,7 @@
 #include "FileSaver.h"
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 
 FileSaver::FileSaver(std::string fileName) : fileName{fileName}
 {
@@ -13,7 +14,6 @@ FileSaver::~FileSaver()
 
 bool FileSaver::saveToFile(const std::vector<ClassifableObject>& data, const std::vector<std::string>& attributesToSave) const
 {
-
 	std::ofstream iFile{ fileName }; //we open selected file
 
 	if (iFile.is_open())

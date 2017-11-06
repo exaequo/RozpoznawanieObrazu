@@ -17,11 +17,16 @@ Extractor::~Extractor()
 
 void Extractor::extractAttributes(const dataVector& data, std::vector<unsigned char> &dataLabels, const std::vector<std::string> &whichAttributesToExtract)
 {
+	attributesToExtract = { whichAttributesToExtract };
+	staticAttributesExtraction(data, dataLabels, whichAttributesToExtract, extractedObjects);
+}
+
+void Extractor::staticAttributesExtraction(const dataVector & data, std::vector<unsigned char>& dataLabels, const std::vector<std::string>& whichAttributesToExtract, std::vector<class ClassifableObject>& extractedObjects)
+{
 	if (extractedObjects.size() > 0)
 	{
 		extractedObjects.clear();
 	}
-	attributesToExtract = { whichAttributesToExtract };
 	extractedObjects = {};
 	FunctionStruct func{};
 
@@ -29,13 +34,13 @@ void Extractor::extractAttributes(const dataVector& data, std::vector<unsigned c
 	for (unsigned int i = 0; i < data.size(); ++i)
 	{
 		//Create a new ClassifableObject
-		ClassifableObject obj = ClassifableObject(attributesToExtract.size(), (int)dataLabels[i]);// , data[i]));
+		ClassifableObject obj = ClassifableObject(whichAttributesToExtract.size(), (int)dataLabels[i]);// , data[i]));
 
-		//Iterate over all attributes that we want to compute for the object
-		for (unsigned int n = 0; n < attributesToExtract.size(); ++n)
+																								  //Iterate over all attributes that we want to compute for the object
+		for (unsigned int n = 0; n < whichAttributesToExtract.size(); ++n)
 		{
 			//we compute the value of the nth attribute of object using function defined by nth argument of attributesToExtract
-			obj[n] = func.extractingFunctions[attributesToExtract.at(n)](data[i]); 
+			obj[n] = func.extractingFunctions[whichAttributesToExtract.at(n)](data[i]);
 		}
 		//push created object to the vector
 		extractedObjects.push_back(obj);

@@ -20,6 +20,7 @@ public:
 	/* Returns string to be placed in file 
 	FORMAT: class, att1, att2, ...*/
 	std::string toFileFormat() const;
+	/*returns the size of the attribute vector*/
 	int size() const;
 
 protected:

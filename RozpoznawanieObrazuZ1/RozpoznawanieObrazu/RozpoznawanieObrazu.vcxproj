@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassifableObject.h" />
+    <ClInclude Include="Classifier.h" />
     <ClInclude Include="Extractor.h" />
     <ClInclude Include="FileSaver.h" />
     <ClInclude Include="functions.h" />
@@ -160,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassifableObject.cpp" />
+    <ClCompile Include="Classifier.cpp" />
     <ClCompile Include="Extractor.cpp" />
     <ClCompile Include="FileSaver.cpp" />
     <ClCompile Include="functions.cpp" />

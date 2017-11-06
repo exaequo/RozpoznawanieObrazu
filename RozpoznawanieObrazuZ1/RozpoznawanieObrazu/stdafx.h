@@ -11,6 +11,7 @@
 #include "ClassifableObject.h"
 #include "functions.h"
 #include "FileSaver.h"
+#include "Classifier.h"
 
 #include <stdio.h>
 #include <tchar.h>
