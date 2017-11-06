@@ -3,6 +3,10 @@
 
 
 
+Extractor::Extractor()
+{
+}
+
 Extractor::~Extractor()
 {
 	for (auto singleObject : extractedObjects)
@@ -11,7 +15,7 @@ Extractor::~Extractor()
 	}
 }
 
-void Extractor::extractAttributes(const dataVector& data, std::vector<unsigned char> &labels, std::vector<int> &whichAttributesToExtract)
+void Extractor::extractAttributes(const dataVector& data, std::vector<unsigned char> &labels, std::vector<std::string> &whichAttributesToExtract)
 {
 	if (extractedObjects.size() > 0)
 	{
@@ -31,7 +35,7 @@ void Extractor::extractAttributes(const dataVector& data, std::vector<unsigned c
 		for (unsigned int n = 0; n < attributesToExtract.size(); ++n)
 		{
 			//we compute the value of the nth attribute of object using function defined by nth argument of attributesToExtract
-			(*obj)[n] = func.extractingFunctions.at(attributesToExtract.at(n))(data[i]); 
+			(*obj)[n] = func.extractingFunctions[attributesToExtract.at(n)](data[i]); 
 		}
 		//push created object to the vector
 		extractedObjects.push_back(obj);

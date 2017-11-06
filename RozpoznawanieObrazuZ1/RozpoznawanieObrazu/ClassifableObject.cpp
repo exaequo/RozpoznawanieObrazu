@@ -9,6 +9,7 @@ ClassifableObject::ClassifableObject(int numOfAtt, int objectClass, const std::v
 
 ClassifableObject::ClassifableObject(std::string line)
 {
+
 	//TODO
 }
 

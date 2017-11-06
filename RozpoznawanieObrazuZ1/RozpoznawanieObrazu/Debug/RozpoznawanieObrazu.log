@@ -1,10 +1,11 @@
 ﻿  stdafx.cpp
-d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist\mnist_reader_common.hpp(46): warning C4244: "inicjowanie": konwersja z "std::streamoff" do "unsigned int", możliwa utrata danych
-  functions.cpp
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist\mnist_reader_common.hpp(46): warning C4244: "inicjowanie": konwersja z "std::streamoff" do "unsigned int", możliwa utrata danych
   Statistics.cpp
   RozpoznawanieObrazu.cpp
   Object.cpp
+  functions.cpp
   Extractor.cpp
   ClassifableObject.cpp
   Generowanie kodu...
-  RozpoznawanieObrazu.vcxproj -> D:\Studia\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe
+  LINK : nie znaleziono elementu C:\Users\Artur\Documents\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe ani nie został on skompilowany podczas ostatniego konsolidowania przyrostowego; zostanie wykonana pełna konsolidacja
+  RozpoznawanieObrazu.vcxproj -> C:\Users\Artur\Documents\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe
