@@ -6,6 +6,11 @@
 #pragma once
 
 #include "targetver.h"
+#include "mnist/mnist_reader.hpp"
+#include "Extractor.h"
+#include "ClassifableObject.h"
+#include "functions.h"
+
 
 #include <stdio.h>
 #include <tchar.h>

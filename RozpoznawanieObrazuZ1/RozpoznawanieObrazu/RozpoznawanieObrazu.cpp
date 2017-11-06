@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include <iostream>
-#include "mnist/mnist_reader.hpp"
+
 
 
 int main()

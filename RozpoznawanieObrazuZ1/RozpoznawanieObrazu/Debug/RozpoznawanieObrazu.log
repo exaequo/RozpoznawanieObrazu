@@ -1,5 +1,10 @@
-﻿  RozpoznawanieObrazu.cpp
-d:\0wikamp\9sem\rozpoznwanie obrazu\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist\mnist_reader_common.hpp(46): warning C4244: "inicjowanie": konwersja z "std::streamoff" do "unsigned int", możliwa utrata danych
+﻿  stdafx.cpp
+d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist\mnist_reader_common.hpp(46): warning C4244: "inicjowanie": konwersja z "std::streamoff" do "unsigned int", możliwa utrata danych
+  functions.cpp
+  Statistics.cpp
+  RozpoznawanieObrazu.cpp
   Object.cpp
+  Extractor.cpp
+  ClassifableObject.cpp
   Generowanie kodu...
-  RozpoznawanieObrazu.vcxproj -> D:\0WIKAMP\9SEM\Rozpoznwanie Obrazu\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe
+  RozpoznawanieObrazu.vcxproj -> D:\Studia\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe
