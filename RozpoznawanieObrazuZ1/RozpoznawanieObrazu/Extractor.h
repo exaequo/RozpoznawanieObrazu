@@ -11,16 +11,16 @@ public:
 	~Extractor();
 
 	/*Function to extract attributes from the data given by reader of the file (like MNIST) and create objects to be saved in our file format*/
-	void extractAttributes(const dataVector& data, std::vector<unsigned char> &labels, std::vector<std::string> &whichAttributesToExtract);
+	void extractAttributes(const dataVector& data, std::vector<unsigned char> &labels, const std::vector<std::string> &whichAttributesToExtract);
 	
-	/*Function to save extractedObjects vector to file*/
-	void saveDataToFile(std::string fileName) const;
+	static std::vector<std::string> getDefaultAttributesList();
 
+	const std::vector<class ClassifableObject>& getObjects() const;
 protected:
 	
 	/*attributes to extract(which function from extractingFunctions will be used) given to extractAttributes function*/
 	std::vector<std::string> attributesToExtract;
 	/*objects that are extracted (with proper computed attributes) from extractAttributes function*/
-	std::vector<class ClassifableObject*> extractedObjects;
+	std::vector<class ClassifableObject> extractedObjects;
 };
 

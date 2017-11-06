@@ -11,16 +11,18 @@ int main()
 	//just a simple example how to read digits from database and display them in terminal
 	//you can wrap it if you want to
 
-	//std::string MNIST_DATA_LOCATION = "mnist/";				//it will be easier if i just push the files on repo
-	//std::cout << "MNIST data directory: " << MNIST_DATA_LOCATION << std::endl;
+	std::string MNIST_DATA_LOCATION = "mnist/";				//it will be easier if i just push the files on repo
+	std::cout << "MNIST data directory: " << MNIST_DATA_LOCATION << std::endl;
 
-	//mnist::MNIST_dataset<std::vector, std::vector<uint8_t>, uint8_t> dataset = 
-	//	mnist::read_dataset<std::vector, std::vector, uint8_t, uint8_t>(MNIST_DATA_LOCATION);
+	mnist::MNIST_dataset<std::vector, std::vector<uint8_t>, uint8_t> dataset = 
+		mnist::read_dataset<std::vector, std::vector, uint8_t, uint8_t>(MNIST_DATA_LOCATION);
+
+	std::cout << "MNIST LOADED\n";
 
 	//std::cout << "Nbr of training images (train-images-idx3-ubyte) = " << dataset.training_images.size() << std::endl;	//this time we only use this
 	//std::cout << "Nbr of training labels (train-labels-idx1-ubyte) = " << dataset.training_labels.size() << std::endl;	//and this
-	//std::cout << "Nbr of test images (t10k-images-idx3-ubyte) = " << dataset.test_images.size() << std::endl;
-	//std::cout << "Nbr of test labels (t10k-labels-idx1-ubyte) = " << dataset.test_labels.size() << std::endl;
+	/*std::cout << "Nbr of test images (t10k-images-idx3-ubyte) = " << dataset.test_images.size() << std::endl;
+	std::cout << "Nbr of test labels (t10k-labels-idx1-ubyte) = " << dataset.test_labels.size() << std::endl;*/
 
 	//int k = 0;
 	//std::cout << "Which element do you want to see?\n Write number and press ENTER.\n";
@@ -51,11 +53,32 @@ int main()
 	//	std::cin >> k;
 	//}
 
-	Extractor extr{};
-
 	
 	
+	//std::vector<ClassifableObject> data{};
+	
+	if (true)
+	{
+		Extractor extr{};
+		FileSaver sav{ "file.txt" };
+		std::vector<std::string> att = Extractor::getDefaultAttributesList();
 
+		extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
+		sav.saveToFile(extr.getObjects(), att);
+		std::cout << "SAVED\n";
+		/*sav.saveToFile({ClassifableObject{ 3,1,{} }, 
+						ClassifableObject{ 3,1,{} },
+						ClassifableObject{ 3,2,{} } }, { "att1", "att2", "att4" });
+
+		std::cout << "LOADED FROM FILE\n";
+
+		sav.loadFromFile(data, att);*/
+	}
+	std::cout << "DONE\n";
+	/*for (auto single : data)
+	{
+		std::cout << "DATA: " << single.toFileFormat() << "\n";
+	}*/
 
 	system("pause");
 	return 0;

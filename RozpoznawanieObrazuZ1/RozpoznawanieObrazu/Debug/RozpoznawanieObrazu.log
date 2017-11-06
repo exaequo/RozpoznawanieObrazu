@@ -1,11 +1,12 @@
 ﻿  stdafx.cpp
-c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist\mnist_reader_common.hpp(46): warning C4244: "inicjowanie": konwersja z "std::streamoff" do "unsigned int", możliwa utrata danych
+d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist\mnist_reader_common.hpp(46): warning C4244: "inicjowanie": konwersja z "std::streamoff" do "unsigned int", możliwa utrata danych
+  functions.cpp
   Statistics.cpp
   RozpoznawanieObrazu.cpp
   Object.cpp
-  functions.cpp
+  FileSaver.cpp
+d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\filesaver.cpp(24): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
   Extractor.cpp
   ClassifableObject.cpp
+d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifableobject.cpp(12): error C2660: "FileSaver::divideLine": funkcja nie przyjmuje 1 argumentów
   Generowanie kodu...
-  LINK : nie znaleziono elementu C:\Users\Artur\Documents\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe ani nie został on skompilowany podczas ostatniego konsolidowania przyrostowego; zostanie wykonana pełna konsolidacja
-  RozpoznawanieObrazu.vcxproj -> C:\Users\Artur\Documents\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe

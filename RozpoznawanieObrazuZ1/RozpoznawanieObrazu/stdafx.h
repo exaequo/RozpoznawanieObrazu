@@ -10,11 +10,12 @@
 #include "Extractor.h"
 #include "ClassifableObject.h"
 #include "functions.h"
-
+#include "FileSaver.h"
 
 #include <stdio.h>
 #include <tchar.h>
-
+#include <exception>
+#include <vector>
 
 
 // TODO: reference additional headers your program requires here

@@ -6,9 +6,9 @@ class ClassifableObject
 {
 public:
 	/*To be used by extractor*/
-	ClassifableObject(int numOfAtt, int objectClass, const std::vector<unsigned char> & data);
+	ClassifableObject(int numOfAtt, int objectClass);//, const std::vector<unsigned char> & data);
 	/*To be used by classifier when getting objects from the file*/
-	ClassifableObject(std::string line);
+	ClassifableObject(const std::vector<std::string> & line);
 	~ClassifableObject();
 	
 	/* Predicts class of the object and transfers the information to the statistics object */
@@ -17,15 +17,17 @@ public:
 	/* We can use [] to get attribute on nth place*/
 	float& operator[](int n);
 
-	/* Returns string to be placed in file */
+	/* Returns string to be placed in file 
+	FORMAT: class, att1, att2, ...*/
 	std::string toFileFormat() const;
+	int size() const;
 
 protected:
 	int numberOfAttributes;
 	int objectClass;
 	int predictedClass;
 	
-	std::vector<unsigned char> data;	
-	float* attributes;
+	//std::vector<unsigned char> data;	
+	std::vector<float> attributes;
 };
 
