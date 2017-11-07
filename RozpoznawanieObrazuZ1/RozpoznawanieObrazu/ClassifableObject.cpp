@@ -27,8 +27,14 @@ ClassifableObject::~ClassifableObject()
 {
 }
 
+//ClassifableObject::ClassifableObject(ClassifableObject && other):numberOfAttributes{other.numberOfAttributes}, objectClass{other.objectClass}, predictedClass{other.predictedClass}
+//{
+//	attributes = std::move(other.attributes);
+//}
+
 void ClassifableObject::predictClass(int prediction)
 {
+	throw new std::exception("UNIMPLEMENTED BOI");
 }
 
 float & ClassifableObject::operator[](int n)
@@ -58,4 +64,9 @@ std::string ClassifableObject::toFileFormat() const
 int ClassifableObject::size() const
 {
 	return numberOfAttributes;
+}
+
+int ClassifableObject::getClass() const
+{
+	return objectClass;
 }

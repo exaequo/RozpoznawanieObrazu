@@ -10,7 +10,8 @@ public:
 	/*To be used by classifier when getting objects from the file*/
 	ClassifableObject(const std::vector<std::string> & line);
 	~ClassifableObject();
-	
+	//ClassifableObject(ClassifableObject&&); //move operator
+
 	/* Predicts class of the object and transfers the information to the statistics object */
 	void predictClass(int prediction);
 
@@ -22,6 +23,8 @@ public:
 	std::string toFileFormat() const;
 	/*returns the size of the attribute vector*/
 	int size() const;
+	/*returns what class this object SHOULD be*/
+	int getClass() const;
 
 protected:
 	int numberOfAttributes;

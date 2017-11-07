@@ -13,6 +13,8 @@ public:
 	/*classifies test set using knn method with given k*/
 	void knn(int k);
 
+	
+
 	/*Normalizes single object depending on attributeNormalizingValues vector*/
 	void normalizeObject(class ClassifableObject& obj) const;
 private:
@@ -21,8 +23,12 @@ private:
 	/*String names of functions to use in extracting attributes*/
 	std::vector<std::string> attributesToExtract;
 
+
 	/*To be used with attributes on every object in test set*/
 	std::vector<float> attributeNormalizingValues;
+
+	float metric(const class ClassifableObject& first, const class ClassifableObject& second) const;
+
 
 };
 

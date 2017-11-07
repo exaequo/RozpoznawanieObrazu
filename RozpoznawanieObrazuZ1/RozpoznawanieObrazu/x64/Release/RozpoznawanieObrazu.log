@@ -3,8 +3,11 @@
 ClassifableObject.cpp(14): warning C4267: "=": konwersja z "size_t" do "int", możliwa utrata danych
   Classifier.cpp
   Extractor.cpp
-Extractor.cpp(37): warning C4267: "argument": konwersja z "size_t" do "int", możliwa utrata danych
+Extractor.cpp(34): warning C4267: "argument": konwersja z "size_t" do "int", możliwa utrata danych
   FileSaver.cpp
+  functions.cpp
+functions.cpp(21): warning C4244: "return": konwersja z "int" do "float", możliwa utrata danych
+functions.cpp(28): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
   Object.cpp
   RozpoznawanieObrazu.cpp
 d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist/mnist_reader.hpp(132): warning C4267: "=": konwersja z "size_t" do "uint32_t", możliwa utrata danych
@@ -51,12 +54,9 @@ d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist/mn
               Label=uint8_t
           ]
   Statistics.cpp
-  functions.cpp
-functions.cpp(8): warning C4244: "return": konwersja z "int" do "float", możliwa utrata danych
-functions.cpp(13): warning C4244: "return": konwersja z "int" do "float", możliwa utrata danych
   Trwa generowanie kodu
-  2 of 856 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  67 of 867 functions ( 7.7%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    11 functions had inline decision re-evaluated but remain unchanged
+    79 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
   RozpoznawanieObrazu.vcxproj -> D:\Studia\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\x64\Release\RozpoznawanieObrazu.exe

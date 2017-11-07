@@ -18,17 +18,14 @@ Extractor::~Extractor()
 void Extractor::extractAttributes(const dataVector& data, std::vector<unsigned char> &dataLabels, const std::vector<std::string> &whichAttributesToExtract)
 {
 	attributesToExtract = { whichAttributesToExtract };
+	extractedObjects = {};
 	staticAttributesExtraction(data, dataLabels, whichAttributesToExtract, extractedObjects);
 }
 
 void Extractor::staticAttributesExtraction(const dataVector & data, std::vector<unsigned char>& dataLabels, const std::vector<std::string>& whichAttributesToExtract, std::vector<class ClassifableObject>& extractedObjects)
 {
-	if (extractedObjects.size() > 0)
-	{
-		extractedObjects.clear();
-	}
-	extractedObjects = {};
 	FunctionStruct func{};
+	extractedObjects.clear();
 
 	//We iterate over a vector of data
 	for (unsigned int i = 0; i < data.size(); ++i)
