@@ -34,7 +34,17 @@ ClassifableObject::~ClassifableObject()
 
 void ClassifableObject::predictClass(int prediction)
 {
-	throw new std::exception("UNIMPLEMENTED BOI");
+	predictedClass = prediction;
+	Statistics::classPrediction(objectClass, prediction);
+}
+
+const float & ClassifableObject::operator[](int n) const
+{
+	if (n < numberOfAttributes && n >= 0)
+	{
+		return attributes[n];
+	}
+	throw new std::exception("ClassifableObject:: wrong number of attributes");
 }
 
 float & ClassifableObject::operator[](int n)

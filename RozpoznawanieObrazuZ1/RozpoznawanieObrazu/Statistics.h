@@ -8,6 +8,7 @@ public:
 	Statistics(int numberOfAttributesPerObject);
 	~Statistics();
 
+	static void classPrediction(int proper, int prediction);
 
 private:
 	/*Number of attributes of each object*/

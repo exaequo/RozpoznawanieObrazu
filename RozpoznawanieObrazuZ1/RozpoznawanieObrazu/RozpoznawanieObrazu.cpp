@@ -57,16 +57,23 @@ int main()
 	
 	if (true)
 	{
-		Extractor extr{};
+		int numberOfClasses{ 0 };/*
+		Extractor extr{numberOfClasses};*/
 		FileSaver sav{ "file.txt" };
-		std::vector<std::string> att = Extractor::getDefaultAttributesList();
+		std::vector<std::string> att{};
 
-		extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
-		sav.saveToFile(extr.getObjects(), att);
+		/*extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
+		sav.saveToFile(extr.getObjects(), att, numberOfClasses);
 		std::cout << "SAVED\n";
 		
+*/
+		sav.loadFromFile(data, att, numberOfClasses);
 
-		sav.loadFromFile(data, att);
+		Classifier classifier{ data, att, numberOfClasses };
+		
+		classifier.computeTestSet(dataset.test_images, dataset.test_labels);
+
+		classifier.knn(3);
 	}
 	std::cout << "DONE\n";
 

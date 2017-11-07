@@ -12,7 +12,7 @@ FileSaver::~FileSaver()
 {
 }
 
-bool FileSaver::saveToFile(const std::vector<ClassifableObject>& data, const std::vector<std::string>& attributesToSave) const
+bool FileSaver::saveToFile(const std::vector<ClassifableObject>& data, const std::vector<std::string>& attributesToSave, int numberOfClasses) const
 {
 	std::ofstream iFile{ fileName }; //we open selected file
 
@@ -20,14 +20,15 @@ bool FileSaver::saveToFile(const std::vector<ClassifableObject>& data, const std
 	{
 		
 		iFile.clear();		//if opened, then clear the contents
-				
-		for (int i = 0; i < attributesToSave.size() - 1; ++i)//save the header
+		
+		iFile << numberOfClasses << "\n";
+		for (int i = 0; i < attributesToSave.size(); ++i)//save the header
 		{
-			iFile << attributesToSave.at(i) << ",";
+			iFile << attributesToSave.at(i);
+			if (i != attributesToSave.size() - 1) { iFile << ","; }
 		}
-		
-		iFile << attributesToSave.at(attributesToSave.size() - 1) << "\n";//save last one in the way so there is no "," on the end
-		
+		iFile << "\n";
+
 		//save the data
 		for (const ClassifableObject& obj : data)
 		{
@@ -48,7 +49,7 @@ bool FileSaver::saveToFile(const std::vector<ClassifableObject>& data, const std
 	return false;
 }
 
-bool FileSaver::loadFromFile(std::vector<ClassifableObject>& data, std::vector<std::string>& attributesToUse) const
+bool FileSaver::loadFromFile(std::vector<ClassifableObject>& data, std::vector<std::string>& attributesToUse, int& numberOfClasses) const
 {
 	std::ifstream iFile{ fileName }; // open selected file
 	
@@ -57,6 +58,10 @@ bool FileSaver::loadFromFile(std::vector<ClassifableObject>& data, std::vector<s
 		std::string line; //string line
 		data.clear(); //clear the given vectors
 		attributesToUse.clear();
+
+		//get number of classes 
+		getline(iFile, line);
+		numberOfClasses = std::stoi(line);
 
 		//get attribute names from first line
 		getline(iFile, line);

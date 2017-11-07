@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "Classifier.h"
 #include <algorithm>
+#include <math.h>
 
-Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract) : attributesToExtract{whichAttributesToExtract}
+Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract, int numberOfClasses) : attributesToExtract{whichAttributesToExtract}, numberOfClasses{numberOfClasses}
 {
 	testSet = {};
 
@@ -39,7 +40,7 @@ void Classifier::knn(int k)
 				return metric(testSet[i], a) < metric(testSet[i], b);
 			}); 
 
-			std::vector<int> counts = std::vector<int>(attributesToExtract.size(), 0);
+			std::vector<int> counts = std::vector<int>(numberOfClasses, 0);
 			for (int j = 0; j < k; ++j)
 			{
 				++counts[trainingSet->at(j).getClass()];
@@ -55,6 +56,11 @@ void Classifier::knn(int k)
 	}
 }
 
+const std::vector<class ClassifableObject>& Classifier::getTestSet() const
+{
+	return testSet;
+}
+
 void Classifier::normalizeObject(ClassifableObject & obj) const
 {
 	for (int i = 0; i < obj.size(); ++i)
@@ -65,6 +71,11 @@ void Classifier::normalizeObject(ClassifableObject & obj) const
 
 float Classifier::metric(const ClassifableObject & first, const ClassifableObject & second) const
 {
-	throw new std::exception("UNIMPLEMENTED BOI");
-	return 0.0f;
+	float result{ 0.f };
+
+	for (int i = 0; i < first.size(); ++i)
+	{
+		result += fabsf(first[i] - second[i]);
+	}
+	return result;
 }

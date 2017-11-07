@@ -1,3 +1,4 @@
+10
 whitePixelCount,roundShapesCount,whitePixelOnBottomHalfCount,whitePixelOnTopHalfCount,leftSideShape
  5, 159,   1,  80,  79, 203
  0, 171,   3,  82,  89, 169

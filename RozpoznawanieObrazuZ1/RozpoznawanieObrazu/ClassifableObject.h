@@ -16,6 +16,7 @@ public:
 	void predictClass(int prediction);
 
 	/* We can use [] to get attribute on nth place*/
+	const float& operator[](int n) const;
 	float& operator[](int n);
 
 	/* Returns string to be placed in file 

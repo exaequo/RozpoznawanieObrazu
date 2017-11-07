@@ -12,6 +12,7 @@
 #include "functions.h"
 #include "FileSaver.h"
 #include "Classifier.h"
+#include "Statistics.h"
 
 #include <stdio.h>
 #include <tchar.h>
