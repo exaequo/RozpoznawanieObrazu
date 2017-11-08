@@ -7,7 +7,7 @@ class Extractor
 {
 public:
 	
-	Extractor(int numberOfClasses);
+	Extractor();
 	~Extractor();
 
 	/*Function to extract attributes from the data given by reader of the file (like MNIST) and create objects to be saved in our file format*/
@@ -20,8 +20,9 @@ public:
 	static std::vector<std::string> getDefaultAttributesList();
 
 	const std::vector<class ClassifableObject>& getObjects() const;
+
+	const std::vector<std::string>& getAttributesToExtract() const;
 protected:
-	int numberOfClasses;
 	/*attributes to extract(which function from extractingFunctions will be used) given to extractAttributes function*/
 	std::vector<std::string> attributesToExtract;
 	/*objects that are extracted (with proper computed attributes) from extractAttributes function*/

@@ -1,50 +1,8 @@
-﻿  RozpoznawanieObrazu.cpp
-c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist/mnist_reader.hpp(132): warning C4267: "=": konwersja z "size_t" do "uint32_t", możliwa utrata danych
-  c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist/mnist_reader.hpp(259): note: zobacz odwołanie do funkcji szablon; wystąpienie „void mnist::read_mnist_image_file<Container,Image,Functor>(std::vector<std::vector<unsigned char,std::allocator<_Ty>>,std::allocator<std::vector<_Ty,std::allocator<_Ty>>>> &,const std::string &,::size_t,Functor)” jest kompilowane
-          with
-          [
-              Container=std::vector,
-              Image=std::vector<unsigned char,std::allocator<unsigned char>>,
-              Functor=mnist::read_dataset_direct::<lambda_76e89cf4b78b621b2415b4e21a336540>,
-              _Ty=unsigned char
-          ]
-  c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist/mnist_reader.hpp(356): note: zobacz odwołanie do funkcji szablon; wystąpienie „std::vector<std::vector<unsigned char,std::allocator<_Ty>>,std::allocator<std::vector<_Ty,std::allocator<_Ty>>>> mnist::read_training_images<Container,Image,mnist::read_dataset_direct::<lambda_76e89cf4b78b621b2415b4e21a336540>>(const std::string &,::size_t,Functor)” jest kompilowane
-          with
-          [
-              _Ty=unsigned char,
-              Container=std::vector,
-              Image=std::vector<unsigned char,std::allocator<unsigned char>>,
-              Functor=mnist::read_dataset_direct::<lambda_76e89cf4b78b621b2415b4e21a336540>
-          ]
-  c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist/mnist_reader.hpp(402): note: zobacz odwołanie do funkcji szablon; wystąpienie „mnist::MNIST_dataset<std::vector,std::vector<unsigned char,std::allocator<_Ty>>,uint8_t> mnist::read_dataset_direct<Container,std::vector<_Ty,std::allocator<_Ty>>,uint8_t>(const std::string &,::size_t,::size_t)” jest kompilowane
-          with
-          [
-              _Ty=unsigned char,
-              Container=std::vector
-          ]
-  RozpoznawanieObrazu.cpp(18): note: zobacz odwołanie do funkcji szablon; wystąpienie „mnist::MNIST_dataset<std::vector,std::vector<unsigned char,std::allocator<_Ty>>,uint8_t> mnist::read_dataset<std::vector,std::vector,uint8_t,uint8_t>(const std::string &,::size_t,::size_t)” jest kompilowane
-          with
-          [
-              _Ty=unsigned char
-          ]
-c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist/mnist_reader.hpp(167): warning C4267: "=": konwersja z "size_t" do "uint32_t", możliwa utrata danych
-  c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist/mnist_reader.hpp(290): note: zobacz odwołanie do funkcji szablon; wystąpienie „void mnist::read_mnist_label_file<Container,Label>(std::vector<unsigned char,std::allocator<_Ty>> &,const std::string &,::size_t)” jest kompilowane
-          with
-          [
-              Container=std::vector,
-              Label=uint8_t,
-              _Ty=unsigned char
-          ]
-  c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist/mnist_reader.hpp(357): note: zobacz odwołanie do funkcji szablon; wystąpienie „std::vector<unsigned char,std::allocator<_Ty>> mnist::read_training_labels<Container,Label>(const std::string &,::size_t)” jest kompilowane
-          with
-          [
-              _Ty=unsigned char,
-              Container=std::vector,
-              Label=uint8_t
-          ]
+﻿  ClassifableObject.cpp
+ClassifableObject.cpp(14): warning C4267: "=": konwersja z "size_t" do "int", możliwa utrata danych
   Trwa generowanie kodu
-  233 of 938 functions (24.8%) were compiled, the rest were copied from previous compilation.
-    16 functions were new in current compilation
-    81 functions had inline decision re-evaluated but remain unchanged
+  18 of 1306 functions ( 1.4%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    52 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
-  RozpoznawanieObrazu.vcxproj -> C:\Users\Artur\Documents\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\x64\Release\RozpoznawanieObrazu.exe
+  RozpoznawanieObrazu.vcxproj -> D:\Studia\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\x64\Release\RozpoznawanieObrazu.exe

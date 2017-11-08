@@ -44,7 +44,9 @@ const float & ClassifableObject::operator[](int n) const
 	{
 		return attributes[n];
 	}
-	throw new std::exception("ClassifableObject:: wrong number of attributes");
+	//std::stringstream ss{};
+	std::cout << "ClassifableObject:: wrong number of attributes (n:" << n << ",att:" << numberOfAttributes<<")\n";
+	//throw new std::exception(ss.str().c_str());
 }
 
 float & ClassifableObject::operator[](int n)
@@ -67,6 +69,15 @@ std::string ClassifableObject::toFileFormat() const
 		ss << std::setw(4) << attributes[i];
 		if (i != numberOfAttributes - 1) { ss << ","; } //if its not the last attribute, add "," between
 	}
+
+	return ss.str();
+}
+
+std::string ClassifableObject::toOutputFormat() const
+{
+	std::ostringstream ss;
+
+	ss << toFileFormat() << "||" << objectClass << "/" << predictedClass;
 
 	return ss.str();
 }

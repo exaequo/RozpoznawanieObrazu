@@ -2,8 +2,11 @@
 #include "Classifier.h"
 #include <algorithm>
 #include <math.h>
+#include <thread>
+#include <map>
+#include <iostream>
 
-Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract, int numberOfClasses) : attributesToExtract{whichAttributesToExtract}, numberOfClasses{numberOfClasses}
+Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract) : attributesToExtract{whichAttributesToExtract}
 {
 	testSet = {};
 
@@ -27,33 +30,71 @@ void Classifier::computeTestSet(const dataVector & data, std::vector<unsigned ch
 	}
 }
 
-void Classifier::knn(int k)
+void Classifier::knn(const int k, const int numberOfThreadsToUse)
 {
 	if (!testSet.empty()) //if testSet is not empty then the operations have meaning
 	{
-		for (int i = 0; i < testSet.size(); ++i)
+		std::vector<std::thread> threads(numberOfThreadsToUse);
+
+		for (int i = 0; i < numberOfThreadsToUse; ++i)
 		{
-			
-			std::sort(trainingSet->begin(), trainingSet->end(), //sort the training vector
-				[&](const ClassifableObject& a, const ClassifableObject& b) -> bool {
-				//true if the first element should go before the second
-				return metric(testSet[i], a) < metric(testSet[i], b);
-			}); 
-
-			std::vector<int> counts = std::vector<int>(numberOfClasses, 0);
-			for (int j = 0; j < k; ++j)
+			std::vector<ClassifableObject> part;// (testSet.begin() + (testSet.size() / numberOfThreadsToUse) * i,
+												//testSet.begin() + (testSet.size() / numberOfThreadsToUse) * (i + 1));
+			if (i != numberOfThreadsToUse - 1)
 			{
-				++counts[trainingSet->at(j).getClass()];
+				part = std::vector<ClassifableObject>(testSet.begin() + (testSet.size() / numberOfThreadsToUse) * i,
+													  testSet.begin() + (testSet.size() / numberOfThreadsToUse) * (i + 1));
 			}
-			std::sort(counts.begin(), counts.end());
+			else {
+				part = std::vector<ClassifableObject>(testSet.begin() + (testSet.size() / numberOfThreadsToUse) * i, testSet.end() - 1);										
+			}
+			
+			threads[i] = std::thread(&Classifier::knnPart, this, k, part); //start threads with parts of knn vector
+		}
 
-			testSet[i].predictClass(counts[0]);
+		for (auto& t : threads)
+		{
+			t.join();//join the threads
 		}
 	}
 	else
 	{
 		throw new std::exception("Classifier wasn't initialized with data");
 	}
+}
+
+void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator start, std::vector<ClassifableObject>::iterator end)
+{
+	for (int i = 0; i < testSetPart.size(); ++i)
+	{
+
+		std::sort(trainingSet->begin(), trainingSet->end(), //sort the training vector
+			[&](const ClassifableObject& a, const ClassifableObject& b) -> bool {
+			//true if the first element should go before the second
+			return metric(testSetPart[i], a) < metric(testSetPart[i], b);
+		});
+
+		std::map<int, int> counts{}; //create a map; first: class, second: quantitity
+		std::vector<std::pair<int, int> >countsVec{}; //create a vector of pairs same as map
+
+		for (int j = 0; j < k; ++j)
+		{
+			++counts[trainingSet->at(j).getClass()]; //create needed positions in map
+		}
+		for (auto elem : counts)
+		{
+			countsVec.push_back({ elem.first, elem.second });//transfer information to vector
+		}
+
+		std::sort(countsVec.begin(), countsVec.end(), //sort vector over quantity
+			[&](std::pair<int, int> &l, std::pair<int, int> &r)->bool {
+			return l.second > r.second;
+		});
+
+
+		testSetPart[i].predictClass(countsVec[0].first);//first in first elem in vector is the one with largest quantity
+	}
+	std::cout << "THREAD FINISHED\n";
 }
 
 const std::vector<class ClassifableObject>& Classifier::getTestSet() const

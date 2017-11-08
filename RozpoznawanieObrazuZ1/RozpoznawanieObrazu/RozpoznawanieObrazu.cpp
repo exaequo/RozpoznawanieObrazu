@@ -54,34 +54,52 @@ int main()
 
 		
 	std::vector<ClassifableObject> data{};
-	
+	std::vector<std::string> att = Extractor::getDefaultAttributesList();		
 	if (true)
 	{
-		int numberOfClasses{ 0 };/*
-		Extractor extr{numberOfClasses};*/
 		FileSaver sav{ "file.txt" };
-		std::vector<std::string> att{};
+		/*Extractor extr{};
 
-		/*extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
-		sav.saveToFile(extr.getObjects(), att, numberOfClasses);
-		std::cout << "SAVED\n";
+		extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
+		sav.saveToFile(extr.getObjects(), att);
+		std::cout << "SAVED\n";*/
+
+		sav.loadFromFile(data, att);
+
+		Classifier classifier{ data, att };
+		dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + 100 };
+		std::vector<unsigned char> lab{ dataset.test_labels.begin(), dataset.test_labels.begin() + 100};
+		classifier.computeTestSet(imag, lab);
+
 		
-*/
-		sav.loadFromFile(data, att, numberOfClasses);
 
-		Classifier classifier{ data, att, numberOfClasses };
-		
-		classifier.computeTestSet(dataset.test_images, dataset.test_labels);
+		classifier.knn(3, 8);
 
-		classifier.knn(3);
+		for (auto& test : classifier.getTestSet())
+		{
+			std::cout << test.toOutputFormat() << std::endl;
+		}
+//
+//		/*extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
+//		sav.saveToFile(extr.getObjects(), att, numberOfClasses);
+
+//		
+//*/
+//		sav.loadFromFile(data, att);
+//
+//		Classifier classifier{ data, att };
+//		
+//		classifier.computeTestSet(dataset.test_images, dataset.test_labels);
+//
+//		classifier.knn(3);
 	}
 	std::cout << "DONE\n";
 
-	for (int i = 0; i < 100; ++i)
+	/*for (int i = 0; i < 100; ++i)
 	{
 		std::cout << "DATA " << i << ": " << data[i].toFileFormat() << "\n";
 	}
-	
+	*/
 	system("pause");
 	return 0;
 }
