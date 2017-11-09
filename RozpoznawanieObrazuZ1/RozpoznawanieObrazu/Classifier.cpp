@@ -32,24 +32,26 @@ void Classifier::computeTestSet(const dataVector & data, std::vector<unsigned ch
 
 void Classifier::knn(const int k, const int numberOfThreadsToUse)
 {
+
 	if (!testSet.empty()) //if testSet is not empty then the operations have meaning
 	{
 		std::vector<std::thread> threads(numberOfThreadsToUse);
 
 		for (int i = 0; i < numberOfThreadsToUse; ++i)
-		{
-			std::vector<ClassifableObject> part;// (testSet.begin() + (testSet.size() / numberOfThreadsToUse) * i,
-												//testSet.begin() + (testSet.size() / numberOfThreadsToUse) * (i + 1));
+		{		
+			auto start = testSet.begin() +(testSet.size() / numberOfThreadsToUse) * i;
+			auto end = testSet.begin();// +(testSet.size() / numberOfThreadsToUse) * (i + 1);
+
 			if (i != numberOfThreadsToUse - 1)
 			{
-				part = std::vector<ClassifableObject>(testSet.begin() + (testSet.size() / numberOfThreadsToUse) * i,
-													  testSet.begin() + (testSet.size() / numberOfThreadsToUse) * (i + 1));
+				end = testSet.begin() +(testSet.size() / numberOfThreadsToUse) * (i + 1);
 			}
-			else {
-				part = std::vector<ClassifableObject>(testSet.begin() + (testSet.size() / numberOfThreadsToUse) * i, testSet.end() - 1);										
+			else
+			{
+				end = testSet.end();
 			}
-			
-			threads[i] = std::thread(&Classifier::knnPart, this, k, part); //start threads with parts of knn vector
+
+			threads[i] = std::thread(&Classifier::knnPart, this, k, start, end); //start threads with parts of knn vector
 		}
 
 		for (auto& t : threads)
@@ -61,17 +63,20 @@ void Classifier::knn(const int k, const int numberOfThreadsToUse)
 	{
 		throw new std::exception("Classifier wasn't initialized with data");
 	}
+
+	
 }
 
 void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator start, std::vector<ClassifableObject>::iterator end)
 {
-	for (int i = 0; i < testSetPart.size(); ++i)
+	for (auto i = start; i < end; ++i)
 	{
 
 		std::sort(trainingSet->begin(), trainingSet->end(), //sort the training vector
 			[&](const ClassifableObject& a, const ClassifableObject& b) -> bool {
 			//true if the first element should go before the second
-			return metric(testSetPart[i], a) < metric(testSetPart[i], b);
+			if (b.getNumberOfAttributes() > 0) { return metric((*i), a) < metric((*i), b); }
+			return false;
 		});
 
 		std::map<int, int> counts{}; //create a map; first: class, second: quantitity
@@ -92,7 +97,8 @@ void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator s
 		});
 
 
-		testSetPart[i].predictClass(countsVec[0].first);//first in first elem in vector is the one with largest quantity
+		(*i).predictClass(countsVec[0].first);//first in first elem in vector is the one with largest quantity
+		
 	}
 	std::cout << "THREAD FINISHED\n";
 }

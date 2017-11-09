@@ -1,12 +1,2 @@
-﻿  stdafx.cpp
-d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist\mnist_reader_common.hpp(46): warning C4244: "inicjowanie": konwersja z "std::streamoff" do "unsigned int", możliwa utrata danych
-  functions.cpp
-  Statistics.cpp
-  RozpoznawanieObrazu.cpp
-  Object.cpp
-  FileSaver.cpp
-d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\filesaver.cpp(24): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-  Extractor.cpp
-  ClassifableObject.cpp
-d:\studia\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifableobject.cpp(12): error C2660: "FileSaver::divideLine": funkcja nie przyjmuje 1 argumentów
-  Generowanie kodu...
+﻿  RozpoznawanieObrazu.cpp
+  RozpoznawanieObrazu.vcxproj -> E:\Użytkownicy\Hubert\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe

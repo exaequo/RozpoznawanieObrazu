@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include <iostream>
-
+#include <chrono>
 
 
 int main()
@@ -55,45 +55,52 @@ int main()
 		
 	std::vector<ClassifableObject> data{};
 	std::vector<std::string> att = Extractor::getDefaultAttributesList();		
+	
+	auto startClock = std::chrono::steady_clock::now();
 	if (true)
 	{
+
 		FileSaver sav{ "file.txt" };
+		
+
+		// ----------- TO SAVE A FILE ---------------------
 		/*Extractor extr{};
 
 		extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
 		sav.saveToFile(extr.getObjects(), att);
 		std::cout << "SAVED\n";*/
 
+		//-------------END FILE SAVE ----------------------
+
+
+		//-------------TO LOAD A FILE----------------------
 		sav.loadFromFile(data, att);
 
+		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 100;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
+
 		Classifier classifier{ data, att };
-		dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + 100 };
-		std::vector<unsigned char> lab{ dataset.test_labels.begin(), dataset.test_labels.begin() + 100};
+		dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
+		std::vector<unsigned char> lab{ dataset.test_labels.begin(), dataset.test_labels.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur};
 		classifier.computeTestSet(imag, lab);
 
 		
 
-		classifier.knn(3, 8);
+		classifier.knn(10, 8);
 
+		int count = 0;
 		for (auto& test : classifier.getTestSet())
 		{
 			std::cout << test.toOutputFormat() << std::endl;
+			count += test.getSuccessIdentifier();
 		}
-//
-//		/*extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
-//		sav.saveToFile(extr.getObjects(), att, numberOfClasses);
+		std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) <<"\n";
 
-//		
-//*/
-//		sav.loadFromFile(data, att);
-//
-//		Classifier classifier{ data, att };
-//		
-//		classifier.computeTestSet(dataset.test_images, dataset.test_labels);
-//
-//		classifier.knn(3);
+
+		//------------END FILE LOAD-------------------------
 	}
-	std::cout << "DONE\n";
+	auto endClock = std::chrono::steady_clock::now();
+	
+	std::cout << "DONE, tajm: "<< std::chrono::duration <double, std::milli>(endClock - startClock).count() <<"ms\n";
 
 	/*for (int i = 0; i < 100; ++i)
 	{

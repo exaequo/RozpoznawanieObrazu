@@ -29,6 +29,11 @@ public:
 	/*returns what class this object SHOULD be*/
 	int getClass() const;
 
+	int getNumberOfAttributes() const;
+
+	/* -1 if class wasnt guessed, 1 if guessed right, 0 if wrong*/
+	int getSuccessIdentifier() const;
+
 protected:
 	int numberOfAttributes;
 	int objectClass;

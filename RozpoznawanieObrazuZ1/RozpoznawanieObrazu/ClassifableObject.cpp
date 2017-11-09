@@ -91,3 +91,19 @@ int ClassifableObject::getClass() const
 {
 	return objectClass;
 }
+
+int ClassifableObject::getNumberOfAttributes() const
+{
+	return numberOfAttributes;
+}
+
+int ClassifableObject::getSuccessIdentifier() const
+{
+	int val = -1;
+	if (predictedClass != -1)
+	{
+		val = (objectClass == predictedClass) ? 1 : 0;
+	}
+
+	return val;
+}
