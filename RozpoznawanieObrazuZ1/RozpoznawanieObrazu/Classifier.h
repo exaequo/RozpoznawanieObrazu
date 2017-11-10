@@ -25,6 +25,7 @@ private:
 	/*String names of functions to use in extracting attributes*/
 	std::vector<std::string> attributesToExtract;
 
+	void normalizeTrainingSet();
 
 	/*To be used with attributes on every object in test set*/
 	std::vector<float> attributeNormalizingValues;

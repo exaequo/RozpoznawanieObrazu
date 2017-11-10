@@ -76,7 +76,7 @@ int main()
 		//-------------TO LOAD A FILE----------------------
 		sav.loadFromFile(data, att);
 
-		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 100;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
+		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 10000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
 
 		Classifier classifier{ data, att };
 		dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
@@ -90,7 +90,7 @@ int main()
 		int count = 0;
 		for (auto& test : classifier.getTestSet())
 		{
-			std::cout << test.toOutputFormat() << std::endl;
+			//std::cout << test.toOutputFormat() << std::endl;
 			count += test.getSuccessIdentifier();
 		}
 		std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) <<"\n";

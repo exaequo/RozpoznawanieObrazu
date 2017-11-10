@@ -4,6 +4,7 @@
 #include <math.h>
 #include <thread>
 #include <map>
+#include <limits>
 #include <iostream>
 
 Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract) : attributesToExtract{whichAttributesToExtract}
@@ -13,7 +14,8 @@ Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const 
 	this->trainingSet = &trainingSet; 
 	
 	attributeNormalizingValues = std::vector<float>(whichAttributesToExtract.size(), 1.f);
-	//TODO training set normalization
+
+	normalizeTrainingSet();
 }
 
 Classifier::~Classifier()
@@ -69,13 +71,20 @@ void Classifier::knn(const int k, const int numberOfThreadsToUse)
 
 void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator start, std::vector<ClassifableObject>::iterator end)
 {
+	std::vector<ClassifableObject*> trainingSetCopy{};
+
+	for (auto i = trainingSet->begin(); i < trainingSet->end(); ++i)
+	{
+		trainingSetCopy.push_back(&(*i));
+	}
+
 	for (auto i = start; i < end; ++i)
 	{
 
-		std::sort(trainingSet->begin(), trainingSet->end(), //sort the training vector
-			[&](const ClassifableObject& a, const ClassifableObject& b) -> bool {
+		std::sort(trainingSetCopy.begin(), trainingSetCopy.end(), //sort the training vector
+			[&](const ClassifableObject* a, const ClassifableObject* b) -> bool {
 			//true if the first element should go before the second
-			if (b.getNumberOfAttributes() > 0) { return metric((*i), a) < metric((*i), b); }
+			if (b->getNumberOfAttributes() > 0) { return metric((*i), *a) < metric((*i), *b); }
 			return false;
 		});
 
@@ -84,7 +93,7 @@ void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator s
 
 		for (int j = 0; j < k; ++j)
 		{
-			++counts[trainingSet->at(j).getClass()]; //create needed positions in map
+			++counts[trainingSetCopy.at(j)->getClass()]; //create needed positions in map
 		}
 		for (auto elem : counts)
 		{
@@ -113,6 +122,32 @@ void Classifier::normalizeObject(ClassifableObject & obj) const
 	for (int i = 0; i < obj.size(); ++i)
 	{
 		obj[i] *= attributeNormalizingValues.at(i);
+	}
+}
+
+void Classifier::normalizeTrainingSet()//normalizes to range 0 - 1
+{
+	std::vector<float> maxValues( attributesToExtract.size(), std::numeric_limits<float>::min() );
+
+	for (const auto &item : *trainingSet) //iterate over whole training set
+	{
+		for (int i = 0; i < attributesToExtract.size(); ++i) //iterate over attributes of each item
+		{
+			if (maxValues[i] < fabsf(item[i])) //if the value of an attribute is greater than the biggest one yet, it becomes new greatest value
+			{
+				maxValues[i] = fabsf(item[i]);
+			}
+		}
+	}
+
+	for (int i = 0; i < attributeNormalizingValues.size(); ++i) //iterate over attributeNormalizing vector
+	{
+		attributeNormalizingValues[i] = 1.f / (maxValues[i]); //change values at the vector to inverse of max values in the training set
+	}
+
+	for (auto &item : *trainingSet)//iterate over whole training set again to normalize
+	{
+		normalizeObject(item);//normalize the object
 	}
 }
 
