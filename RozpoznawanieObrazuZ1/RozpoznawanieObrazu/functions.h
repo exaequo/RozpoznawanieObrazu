@@ -14,24 +14,26 @@ float extractRoundShapesCount(pointerFunctionType);
 float extractWhitePixelsOnBottomHalfCount(pointerFunctionType);
 /*count white pixels on top half*/
 float extractWhitePixelsOnTopHalfCount(pointerFunctionType);
-/*some special idea*/
+/*count black pixels from digit's left side*/
 float extractLeftSideShape(pointerFunctionType);
-
+/*count black pixels from digit's right side*/
 float extractRightSideShape(pointerFunctionType);
-
+/*count black pixels from digit's top*/
 float extractTopShape(pointerFunctionType);
-
+/*count black pixels from digit's bottom*/
 float extractBottomShape(pointerFunctionType);
-
-float extractArea(pointerFunctionType);
-
-float test(pointerFunctionType);
-
+/*size of rectangle with digit*/
+float extractRectangleArea(pointerFunctionType);
+/*extractWhitePixelsCount and extractRectangleArea ratio*/
+float pixelRectangleRatio(pointerFunctionType);
+/*get digit's width center */
 float centerWidth(pointerFunctionType data);
-
+/*get digit's height center*/
 float centerHeight(pointerFunctionType data);
-
+/*check every pixel's distance from digit's center*/
 float distanceCenter(pointerFunctionType data);
+/*is digit higher or wider? basd on centerWidth and centerHeight*/
+float heightWidthRatio(pointerFunctionType data);
 /*extracts data from whole image 28x28 and coverts it to float*/
 float extractWholeImage(pointerFunctionType data);
 /*extracts data from whole image 28x28 and coverts it to float but starts from the end of vector*/
@@ -48,18 +50,19 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{"rightSideShape", &extractRightSideShape},
 		{"topShape", &extractTopShape},
 		{"bottomShape", &extractBottomShape},
-		{"area", &extractArea},
-		{"ratio", &test},
+		{"rectangleArea", &extractRectangleArea },
+		{"pixelRectangleRatio", &pixelRectangleRatio },
 		{"centerWidth", &centerWidth},
 		{"centerHeight", &centerHeight},
 		{"distanceCenter", &distanceCenter},
 		{"wholeImage", &extractWholeImage},
-		{"wholeImageInv", &extractWholeImageInverse}
+		{"wholeImageInv", &extractWholeImageInverse},
+		{"heightWidthRatio", &heightWidthRatio}
 	};
 
 	static std::vector<std::string> getDefaultAttributesList() {
 		return std::vector<std::string>{ "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount", "leftSideShape", "rightSideShape",
-			"topShape", "bottomShape", "area", "ratio", "distanceCenter"};
+			"topShape", "bottomShape", "rectangleArea", "pixelRectangleRatio", "distanceCenter", "heightWidthRatio"};
 		/*, "wholeImage", "wholeImageInv"
 	};*/
 	};
