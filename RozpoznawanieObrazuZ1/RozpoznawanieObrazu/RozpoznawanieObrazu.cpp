@@ -76,9 +76,9 @@ int main()
 		//-------------TO LOAD A FILE----------------------
 		sav.loadFromFile(data, att);
 
-		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 1000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
+		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 100;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
 
-		Classifier classifier{ data, att };
+		Classifier classifier{ data, att, 10 };
 		dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
 		std::vector<unsigned char> lab{ dataset.test_labels.begin(), dataset.test_labels.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur};
 		classifier.computeTestSet(imag, lab);

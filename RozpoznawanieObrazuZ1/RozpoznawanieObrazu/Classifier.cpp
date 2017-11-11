@@ -7,7 +7,7 @@
 #include <limits>
 #include <iostream>
 
-Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract) : attributesToExtract{whichAttributesToExtract}
+Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract, int numberOfClassess) : attributesToExtract{whichAttributesToExtract}
 {
 	testSet = {};
 
@@ -18,7 +18,7 @@ Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const 
 	normalizeTrainingSet();
 
 	//classStatistics = &Statistics::getInstance();
-	Statistics::getInstance().createMistakesMatrix(whichAttributesToExtract.size());
+	Statistics::getInstance().createMistakesMatrix(numberOfClassess);
 }
 
 Classifier::~Classifier()

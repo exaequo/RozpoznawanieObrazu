@@ -5,7 +5,7 @@
 class Classifier
 {
 public:
-	Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract);
+	Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract, int numberOfClasses);
 	~Classifier();
 
 	/*Creates test set of ClassifableObject out of data containing raw test data
