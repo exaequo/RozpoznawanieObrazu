@@ -32,6 +32,10 @@ float centerWidth(pointerFunctionType data);
 float centerHeight(pointerFunctionType data);
 
 float distanceCenter(pointerFunctionType data);
+/*extracts data from whole image 28x28 and coverts it to float*/
+float extractWholeImage(pointerFunctionType data);
+/*extracts data from whole image 28x28 and coverts it to float but starts from the end of vector*/
+float extractWholeImageInverse(pointerFunctionType data);
 
 struct FunctionStruct {//because it somehow doesnt work without bewing in some sort of class, for now we'll leave it at that
 	/*Vector of functions to be used for computing of attributes*/
@@ -48,7 +52,16 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{"ratio", &test},
 		{"centerWidth", &centerWidth},
 		{"centerHeight", &centerHeight},
-		{"distanceCenter", &distanceCenter}
+		{"distanceCenter", &distanceCenter},
+		{"wholeImage", &extractWholeImage},
+		{"wholeImageInv", &extractWholeImageInverse}
+	};
+
+	static std::vector<std::string> getDefaultAttributesList() {
+		return std::vector<std::string>{ "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount", "leftSideShape", "rightSideShape",
+			"topShape", "bottomShape", "area", "ratio", "distanceCenter"};
+		/*, "wholeImage", "wholeImageInv"
+	};*/
 	};
 };
 

@@ -54,7 +54,7 @@ int main()
 
 		
 	std::vector<ClassifableObject> data{};
-	std::vector<std::string> att = Extractor::getDefaultAttributesList();		
+	std::vector<std::string> att = FunctionStruct::getDefaultAttributesList();		
 	
 	auto startClock = std::chrono::steady_clock::now();
 	if (true)
@@ -64,19 +64,19 @@ int main()
 		
 
 		// ----------- TO SAVE A FILE ---------------------
-		Extractor extr{};
+		/*Extractor extr{};
 
 		extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
 		sav.saveToFile(extr.getObjects(), att);
 		std::cout << "SAVED\n";
-
+*/
 		//-------------END FILE SAVE ----------------------
 
 
 		//-------------TO LOAD A FILE----------------------
 		sav.loadFromFile(data, att);
 
-		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 1000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
+		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 10000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
 
 		Classifier classifier{ data, att };
 		dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };

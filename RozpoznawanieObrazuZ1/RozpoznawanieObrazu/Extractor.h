@@ -17,7 +17,7 @@ public:
 	static void staticAttributesExtraction(const dataVector& data, std::vector<unsigned char> &labels, const std::vector<std::string> &whichAttributesToExtract, 
 		std::vector<class ClassifableObject> &extractedObjects);
 
-	static std::vector<std::string> getDefaultAttributesList();
+	
 
 	const std::vector<class ClassifableObject>& getObjects() const;
 

@@ -43,8 +43,9 @@ e:\użytkownicy\hubert\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieob
               Label=uint8_t
           ]
   Trwa generowanie kodu
-  14 of 1348 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+e:\użytkownicy\hubert\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifableobject.cpp(50): warning C4715: "ClassifableObject::operator[]”: niewszystkie ścieżki kodu zwracają wartość
+  707 of 1374 functions (51.5%) were compiled, the rest were copied from previous compilation.
+    74 functions were new in current compilation
+    119 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
   RozpoznawanieObrazu.vcxproj -> E:\Użytkownicy\Hubert\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\x64\Release\RozpoznawanieObrazu.exe

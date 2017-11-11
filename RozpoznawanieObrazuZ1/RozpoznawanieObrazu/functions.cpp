@@ -232,3 +232,33 @@ float distanceCenter(pointerFunctionType data)
 
 	return result;
 }
+float extractWholeImage(pointerFunctionType data)
+{
+	float result{ 0.f };
+
+	for (int i = 0; i < data.size(); ++i)
+	{
+		if (data[i] >(unsigned char)10)
+		{
+			result += i;// *(i % 28 + 1);
+		}
+	}
+
+	return result;
+}
+
+float extractWholeImageInverse(pointerFunctionType data)
+{
+	float result{ 0.f };
+
+	for (int i = data.size() - 1; i > 0; --i)
+	{
+		if (data[i] >(unsigned char)10)
+		{
+			result += (data.size() - i);// *(i % 28 + 1);
+		}
+	}
+
+	return result;
+}
+
