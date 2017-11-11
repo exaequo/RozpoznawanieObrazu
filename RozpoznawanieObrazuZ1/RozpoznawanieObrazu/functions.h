@@ -17,6 +17,22 @@ float extractWhitePixelsOnTopHalfCount(pointerFunctionType);
 /*some special idea*/
 float extractLeftSideShape(pointerFunctionType);
 
+float extractRightSideShape(pointerFunctionType);
+
+float extractTopShape(pointerFunctionType);
+
+float extractBottomShape(pointerFunctionType);
+
+float extractArea(pointerFunctionType);
+
+float test(pointerFunctionType);
+
+float centerWidth(pointerFunctionType data);
+
+float centerHeight(pointerFunctionType data);
+
+float distanceCenter(pointerFunctionType data);
+
 struct FunctionStruct {//because it somehow doesnt work without bewing in some sort of class, for now we'll leave it at that
 	/*Vector of functions to be used for computing of attributes*/
 	std::map<std::string, float(*)(pointerFunctionType)> extractingFunctions{
@@ -24,7 +40,15 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{"roundShapesCount", &extractRoundShapesCount},
 		{"whitePixelOnBottomHalfCount", &extractWhitePixelsOnBottomHalfCount},
 		{"whitePixelOnTopHalfCount", &extractWhitePixelsOnTopHalfCount},
-		{"leftSideShape", &extractLeftSideShape}
+		{"leftSideShape", &extractLeftSideShape},
+		{"rightSideShape", &extractRightSideShape},
+		{"topShape", &extractTopShape},
+		{"bottomShape", &extractBottomShape},
+		{"area", &extractArea},
+		{"ratio", &test},
+		{"centerWidth", &centerWidth},
+		{"centerHeight", &centerHeight},
+		{"distanceCenter", &distanceCenter}
 	};
 };
 

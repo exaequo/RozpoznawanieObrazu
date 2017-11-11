@@ -47,7 +47,7 @@ void Extractor::staticAttributesExtraction(const dataVector & data, std::vector<
 
 std::vector<std::string> Extractor::getDefaultAttributesList()
 {
-	return std::vector<std::string>{"whitePixelCount", "whitePixelOnBottomHalfCount", "whitePixelOnTopHalfCount", "leftSideShape"};
+	return std::vector<std::string>{ /*"whitePixelCount",*/ "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount", "leftSideShape", "rightSideShape", "topShape", "bottomShape","area", "ratio" /*,"centerWidth", "centerHeight",*/ ,"distanceCenter"};
 }
 
 const std::vector<class ClassifableObject>& Extractor::getObjects() const

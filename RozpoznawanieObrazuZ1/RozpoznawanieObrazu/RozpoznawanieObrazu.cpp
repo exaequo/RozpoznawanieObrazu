@@ -64,11 +64,11 @@ int main()
 		
 
 		// ----------- TO SAVE A FILE ---------------------
-		/*Extractor extr{};
+		Extractor extr{};
 
 		extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
 		sav.saveToFile(extr.getObjects(), att);
-		std::cout << "SAVED\n";*/
+		std::cout << "SAVED\n";
 
 		//-------------END FILE SAVE ----------------------
 
@@ -76,7 +76,7 @@ int main()
 		//-------------TO LOAD A FILE----------------------
 		sav.loadFromFile(data, att);
 
-		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 10000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
+		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 1000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
 
 		Classifier classifier{ data, att };
 		dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
@@ -85,7 +85,7 @@ int main()
 
 		
 
-		classifier.knn(10, 8);
+		classifier.knn(19, 32);
 
 		int count = 0;
 		for (auto& test : classifier.getTestSet())
