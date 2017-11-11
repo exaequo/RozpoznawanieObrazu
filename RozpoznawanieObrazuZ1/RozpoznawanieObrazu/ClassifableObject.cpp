@@ -35,7 +35,7 @@ ClassifableObject::~ClassifableObject()
 void ClassifableObject::predictClass(int prediction)
 {
 	predictedClass = prediction;
-	Statistics::classPrediction(objectClass, prediction);
+	Statistics::getInstance().classPrediction(objectClass, prediction);
 }
 
 const float & ClassifableObject::operator[](int n) const

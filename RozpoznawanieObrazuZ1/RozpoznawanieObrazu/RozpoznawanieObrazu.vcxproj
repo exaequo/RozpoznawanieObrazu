@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="ClassifableObject.h" />
     <ClInclude Include="Classifier.h" />
+    <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="Extractor.h" />
     <ClInclude Include="FileSaver.h" />
     <ClInclude Include="functions.h" />

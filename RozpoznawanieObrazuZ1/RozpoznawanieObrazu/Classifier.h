@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+//#include "Statistics.h"
+
 class Classifier
 {
 public:
@@ -33,6 +35,6 @@ private:
 	/*computes distance between two objects*/
 	float metric(const class ClassifableObject& first, const class ClassifableObject& second) const;
 
-
+	//Statistics* classStatistics;
 };
 

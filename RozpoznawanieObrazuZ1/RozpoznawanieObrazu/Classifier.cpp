@@ -16,6 +16,9 @@ Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const 
 	attributeNormalizingValues = std::vector<float>(whichAttributesToExtract.size(), 1.f);
 
 	normalizeTrainingSet();
+
+	//classStatistics = &Statistics::getInstance();
+	Statistics::getInstance().createMistakesMatrix(whichAttributesToExtract.size());
 }
 
 Classifier::~Classifier()
@@ -127,7 +130,7 @@ void Classifier::normalizeObject(ClassifableObject & obj) const
 
 void Classifier::normalizeTrainingSet()//normalizes to range 0 - 1
 {
-	std::vector<float> maxValues( attributesToExtract.size(), std::numeric_limits<float>::min() );
+	std::vector<float> maxValues( attributesToExtract.size(), (std::numeric_limits<float>::min)() );
 
 	for (const auto &item : *trainingSet) //iterate over whole training set
 	{

@@ -76,7 +76,7 @@ int main()
 		//-------------TO LOAD A FILE----------------------
 		sav.loadFromFile(data, att);
 
-		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 10000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
+		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 1000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
 
 		Classifier classifier{ data, att };
 		dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
@@ -85,7 +85,7 @@ int main()
 
 		
 
-		classifier.knn(19, 32);
+		classifier.knn(19, 8);
 
 		int count = 0;
 		for (auto& test : classifier.getTestSet())
@@ -100,7 +100,10 @@ int main()
 	}
 	auto endClock = std::chrono::steady_clock::now();
 	
-	std::cout << "DONE, tajm: "<< std::chrono::duration <double, std::milli>(endClock - startClock).count() <<"ms\n";
+	std::cout << "\nMistakes matrix:\n";
+	Statistics::getInstance().printMistakesMatrix(std::cout);
+
+	std::cout << "\nDONE, tajm: "<< std::chrono::duration <double, std::milli>(endClock - startClock).count() <<"ms\n";
 
 	/*for (int i = 0; i < 100; ++i)
 	{
