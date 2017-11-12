@@ -379,3 +379,132 @@ float extractWholeImageInverse(pointerFunctionType data)
 	return result;
 }
 
+float M_ij(pointerFunctionType data, int i, int j)
+{
+	float result = 0.0f;
+	for (int m = 0; m < 28; ++m)
+	{
+		for (int n = 0; n < 28; ++n)
+		{
+			if (data.at(m * 28 + n) >(unsigned char)10)
+			{
+				float t = 1.0f;
+				t *= pow(n, i);
+				t *= pow(m, j);
+				result += t;
+			}
+		}
+	}
+	return result;
+}
+
+float mi_ij(pointerFunctionType data, int i, int j)
+{
+	float x_avg = M_ij(data, 1, 0) / M_ij(data, 0, 0);
+	float y_avg = M_ij(data, 0, 1) / M_ij(data, 0, 0);
+	float result = 0.0f;
+	for (int m = 0; m < 28; ++m)
+	{
+		for (int n = 0; n < 28; ++n)
+		{
+			if (data.at(m * 28 + n) >(unsigned char)10)
+			{
+				float t = 1.0f;
+				t *= pow((i - x_avg), i);
+				t *= pow((m - y_avg), j);
+				result += t;
+			}
+		}
+	}
+	return result;
+}
+
+float eta_ij(pointerFunctionType data, int i, int j)
+{
+	float result = mi_ij(data, i, j);
+	result /= pow(mi_ij(data, 0, 0), (1 + ((i + j) / 2)));
+	return result;
+}
+
+float I_1(pointerFunctionType data)
+{
+	float eta20 = eta_ij(data, 2, 0);
+	float eta02 = eta_ij(data, 0, 2);
+	return eta20 + eta02;
+}
+
+float I_2(pointerFunctionType data)
+{
+	float eta20 = eta_ij(data, 2, 0);
+	float eta02 = eta_ij(data, 0, 2);
+	float eta11 = eta_ij(data, 1, 1);
+	return pow(eta20 - eta02, 2) + 4 * pow(eta11, 2);
+}
+
+float I_3(pointerFunctionType data)
+{
+	float eta30 = eta_ij(data, 3, 0);
+	float eta12 = eta_ij(data, 1, 2);
+	float eta21 = eta_ij(data, 2, 1);
+	float eta03 = eta_ij(data, 0, 3);
+
+	return pow(eta30 - 3 * eta12, 2) + pow(3 * eta21 - eta03, 2);
+}
+
+float I_4(pointerFunctionType data)
+{
+	float eta30 = eta_ij(data, 3, 0);
+	float eta12 = eta_ij(data, 1, 2);
+	float eta21 = eta_ij(data, 2, 1);
+	float eta03 = eta_ij(data, 0, 3);
+
+	return pow(eta30 + eta12, 2) + pow(eta21 + eta03, 2);
+}
+
+float I_5(pointerFunctionType data)
+{
+	float eta30 = eta_ij(data, 3, 0);
+	float eta12 = eta_ij(data, 1, 2);
+	float eta21 = eta_ij(data, 2, 1);
+	float eta03 = eta_ij(data, 0, 3);
+
+	return (eta30 - 3 * eta12) * (eta30 + eta12) * (pow(eta30 + eta12, 2) - 3 * pow(eta21 + eta03, 2)) +
+		(3 * eta21 - eta03) * (eta21 + eta03) * (3 * pow(eta30 + eta12, 2) - pow(eta21 + eta03, 2));
+}
+
+float I_6(pointerFunctionType data)
+{
+	float eta20 = eta_ij(data, 2, 0);
+	float eta02 = eta_ij(data, 0, 2);
+	float eta30 = eta_ij(data, 3, 0);
+	float eta12 = eta_ij(data, 1, 2);
+	float eta21 = eta_ij(data, 2, 1);
+	float eta03 = eta_ij(data, 0, 3);
+	float eta11 = eta_ij(data, 1, 1);
+
+	return (eta20 - eta02) * (pow(eta30 + eta12, 2) - pow(eta21 + eta03, 2)) +
+		4 * eta11 * (eta30 + eta12) * (eta12 + eta03);
+}
+
+float I_7(pointerFunctionType data)
+{
+	float eta21 = eta_ij(data, 2, 1);
+	float eta03 = eta_ij(data, 0, 3);
+	float eta30 = eta_ij(data, 3, 0);
+	float eta12 = eta_ij(data, 1, 2);
+
+	return (3 * eta21 - eta03) * (eta30 + eta12) * (pow(eta30 + eta12, 2) - 3 * pow(eta21 + eta03, 2)) -
+		(eta30 - 3 * eta12) * (eta21 + eta03) * (3 * pow(eta30 + eta12, 2) - pow(eta21 + eta03, 2));
+}
+
+float angle(pointerFunctionType data)
+{
+	float mi00 = mi_ij(data, 0, 0);
+	float mip11 = mi_ij(data, 1, 1) / mi00;
+	float mip20 = mi_ij(data, 2, 0) / mi00;
+	float mip02 = mi_ij(data, 0, 2) / mi00;
+
+	float t = (2 * mip11) / (mip20 - mip02);
+
+	return 0.5f * atan(t);
+}

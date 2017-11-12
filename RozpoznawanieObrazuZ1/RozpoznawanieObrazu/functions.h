@@ -4,6 +4,11 @@
 #include <string>
 typedef const std::vector<unsigned char> & pointerFunctionType;
 
+//helpers
+float M_ij(pointerFunctionType data, int i, int j);
+float mi_ij(pointerFunctionType data, int i, int j);
+float eta_ij(pointerFunctionType data, int i, int j);
+
 //CONTAINS all functions to be used for computing attributes
 
 /*counts white pixels in an image*/
@@ -39,6 +44,15 @@ float extractWholeImage(pointerFunctionType data);
 /*extracts data from whole image 28x28 and coverts it to float but starts from the end of vector*/
 float extractWholeImageInverse(pointerFunctionType data);
 
+float I_1(pointerFunctionType data);
+float I_2(pointerFunctionType data);
+float I_3(pointerFunctionType data);
+float I_4(pointerFunctionType data);
+float I_5(pointerFunctionType data);
+float I_6(pointerFunctionType data);
+float I_7(pointerFunctionType data);
+float angle(pointerFunctionType data);
+
 struct FunctionStruct {//because it somehow doesnt work without bewing in some sort of class, for now we'll leave it at that
 	/*Vector of functions to be used for computing of attributes*/
 	std::map<std::string, float(*)(pointerFunctionType)> extractingFunctions{
@@ -57,12 +71,20 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{"distanceCenter", &distanceCenter},
 		{"wholeImage", &extractWholeImage},
 		{"wholeImageInv", &extractWholeImageInverse},
-		{"heightWidthRatio", &heightWidthRatio}
+		{"heightWidthRatio", &heightWidthRatio},
+		{"I_1", &I_1},
+		{"I_2", &I_2},
+		{"I_3", &I_3},
+		{"I_4", &I_4},
+		{"I_5", &I_5},
+		{"I_6", &I_6},
+		{"I_7", &I_7},
+		{"angle", &angle}
 	};
 
 	static std::vector<std::string> getDefaultAttributesList() {
 		return std::vector<std::string>{ "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount", "leftSideShape", "rightSideShape",
-			"topShape", "bottomShape", "rectangleArea", "pixelRectangleRatio", "distanceCenter", "heightWidthRatio"};
+			"topShape", "bottomShape", "rectangleArea", "pixelRectangleRatio", "distanceCenter", "heightWidthRatio", "I_1", "I_2", "I_3",/* "I_4", "I_5",*/ "I_6"/*, "angle", "I_7"*/};
 		/*, "wholeImage", "wholeImageInv"
 	};*/
 	};
