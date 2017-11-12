@@ -153,6 +153,7 @@
     <ClInclude Include="Extractor.h" />
     <ClInclude Include="FileSaver.h" />
     <ClInclude Include="functions.h" />
+    <ClInclude Include="lodepng.h" />
     <ClInclude Include="mnist\mnist_reader.hpp" />
     <ClInclude Include="mnist\mnist_reader_common.hpp" />
     <ClInclude Include="mnist\mnist_reader_less.hpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Extractor.cpp" />
     <ClCompile Include="FileSaver.cpp" />
     <ClCompile Include="functions.cpp" />
+    <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="RozpoznawanieObrazu.cpp" />
     <ClCompile Include="StarReader.cpp" />
