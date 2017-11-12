@@ -56,23 +56,21 @@ int main()
 
 		
 	std::vector<ClassifableObject> data{};
-	std::vector<std::string> att = FunctionStruct::getDefaultAttributesList();		
+	//std::vector<std::string> att = FunctionStruct::getDefaultAttributesList();		
+	std::vector<std::string> starAtt = FunctionStruct::getStarAttributeList();
 	
 	StarReader starDataset{ "STaR_database/train", "STaR_database/test" };
-	/*for (auto a : starDataset.trainingLabels)
-	{
-		std::cout <<(int) a << ", ";
-	}*/
-	/*std::cout << "DONE STAR PROCESSING\n";
+	
+	std::cout << "DONE STAR PROCESSING\n";
 	std::cout << "training data "<<starDataset.trainingSet.size()<<", lab: " << starDataset.trainingLabels.size() <<", first data size: "<<starDataset.trainingSet[0].size() <<"\n";
-	std::cout << "test data " << starDataset.testSet.size() << ", lab: " << starDataset.testLabels.size() << ", first data size: " << starDataset.testSet[0].size() << "\n";*/
+	std::cout << "test data " << starDataset.testSet.size() << ", lab: " << starDataset.testLabels.size() << ", first data size: " << starDataset.testSet[1].size() << "\n";
 
 
 	auto startClock = std::chrono::steady_clock::now();
 	if (true)
 	{
-
-		FileSaver sav{ "file.txt" };
+		//______________________________________________________________________________________________________________________________________________TESTY DLA MINST
+		//FileSaver sav{ "file.txt" };
 		
 
 		// ----------- TO SAVE A FILE ---------------------
@@ -107,7 +105,41 @@ int main()
 		//}
 		//std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) <<"\n";
 
+		//______________________________________________________________________________________________________________________________________________TESTY DLA STAR
+		FileSaver sav{ "file2.txt" };
+
+
+		// ----------- TO SAVE A FILE ---------------------
+		/*Extractor extr{};
+
+		extr.extractAttributes(starDataset.trainingSet, starDataset.trainingLabels, starAtt);
+		sav.saveToFile(extr.getObjects(), starAtt);
+		std::cout << "SAVED\n";*/
 		
+		//-------------END FILE SAVE ----------------------
+
+
+		//-------------TO LOAD A FILE----------------------
+		sav.loadFromFile(data, starAtt);
+
+		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 100;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
+
+		Classifier classifier{ data, starAtt, 10 };
+		dataVector imag = dataVector{ starDataset.testSet.begin(), starDataset.testSet.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
+		std::vector<unsigned char> lab{ starDataset.testLabels.begin(), starDataset.testLabels.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur};
+		classifier.computeTestSet(imag, lab);
+
+		
+
+		classifier.knn(19, 8);
+
+		int count = 0;
+		for (auto& test : classifier.getTestSet())
+		{
+			//std::cout << test.toOutputFormat() << std::endl;
+			count += test.getSuccessIdentifier();
+		}
+		std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) <<"\n";
 
 
 		//------------END FILE LOAD-------------------------

@@ -3,8 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
-#define cimg_use_png
-#include "CImg.h"
+
 
 
 namespace fs = std::experimental::filesystem;
@@ -28,8 +27,9 @@ void StarReader::addDataToSetFromFile(dataVector & data, std::vector<unsigned ch
 	for (auto & p : fs::recursive_directory_iterator(filesLocation))
 	{
 		auto lines = FileSaver::divideLine(p.path().filename().string(), '_');
+		auto dot = FileSaver::divideLine(p.path().filename().string(), '.');
 
-		if (lines.size() > 1) //if lines size would be 1 it means that we are looking at a directory not a png file
+		if (dot.size() == 2) //if lines size would be 1 it means that we are looking at a directory not a png file
 		{
 			stringLabels.push_back(lines[0]);
 			//std::cout << lines[0];
@@ -73,7 +73,7 @@ std::vector<unsigned char> StarReader::getDataVectorFromPngFile(const std::strin
 	unsigned width, height;
 
 	//decode
-	std::cout << "filename: " << filename << std::endl;
+	//std::cout << "filename: " << filename << std::endl;
 	unsigned error = lodepng::decode(image, width, height, filename);
 
 	//if there's an error, display it

@@ -146,7 +146,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CImg.h" />
     <ClInclude Include="ClassifableObject.h" />
     <ClInclude Include="Classifier.h" />
     <ClInclude Include="ConsoleColor.h" />

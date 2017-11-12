@@ -5,13 +5,13 @@
 
 float extractWhitePixelsCount(pointerFunctionType data)
 {
-	linearFilter(data, 1);
+	//linearFilter(data, 1);
 
 
 	float result = 0.0f;
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (data.at(i) > (unsigned char)10)
+		if (data.at(i) > (unsigned char)150)
 		{
 			result += 1.0f;
 		}
@@ -515,7 +515,7 @@ float angle(pointerFunctionType data)
 
 void linearFilter(pointerFunctionType data, int which=1) {
 
-	std::cout << "|LNEAR!" << std::endl;
+	//std::cout << "|LNEAR!" << std::endl;
 
 	std::vector<unsigned char> list;
 	float max = -INFINITY;
@@ -626,12 +626,12 @@ void linearFilter(pointerFunctionType data, int which=1) {
 					(int)list.at(i * 28 + j) != 13 &&	//ASCII code for carriage return (part of digit is at the beggining of a line!)
 						(int)list.at(i * 28 + j) != 9) //ASCII code for horizontal tab (it's just get messy!)
 				{
-					std::cout << (int)list.at(i * 28 + j);		//yep, it is a struct of vectors of vectors, but it works fast
+					//std::cout << (int)list.at(i * 28 + j);		//yep, it is a struct of vectors of vectors, but it works fast
 					//to get a 0-255 pixel value just cast to int (do we even need it?)
 				}
 				else
 				{
-					std::cout << (unsigned char)0;			//it's better to display nothing than some ASCII garbage		
+					//std::cout << (unsigned char)0;			//it's better to display nothing than some ASCII garbage		
 				}
 			}									
 			std::cout << std::endl;

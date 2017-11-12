@@ -89,6 +89,10 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		/*, "wholeImage", "wholeImageInv"
 	};*/
 	};
+
+	static std::vector<std::string> getStarAttributeList() {
+		return std::vector<std::string>{ "whitePixelCount"};
+	}
 };
 
 
