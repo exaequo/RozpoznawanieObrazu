@@ -69,14 +69,22 @@ std::vector<unsigned char> StarReader::getDataVectorFromPngFile(const std::strin
 {
 	std::vector<unsigned char> result{};
 
-	cimg_library::CImg<unsigned char> src(filename.c_str());
-	
-	for (int i = 0; i < src.height(); ++i)
+	std::vector<unsigned char> image; //the raw pixels
+	unsigned width, height;
+
+	//decode
+	std::cout << "filename: " << filename << std::endl;
+	unsigned error = lodepng::decode(image, width, height, filename);
+
+	//if there's an error, display it
+	if (error) std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+
+	//the pixels are now in the vector "image", 4 bytes per pixel, ordered RGBARGBA
+
+	//we only need first of this RGBA sequence so i+=4
+	for (int i = 0; i < image.size(); i += 4)
 	{
-		for (int j = 0; j < src.width(); j++)
-		{
-			result.push_back(*src.data(j, i, 0, 0));
-		}
+		result.push_back(image.at(i));
 	}
 	
 	return result;

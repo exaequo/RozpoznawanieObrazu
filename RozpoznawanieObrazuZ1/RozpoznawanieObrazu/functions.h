@@ -8,6 +8,7 @@ typedef const std::vector<unsigned char> & pointerFunctionType;
 float M_ij(pointerFunctionType data, int i, int j);
 float mi_ij(pointerFunctionType data, int i, int j);
 float eta_ij(pointerFunctionType data, int i, int j);
+void linearFilter(pointerFunctionType data, int which);
 
 //CONTAINS all functions to be used for computing attributes
 
@@ -83,8 +84,8 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 	};
 
 	static std::vector<std::string> getDefaultAttributesList() {
-		return std::vector<std::string>{ "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount", "leftSideShape", "rightSideShape",
-			"topShape", "bottomShape", "rectangleArea", "pixelRectangleRatio", "distanceCenter", "heightWidthRatio", "I_1", "I_2", "I_3",/* "I_4", "I_5",*/ "I_6"/*, "angle", "I_7"*/};
+		return std::vector<std::string>{ "whitePixelCount"};// , "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount", "leftSideShape", "rightSideShape",
+			//"topShape", "bottomShape", "rectangleArea", "pixelRectangleRatio", "distanceCenter", "heightWidthRatio", "I_1", "I_2", "I_3",/* "I_4", "I_5",*/ "I_6"/*, "angle", "I_7"*/};
 		/*, "wholeImage", "wholeImageInv"
 	};*/
 	};

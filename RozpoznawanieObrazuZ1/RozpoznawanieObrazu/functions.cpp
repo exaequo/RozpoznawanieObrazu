@@ -5,6 +5,9 @@
 
 float extractWhitePixelsCount(pointerFunctionType data)
 {
+	linearFilter(data, 1);
+
+
 	float result = 0.0f;
 	for (int i = 0; i < data.size(); ++i)
 	{
@@ -507,4 +510,131 @@ float angle(pointerFunctionType data)
 	float t = (2 * mip11) / (mip20 - mip02);
 
 	return 0.5f * atan(t);
+}
+
+
+void linearFilter(pointerFunctionType data, int which=1) {
+
+	std::cout << "|LNEAR!" << std::endl;
+
+	std::vector<unsigned char> list;
+	float max = -INFINITY;
+	float min = INFINITY;
+	int L = 1;
+
+	std::vector<int> filter1 = { 0,-1,0,
+		-1,4,-1,
+		0,-1,0 };
+	std::vector<int> filter2 = { -1,-1,-1,
+		-1,8,-1,
+		-1,-1,-1 };
+	std::vector<int> filter3 = { 1,-2,1,
+		-2,4,-2,
+		1,-2,1 };
+	std::vector<int> selectedFilter;
+
+	switch (which) {
+	case 0:
+		selectedFilter = filter1;
+		break;
+	case 1:
+		selectedFilter = filter2;
+		break;
+	case 2:
+	default:
+		selectedFilter = filter3;
+		break;
+	}
+	L = (int)(sqrt(selectedFilter.size()) / 2);
+
+	for (int i = 0; i < 28; ++i) {
+		for (int j = 0; j < 28; ++j) {
+			int p = 0;
+			int sum = 0;
+			for (int m = i - L; m <= i + L; m++) {
+				for (int n = j - L; n <= j + L; n++) {
+					int value = 0;
+					if ((m >= 0 && m < 28) &&
+						(n >= 0 && n < 28)) {
+
+						if (data.at(m * 28 + n) >(unsigned char)10)
+						{
+							value = 1;
+						}
+						else 
+						{ 
+							value = 0; 
+						}
+					}
+					else {//obs³uga przypadków krañcowych
+						int tmpM = m, tmpN = n;
+						if (m<0) {
+							tmpM = 0;
+						}
+						if (m >= 28) {
+							tmpM = 28 - 1;
+						}
+						if (n<0) {
+							tmpN = 0;
+						}
+						if (n >= 28) {
+							tmpN = 28 - 1;
+						}
+
+						if (data.at(tmpM * 28 + tmpN) >(unsigned char)10)
+						{
+							value = 1;
+						}
+						else
+						{
+							value = 0;
+						}
+					}
+					sum += selectedFilter[p] * value;//splot
+					p++;
+				}
+			}
+
+			float value = sum;
+			if (value > max) {
+				max = value;
+			}
+			if (value < min) {
+				min = value;
+			}
+			list.push_back((int)value);
+		}
+	}
+
+	//normalize(0, 255, list, max, min);//normalizacja
+	//int n = 0;
+	//for (int i = 0; i< images.first.width(); i++) {//przet³umaczenie znormalizowanego
+	//	for (int j = 0; j < images.first.height(); j++) {
+	//		int val = (int)list[n];
+	//		images.second.setPixelColor(i, j, QColor(val, val, val));
+	//		n++;
+	//	}
+	//}
+
+
+		for (int i = 0; i < 28; i++)				//size of every image is 28
+		{
+			for (int j = 0; j < 28; j++)			//by 28
+			{
+				//it's needed for proper display digits in terminal (but the dataset is correct)
+				if ((int)list.at(i * 28 + j) != 10 &&	//ASCII code for new line (we don't want extra new line in digit!)
+					(int)list.at(i * 28 + j) != 13 &&	//ASCII code for carriage return (part of digit is at the beggining of a line!)
+						(int)list.at(i * 28 + j) != 9) //ASCII code for horizontal tab (it's just get messy!)
+				{
+					std::cout << (int)list.at(i * 28 + j);		//yep, it is a struct of vectors of vectors, but it works fast
+					//to get a 0-255 pixel value just cast to int (do we even need it?)
+				}
+				else
+				{
+					std::cout << (unsigned char)0;			//it's better to display nothing than some ASCII garbage		
+				}
+			}									
+			std::cout << std::endl;
+		}
+
 }

@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 #include <map>
+#include "lodepng.h"
+#include <iostream>
 
 
 class StarReader
