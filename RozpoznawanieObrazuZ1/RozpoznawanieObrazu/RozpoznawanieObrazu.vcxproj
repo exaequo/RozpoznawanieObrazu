@@ -133,6 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,6 +146,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CImg.h" />
     <ClInclude Include="ClassifableObject.h" />
     <ClInclude Include="Classifier.h" />
     <ClInclude Include="ConsoleColor.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="mnist\mnist_reader_less.hpp" />
     <ClInclude Include="mnist\mnist_utils.hpp" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="StarReader.h" />
     <ClInclude Include="Statistics.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -168,6 +171,7 @@
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="RozpoznawanieObrazu.cpp" />
+    <ClCompile Include="StarReader.cpp" />
     <ClCompile Include="Statistics.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

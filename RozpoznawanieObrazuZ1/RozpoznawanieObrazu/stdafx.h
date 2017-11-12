@@ -14,6 +14,8 @@
 #include "Classifier.h"
 #include "Statistics.h"
 #include "ConsoleColor.h"
+#include "CImg.h"
+#include "StarReader.h"
 
 #include <stdio.h>
 #include <tchar.h>
