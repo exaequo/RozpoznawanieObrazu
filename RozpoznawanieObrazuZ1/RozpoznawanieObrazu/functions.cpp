@@ -8,7 +8,7 @@ float extractWhitePixelsCount(pointerFunctionType data)
 	float result = 0.0f;
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (data.at(i) > (unsigned char)150)
+		if (data.at(i) > (unsigned char)10)
 		{
 			result += 1.0f;
 		}

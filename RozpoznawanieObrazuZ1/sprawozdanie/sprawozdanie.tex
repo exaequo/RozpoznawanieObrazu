@@ -1,0 +1,218 @@
+% vim:encoding=utf8 ft=tex sts=2 sw=2 et:
+
+\documentclass{classrep}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+
+\studycycle{Informatyka, studia dzienne, mgr II st.}
+\coursesemester{II}
+
+\coursename{Rozpoznawanie obrazów}
+\courseyear{2016/2017}
+
+\courseteacher{dr inż. Bartłomiej Stasiak}
+\coursegroup{wtorek, 12:00}
+
+\author{
+  \studentinfo{Hubert Marcinkowski}{214942} \and
+  \studentinfo{Artur Wróblewski}{214985}
+}
+
+\title{Zadanie 1}
+
+\begin{document}
+\maketitle
+
+
+\section{Cel}
+Zadanie polegało na stworzeniu szkieletu uniwersalnej aplikacji do rozpoznawania obiektów. W tym celu należało przygotować odpowiedni zestaw cech do klasyfikacji oraz opracować moduł jej dokonujący z wykorzystaniem zadanej metryki. W celu sprawdzenia stworzonej aplikacji należało wykorzystać ją do klasyfikacji obiektów 2 baz danych: MNIST oraz STaR.
+
+\section{Opis implementacji}
+
+Aplikacja została napisana w języku C++, jako środowisko zostało wykorzystane Qt. Pozwoliło to na ograniczenie ilości wymaganych klas, gdyż cały wygląd programu opracowany został za pomocą języka QML. Jedynie obliczenia wykonywanych metod wymagały kodu w języku C++, a co za tym idzie zaimplementowania przechowujących je klasy. Z racji na tą uproszczoną strukturę uznano, iż budowa diagramu UML jest zbędna.
+
+Program pozwala na operacje na obrazie w skali odcieni szarości. Mając obraz wejściowy użytkownik jest w stanie dokonywać przetwarzania obrazu wyjściowego i obserwować te zmiany zarówno na samym obrazie jak i jego histogramie. W momencie zaakceptowania zmian obraz wejściowy zamieniany jest z tym zmodyfikowanym, co pozwala na przeprowadzenie na nim dalszych operacji.
+
+\section{MNIST}
+
+Baza MNIST zawiera ręcznie pisane cyfry. Składa się ze zbioru uczącego (60 000 przykładów) oraz testowego (10 000). Każdy z przykładów to obraz pojedynczej cyfry.
+
+\subsection{Zestaw cech}
+
+Dla bazy MNIST zaproponowaliśmy użycie 8 cech:
+
+\textsl{Uwaga: Każdy obraz traktowaliśmy jako binarny tj. piksel był uznawany za element, gdy jego jasność była większa niż 10 (w skali 0-255). Wszystkie inne uznawane są za tło.}
+
+\textsl{Uwaga: Przy pierwszych 6 poniższych cechach dla każdej cyfry wyznaczaliśmy bryłę brzegową (ang. bounding box). Dzięki temu wyeliminowaliśmy przesunięcia cyfr w każdym kierunku.}
+
+\begin{itemize}
+\item \textbf{Ilość jasnych pikseli w dolnej połowie cyfry}\\
+ Cyfry takie jak 6 czy 9 mają  różną ilość pikseli w górnej oraz dolnej połowie, dzięki czemu wraz z kolejną cechą można całkiem dobrze je odróżnić od np. 1, 8 czy 0.
+\item \textbf{Ilość jasnych pikseli w górnej połowie cyfry}\\
+ Analogicznie do poprzedniej cechy.
+\item \textbf{Ilość ciemnych pikseli od lewej krawędzi cyfry do lewej krawędzi obrazu}\\
+Sprawdzając każdy z wierszy zliczaliśmy ciemne piksele, aż do napotkania pierwszego piksela cyfry (jasnego). Połączenie tej oraz 4 kolejnych cech pozwoliło na rozpoznanie kształtu cyfr z każdej strony. Metoda ta nie jest jednak odporna na obroty cyfr oraz ich zmienną wysokość lub szerokość. Opis zliczania jest analogiczny dla 3 kolejnych cech.
+\item \textbf{Ilość ciemnych pikseli od prawej krawędzi cyfry do prawej krawędzi obrazu}
+\item \textbf{Ilość ciemnych pikseli od górnej krawędzi cyfry do górnej krawędzi obrazu}
+\item \textbf{Ilość ciemnych pikseli od dolnej krawędzi cyfry do dolnej krawędzi obrazu}
+\item \textbf{Odległość euklidesowa pikseli od środka cyfry}\\
+ Środek wyznaczamy przy użyciu średniej arytmetycznej. Dzięki temu obliczyliśmy zwartość cyfry. Oczywiście część cyfr jest bardzo zbliżona pod tym względem.
+\item \textbf{Stosunek wysokości do szerokości}\\
+ Obliczyliśmy sumy odległości wszystkich pikseli od środków w dwóch kierunkach (od środka szerokości oraz środka wysokości). Ich stosunek pozwolił obliczyć "smukłość" cyfry. 
+\end{itemize}
+
+\subsection{Niewykorzystane cechy}
+
+Początkowo próbowaliśmy użyć jeszcze kilku innych cech - odrzuciliśmy je jednak z powodu braku znacznego polepszenia wyników (a czasem nawet pogorszenia) oraz wydłużania czasu obliczeń.
+
+\begin{itemize}
+\item \textbf{Ilość jasnych pikseli cyfry}\\
+ Statystycznie każda cyfra powinna mieć inną ilość pikseli składowych, niestety nie sprawdziło się to ze względu na różną wielkość cyfr.
+\item \textbf{Pole bryły otaczającej}\\
+ Celem było odróżnienie cyfr zajmujących mniejszą powierzchnię np. 1 oraz 0. Problemem był brak "odporności" na obroty cyfr.
+\item \textbf{Stosunek ilości jasnych pikseli do pola powierzchni bryły otaczającej}
+\item \textbf{Współczynniki kształtu oparte na momentach konturów}\\
+Do wyznaczenia konturów użyliśmy filtracji liniowej.
+\end{itemize}
+
+\subsection{Wyniki}
+
+\begin{table}[h!]
+  \centering
+  \caption{Wyniki jakości klasyfikacji oraz czasu obliczeń k-NN dla bazy MNIST dla różnych wartości $k$}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|}
+    \hline
+	k & jakość & czas[s]\\
+    \hline
+	1 & 73.67 & 69.783\\
+    \hline
+	3 & 76.08 & 67.983\\
+	\hline
+	5 & 77.90 & 68.175\\
+	\hline
+	7 & 78.01 & 68.076\\
+	\hline
+	9 & 78.31 & 67.515\\
+	\hline
+	11 & 78.58 & 68.414\\
+	\hline
+	13 & 78.26 & 67.970\\
+	\hline
+	15 & 77.94 & 67.725\\
+	\hline
+	19 & 78.00 & 67.416\\
+	\hline
+	35 & 77.54 & 67.814\\
+	\hline
+	99 & 75.70 & 68.476\\
+	\hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{Wyniki jakości klasyfikacji k-NN dla bazy MNIST dla różnego zestawu cech}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|}
+    \hline
+	wybrane cechy & jakość\\
+    \hline
+	1 & 21.19\\
+    \hline
+	2 & 21.69\\
+	\hline
+	3 & 18.96\\
+	\hline
+	4 & 17.19\\
+	\hline
+	5 & 18.86\\
+	\hline
+	6 & 21.54\\
+	\hline
+	7 & 24.84\\
+	\hline
+	8 & 22.58\\
+	\hline
+	7,8 & 35.62\\
+	\hline
+	3,4 & 29.54\\
+	\hline
+	1,2,6,7,8 & 66.97\\
+	\hline
+	1,3,4,5,6 & 65.59\\
+	\hline
+	3,4,5,6,7 & 67.26\\
+	\hline
+	3,4,5,6,8 & 63.99\\
+	\hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{Macierz pomyłek k-NN dla bazy MNIST dla wszystkich cech oraz $k=11$}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+	. & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & success ratio \\
+    \hline
+	0 & 925 & 0 & 15 & 3 & 11 & 1 & 3 & 0 & 18 & 4 & 94.38\\
+    \hline
+	1 & 0 & 1086 & 8 & 7 & 4 & 5 & 4 & 0 & 16 & 5 & 95.68\\
+	\hline
+	2 & 32 & 11 & 633 & 186 & 20 & 78 & 29 & 15 & 25 & 3 & 61.33\\
+	\hline
+	3 & 25 & 16 & 103 & 719 & 1 & 33 & 7 & 45 & 45 & 16 & 71.18\\
+	\hline
+	4 & 20 & 13 & 27 & 2 & 772 & 18 & 8 & 6 & 10 & 106 & 78.81\\
+	\hline
+	5 & 19 & 11 & 80 & 102 & 13 & 506 & 30 & 33 & 87 & 11 & 56.72\\
+	\hline
+	6 & 6 & 8 & 21 & 3 & 6 & 23 & 885 & 0 & 6 & 0 & 92.38\\
+	\hline
+	7 & 2 & 36 & 10 & 24 & 15 & 25 & 0 & 818 & 26 & 72 & 79.57\\
+	\hline
+	8 & 87 & 5 & 18 & 31 & 23 & 39 & 9 & 13 & 701 & 48 & 71.97\\
+	\hline
+	9 & 18 & 14 & 4 & 18 & 47 & 12 & 3 & 41 & 39 & 813 & 80.57\\    
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{STaR}
+
+Jest to baza obrazów dziesięciu obiektów. Na zdjęciach występują 3 rodzaje tła, a pozycja, obrót oraz powiększenie obiektu są dobrane losowo.
+
+\subsection{Zestaw cech}
+
+Dla bazy STaR zdecydowaliśmy się skorzystać z tzw. momentów obiektu (obrazu), a dokładnie niezmienników przekształceń. Metoda ta pozwala na rozpoznawanie wzorów  niezależnie od pozycji, rozmiaru czy obrotu. Jako cechy użyliśmy każdego z niezmienników - wzory podajemy poniżej:\\
+
+$I_1 = \eta_{20} + \eta_{02}$
+
+$I_2 = (\eta_{20} - \eta_{02})^2 + 4\eta_{11}^2$
+
+$I_3 = (\eta_{30} - 3\eta_{12})^2 + (3\eta_{21} - \eta_{03})^2$
+
+$ I_4 = (\eta_{30} + \eta_{12})^2 + (\eta_{21} + \eta_{03})^2$
+
+$ I_5 = (\eta_{30} - 3\eta_{12}) (\eta_{30} + \eta_{12})[ (\eta_{30} + \eta_{12})^2 - 3 (\eta_{21} + \eta_{03})^2] + (3 \eta_{21} - \eta_{03}) (\eta_{21} + \eta_{03})[ 3(\eta_{30} + \eta_{12})^2 -  (\eta_{21} + \eta_{03})^2]$
+
+$I_6 =  (\eta_{20} - \eta_{02})[(\eta_{30} + \eta_{12})^2 - (\eta_{21} + \eta_{03})^2] + 4\eta_{11}(\eta_{30} + \eta_{12})(\eta_{21} + \eta_{03})$
+
+$I_7 = (3 \eta_{21} - \eta_{03})(\eta_{30} + \eta_{12})[(\eta_{30} + \eta_{12})^2 - 3(\eta_{21} + \eta_{03})^2] - (\eta_{30} - 3\eta_{12})(\eta_{21} + \eta_{03})[3(\eta_{30} + \eta_{12})^2 - (\eta_{21} + \eta_{03})^2]$
+
+\subsection{Niewykorzystane cechy}
+
+Początkowo planowaliśmy wykorzystać cechy stworzone dla bazy MNIST, jednak żadna z nich nie była "odporna" na przesunięcie, obrót lub skalowanie.
+
+\subsection{Wyniki}
+
+\section{Wnioski}
+
+
+
+
+\end{document}

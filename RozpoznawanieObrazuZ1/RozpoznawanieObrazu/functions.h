@@ -98,8 +98,10 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 	};
 
 	static std::vector<std::string> getDefaultAttributesList() {
-		return std::vector<std::string>{ "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount", "leftSideShape", "rightSideShape",
-			"topShape", "bottomShape", "rectangleArea", "pixelRectangleRatio", "distanceCenter", "heightWidthRatio"};
+		return std::vector<std::string>{ "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount",
+			"leftSideShape", "rightSideShape",
+			"topShape", "bottomShape",
+			"distanceCenter", "heightWidthRatio"};
 		/*, "wholeImage", "wholeImageInv"
 	};*/
 	};
