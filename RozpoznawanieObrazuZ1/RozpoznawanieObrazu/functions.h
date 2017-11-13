@@ -8,7 +8,13 @@ typedef const std::vector<unsigned char> & pointerFunctionType;
 float M_ij(pointerFunctionType data, int i, int j);
 float mi_ij(pointerFunctionType data, int i, int j);
 float eta_ij(pointerFunctionType data, int i, int j);
-void linearFilter(pointerFunctionType data, int which);
+float m_p(pointerFunctionType data, int p, float x_avg, float y_avg);
+float mi_p(pointerFunctionType data, int p, float x_avg, float y_avg);
+std::vector<unsigned char> linearFilter(pointerFunctionType data);
+void normalize(int newMin, int newMax, std::vector<float> &list, float max = -INFINITY, float min = INFINITY);
+
+
+std::vector<unsigned char> test(pointerFunctionType data);
 
 //CONTAINS all functions to be used for computing attributes
 
@@ -54,6 +60,10 @@ float I_6(pointerFunctionType data);
 float I_7(pointerFunctionType data);
 float angle(pointerFunctionType data);
 
+float F_1(pointerFunctionType data);
+float F_2(pointerFunctionType data);
+float F_3(pointerFunctionType data);
+
 struct FunctionStruct {//because it somehow doesnt work without bewing in some sort of class, for now we'll leave it at that
 	/*Vector of functions to be used for computing of attributes*/
 	std::map<std::string, float(*)(pointerFunctionType)> extractingFunctions{
@@ -80,19 +90,22 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{"I_5", &I_5},
 		{"I_6", &I_6},
 		{"I_7", &I_7},
-		{"angle", &angle}
+		{"angle", &angle},
+		{"F_1", &F_1},
+		{"F_2", &F_2},
+		{"F_3", &F_3}
 	};
 
 	static std::vector<std::string> getDefaultAttributesList() {
-		return std::vector<std::string>{ "whitePixelCount"};// , "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount", "leftSideShape", "rightSideShape",
-			//"topShape", "bottomShape", "rectangleArea", "pixelRectangleRatio", "distanceCenter", "heightWidthRatio", "I_1", "I_2", "I_3",/* "I_4", "I_5",*/ "I_6"/*, "angle", "I_7"*/};
+		return std::vector<std::string>{ "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount", "leftSideShape", "rightSideShape",
+			"topShape", "bottomShape", "rectangleArea", "pixelRectangleRatio", "distanceCenter", "heightWidthRatio"};
 		/*, "wholeImage", "wholeImageInv"
 	};*/
 	};
 
 	static std::vector<std::string> getStarAttributeList() {
-		return std::vector<std::string>{ "whitePixelCount"};
-	}
+		return std::vector<std::string>{ "I_1", "I_2", "I_3", "I_4", "I_5", "I_6", "I_7"};
+	};
 };
 
 

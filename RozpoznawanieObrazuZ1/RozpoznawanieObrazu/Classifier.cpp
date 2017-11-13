@@ -37,7 +37,6 @@ void Classifier::computeTestSet(const dataVector & data, std::vector<unsigned ch
 
 void Classifier::knn(const int k, const int numberOfThreadsToUse)
 {
-
 	if (!testSet.empty()) //if testSet is not empty then the operations have meaning
 	{
 		std::vector<std::thread> threads(numberOfThreadsToUse);

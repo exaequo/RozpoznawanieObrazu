@@ -5,9 +5,10 @@
 #include <iostream>
 #include <chrono>
 
-
 int main()
 {
+
+
 	//just a simple example how to read digits from database and display them in terminal
 	//you can wrap it if you want to
 
@@ -18,8 +19,6 @@ int main()
 		mnist::read_dataset<std::vector, std::vector, uint8_t, uint8_t>(MNIST_DATA_LOCATION);
 
 	std::cout << "MNIST LOADED\n";
-
-	//cimg_library::CImg<float> src("brush.png");
 
 	//std::cout << "Nbr of training images (train-images-idx3-ubyte) = " << dataset.training_images.size() << std::endl;	//this time we only use this
 	//std::cout << "Nbr of training labels (train-labels-idx1-ubyte) = " << dataset.training_labels.size() << std::endl;	//and this
@@ -56,13 +55,13 @@ int main()
 
 		
 	std::vector<ClassifableObject> data{};
-	//std::vector<std::string> att = FunctionStruct::getDefaultAttributesList();		
+//	std::vector<std::string> att = FunctionStruct::getDefaultAttributesList();		
 	std::vector<std::string> starAtt = FunctionStruct::getStarAttributeList();
 	
 	StarReader starDataset{ "STaR_database/train", "STaR_database/test" };
 	
 	std::cout << "DONE STAR PROCESSING\n";
-	std::cout << "training data "<<starDataset.trainingSet.size()<<", lab: " << starDataset.trainingLabels.size() <<", first data size: "<<starDataset.trainingSet[0].size() <<"\n";
+	std::cout << "training data " << starDataset.trainingSet.size() << ", lab: " << starDataset.trainingLabels.size() << ", first data size: " <<starDataset.trainingSet[0].size() << "\n";
 	std::cout << "test data " << starDataset.testSet.size() << ", lab: " << starDataset.testLabels.size() << ", first data size: " << starDataset.testSet[1].size() << "\n";
 
 
@@ -70,23 +69,23 @@ int main()
 	if (true)
 	{
 		//______________________________________________________________________________________________________________________________________________TESTY DLA MINST
-		//FileSaver sav{ "file.txt" };
-		
+		/*FileSaver sav{ "file.txt" };*/
+		//
 
-		// ----------- TO SAVE A FILE ---------------------
-		/*Extractor extr{};
+		//// ----------- TO SAVE A FILE ---------------------
+		//Extractor extr{};
 
-		extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
-		sav.saveToFile(extr.getObjects(), att);
-		std::cout << "SAVED\n";
-*/
-		//-------------END FILE SAVE ----------------------
-		
+		//extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
+		//sav.saveToFile(extr.getObjects(), att);
+		//std::cout << "SAVED\n";
 
-		//-------------TO LOAD A FILE----------------------
+		////-------------END FILE SAVE ----------------------
+		//
+
+		////-------------TO LOAD A FILE----------------------
 		//sav.loadFromFile(data, att);
 
-		//int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 100;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
+		//int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 10000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
 
 		//Classifier classifier{ data, att, 10 };
 		//dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
@@ -95,7 +94,7 @@ int main()
 
 		//
 
-		//classifier.knn(19, 8);
+		//classifier.knn(19, 32);
 
 		//int count = 0;
 		//for (auto& test : classifier.getTestSet())
@@ -110,11 +109,11 @@ int main()
 
 
 		// ----------- TO SAVE A FILE ---------------------
-		/*Extractor extr{};
+		Extractor extr{};
 
 		extr.extractAttributes(starDataset.trainingSet, starDataset.trainingLabels, starAtt);
 		sav.saveToFile(extr.getObjects(), starAtt);
-		std::cout << "SAVED\n";*/
+		std::cout << "SAVED\n";
 		
 		//-------------END FILE SAVE ----------------------
 
@@ -122,16 +121,14 @@ int main()
 		//-------------TO LOAD A FILE----------------------
 		sav.loadFromFile(data, starAtt);
 
-		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 100;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
+		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 150;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
 
 		Classifier classifier{ data, starAtt, 10 };
 		dataVector imag = dataVector{ starDataset.testSet.begin(), starDataset.testSet.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
 		std::vector<unsigned char> lab{ starDataset.testLabels.begin(), starDataset.testLabels.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur};
 		classifier.computeTestSet(imag, lab);
 
-		
-
-		classifier.knn(19, 8);
+		classifier.knn(5, 8);
 
 		int count = 0;
 		for (auto& test : classifier.getTestSet())

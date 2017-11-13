@@ -5,9 +5,6 @@
 
 float extractWhitePixelsCount(pointerFunctionType data)
 {
-	//linearFilter(data, 1);
-
-
 	float result = 0.0f;
 	for (int i = 0; i < data.size(); ++i)
 	{
@@ -385,17 +382,17 @@ float extractWholeImageInverse(pointerFunctionType data)
 float M_ij(pointerFunctionType data, int i, int j)
 {
 	float result = 0.0f;
-	for (int m = 0; m < 28; ++m)
+	int width = sqrt(data.size());
+	int height = width;
+
+	for (int m = 0; m < height; ++m)
 	{
-		for (int n = 0; n < 28; ++n)
+		for (int n = 0; n < width; ++n)
 		{
-			if (data.at(m * 28 + n) >(unsigned char)10)
-			{
-				float t = 1.0f;
+				float t = data.at(m * height + n);
 				t *= pow(n, i);
 				t *= pow(m, j);
 				result += t;
-			}
 		}
 	}
 	return result;
@@ -405,18 +402,41 @@ float mi_ij(pointerFunctionType data, int i, int j)
 {
 	float x_avg = M_ij(data, 1, 0) / M_ij(data, 0, 0);
 	float y_avg = M_ij(data, 0, 1) / M_ij(data, 0, 0);
-	float result = 0.0f;
-	for (int m = 0; m < 28; ++m)
+	float result = { 0.0f };
+
+	if (i == 0 && j == 0)
+		return M_ij(data, 0, 0);
+	if (i == 0 && j == 1)
+		return 0.0f;
+	if (i == 1 && j == 0)
+		return 0.0f;
+	if (i == 1 && j == 1)
+		return M_ij(data, 1, 1) - x_avg * M_ij(data, 0, 1);
+	if (i == 2 && j == 0)
+		return M_ij(data, 2, 0) - x_avg * M_ij(data, 1, 0);
+	if (i == 0 && j == 2)
+		return M_ij(data, 0, 2) - y_avg * M_ij(data, 0, 1);
+	if (i == 2 && j == 1)
+		return M_ij(data, 2, 1) - 2 * x_avg * M_ij(data, 1, 1) - y_avg * M_ij(data, 2, 0) + 2 * pow(x_avg, 2) * M_ij(data, 0, 1);
+	if (i == 1 && j == 2)
+		return M_ij(data, 1, 2) - 2 * y_avg * M_ij(data, 1, 1) - x_avg * M_ij(data, 0, 2) + 2 * pow(y_avg, 2) * M_ij(data, 1, 0);
+	if (i == 3 && j == 0)
+		return M_ij(data, 3, 0) - 3 * x_avg * M_ij(data, 2, 0) + 2 * pow(x_avg, 2) * M_ij(data, 1, 0);
+	if (i == 0 && j == 3)
+		return M_ij(data, 0, 3) - 3 * y_avg * M_ij(data, 0, 2) + 2 * pow(y_avg, 2) * M_ij(data, 0, 1);
+
+
+	int width = sqrt(data.size());
+	int height = width;
+
+	for (int m = 0; m < height; ++m)
 	{
-		for (int n = 0; n < 28; ++n)
+		for (int n = 0; n < width; ++n)
 		{
-			if (data.at(m * 28 + n) >(unsigned char)10)
-			{
-				float t = 1.0f;
-				t *= pow((i - x_avg), i);
+				float t = data.at(m * height + n);
+				t *= pow((n - x_avg), i);
 				t *= pow((m - y_avg), j);
 				result += t;
-			}
 		}
 	}
 	return result;
@@ -425,12 +445,15 @@ float mi_ij(pointerFunctionType data, int i, int j)
 float eta_ij(pointerFunctionType data, int i, int j)
 {
 	float result = mi_ij(data, i, j);
-	result /= pow(mi_ij(data, 0, 0), (1 + ((i + j) / 2)));
+	float mi00 = mi_ij(data, 0, 0);
+	result /= pow(mi00, (1.0 + ((i + j) / 2.0)));
 	return result;
 }
 
 float I_1(pointerFunctionType data)
 {
+	//test(data);
+	//std::vector<unsigned char> list = test(data);
 	float eta20 = eta_ij(data, 2, 0);
 	float eta02 = eta_ij(data, 0, 2);
 	return eta20 + eta02;
@@ -438,34 +461,38 @@ float I_1(pointerFunctionType data)
 
 float I_2(pointerFunctionType data)
 {
+	//std::vector<unsigned char> list = test(data);
 	float eta20 = eta_ij(data, 2, 0);
 	float eta02 = eta_ij(data, 0, 2);
 	float eta11 = eta_ij(data, 1, 1);
-	return pow(eta20 - eta02, 2) + 4 * pow(eta11, 2);
+	return pow((eta20 - eta02), 2) + 4 * pow(eta11, 2);
 }
 
 float I_3(pointerFunctionType data)
 {
+	//std::vector<unsigned char> list = test(data);
 	float eta30 = eta_ij(data, 3, 0);
 	float eta12 = eta_ij(data, 1, 2);
 	float eta21 = eta_ij(data, 2, 1);
 	float eta03 = eta_ij(data, 0, 3);
 
-	return pow(eta30 - 3 * eta12, 2) + pow(3 * eta21 - eta03, 2);
+	return pow((eta30 - 3 * eta12), 2) + pow((3 * eta21 - eta03), 2);
 }
 
 float I_4(pointerFunctionType data)
 {
+	//std::vector<unsigned char> list = test(data);
 	float eta30 = eta_ij(data, 3, 0);
 	float eta12 = eta_ij(data, 1, 2);
 	float eta21 = eta_ij(data, 2, 1);
 	float eta03 = eta_ij(data, 0, 3);
 
-	return pow(eta30 + eta12, 2) + pow(eta21 + eta03, 2);
+	return pow((eta30 + eta12), 2) + pow((eta21 + eta03), 2);
 }
 
 float I_5(pointerFunctionType data)
 {
+	//std::vector<unsigned char> list = test(data);
 	float eta30 = eta_ij(data, 3, 0);
 	float eta12 = eta_ij(data, 1, 2);
 	float eta21 = eta_ij(data, 2, 1);
@@ -477,6 +504,7 @@ float I_5(pointerFunctionType data)
 
 float I_6(pointerFunctionType data)
 {
+	//std::vector<unsigned char> list = test(data);
 	float eta20 = eta_ij(data, 2, 0);
 	float eta02 = eta_ij(data, 0, 2);
 	float eta30 = eta_ij(data, 3, 0);
@@ -491,6 +519,7 @@ float I_6(pointerFunctionType data)
 
 float I_7(pointerFunctionType data)
 {
+	//std::vector<unsigned char> list = test(data);
 	float eta21 = eta_ij(data, 2, 1);
 	float eta03 = eta_ij(data, 0, 3);
 	float eta30 = eta_ij(data, 3, 0);
@@ -506,22 +535,21 @@ float angle(pointerFunctionType data)
 	float mip11 = mi_ij(data, 1, 1) / mi00;
 	float mip20 = mi_ij(data, 2, 0) / mi00;
 	float mip02 = mi_ij(data, 0, 2) / mi00;
-
 	float t = (2 * mip11) / (mip20 - mip02);
 
 	return 0.5f * atan(t);
 }
 
 
-void linearFilter(pointerFunctionType data, int which=1) {
-
-	//std::cout << "|LNEAR!" << std::endl;
-
-	std::vector<unsigned char> list;
+std::vector<unsigned char> linearFilter(pointerFunctionType data)
+{
+	std::vector<unsigned char> result;
+	std::vector<float> list;
 	float max = -INFINITY;
 	float min = INFINITY;
 	int L = 1;
-
+	int width = sqrt(data.size());
+	int height = width;
 	std::vector<int> filter1 = { 0,-1,0,
 		-1,4,-1,
 		0,-1,0 };
@@ -532,109 +560,223 @@ void linearFilter(pointerFunctionType data, int which=1) {
 		-2,4,-2,
 		1,-2,1 };
 	std::vector<int> selectedFilter;
+	selectedFilter = filter1;
 
-	switch (which) {
-	case 0:
-		selectedFilter = filter1;
-		break;
-	case 1:
-		selectedFilter = filter2;
-		break;
-	case 2:
-	default:
-		selectedFilter = filter3;
-		break;
-	}
 	L = (int)(sqrt(selectedFilter.size()) / 2);
 
-	for (int i = 0; i < 28; ++i) {
-		for (int j = 0; j < 28; ++j) {
+	for (int i = 0; i < height; ++i) 
+	{
+		for (int j = 0; j < width; ++j) 
+		{
 			int p = 0;
 			int sum = 0;
-			for (int m = i - L; m <= i + L; m++) {
-				for (int n = j - L; n <= j + L; n++) {
+			for (int m = i - L; m <= i + L; ++m) 
+			{
+				for (int n = j - L; n <= j + L; ++n)
+				{
 					int value = 0;
-					if ((m >= 0 && m < 28) &&
-						(n >= 0 && n < 28)) {
-
-						if (data.at(m * 28 + n) >(unsigned char)10)
-						{
-							value = 1;
-						}
-						else 
-						{ 
-							value = 0; 
-						}
+					if ((m >= 0 && m < height) && (n >= 0 && n < width))
+					{
+						value = data.at(m * height + n);
 					}
-					else {//obs³uga przypadków krañcowych
+					else 
+					{//obs³uga przypadków krañcowych
 						int tmpM = m, tmpN = n;
-						if (m<0) {
-							tmpM = 0;
-						}
-						if (m >= 28) {
-							tmpM = 28 - 1;
-						}
-						if (n<0) {
-							tmpN = 0;
-						}
-						if (n >= 28) {
-							tmpN = 28 - 1;
-						}
-
-						if (data.at(tmpM * 28 + tmpN) >(unsigned char)10)
-						{
-							value = 1;
-						}
-						else
-						{
-							value = 0;
-						}
+						if (m < 0) { tmpM = 0; }
+						if (m >= height) { tmpM = height - 1; }
+						if (n < 0) { tmpN = 0; }
+						if (n >= width) { tmpN = width - 1; }
+						value = data.at(tmpM * height + tmpN);
 					}
 					sum += selectedFilter[p] * value;//splot
 					p++;
 				}
 			}
-
 			float value = sum;
-			if (value > max) {
-				max = value;
+			if (value > max) { max = value; }
+			if (value < min) { min = value; }
+			list.push_back(value);
+		}
+	}
+	normalize(0, 255, list, max, min);//normalizacja
+	int n = 0;
+	for (int i = 0; i < height; ++i) {//przet³umaczenie znormalizowanego
+		for (int j = 0; j < width; ++j) {
+			unsigned char val = (unsigned char)list[n];
+			result.push_back(val);
+			n++;
+		}
+	}
+	return result;
+}
+
+
+void normalize(int newMin, int newMax, std::vector<float> &list, float max, float min)
+{
+	if (max == -1 || min == INFINITY)
+	{
+		for (int i = 0; i < list.size(); i++)
+		{
+			if (list[i] < min)
+			{
+				min = list[i];
 			}
-			if (value < min) {
-				min = value;
+			if (list[i] > max)
+			{
+				max = list[i];
 			}
-			list.push_back((int)value);
 		}
 	}
 
-	//normalize(0, 255, list, max, min);//normalizacja
-	//int n = 0;
-	//for (int i = 0; i< images.first.width(); i++) {//przet³umaczenie znormalizowanego
-	//	for (int j = 0; j < images.first.height(); j++) {
-	//		int val = (int)list[n];
-	//		images.second.setPixelColor(i, j, QColor(val, val, val));
-	//		n++;
-	//	}
-	//}
+	for (int i = 0; i < list.size(); i++)
+	{
+		list[i] = (newMin - newMax) * (list[i] - min) / (min - max) + newMin;
+	}
+}
 
-
-		for (int i = 0; i < 28; i++)				//size of every image is 28
+float m_p(pointerFunctionType data, int p, float x_avg, float y_avg)
+{
+	float result = { 0.0f };
+	int width = sqrt(data.size());
+	int height = width;
+	std::cout << "size: " << width << std::endl;
+	for (int i = 0; i < height; ++i)
+	{
+		for (int j = 0; j < width; ++j)
 		{
-			for (int j = 0; j < 28; j++)			//by 28
+			if ((int)data.at(i * height + j) != 10 &&
+				(int)data.at(i * height + j) != 13 &&
+				(int)data.at(i * height + j) != 9 &&
+				(int)data.at(i * height + j) > 100)
 			{
-				//it's needed for proper display digits in terminal (but the dataset is correct)
-				if ((int)list.at(i * 28 + j) != 10 &&	//ASCII code for new line (we don't want extra new line in digit!)
-					(int)list.at(i * 28 + j) != 13 &&	//ASCII code for carriage return (part of digit is at the beggining of a line!)
-						(int)list.at(i * 28 + j) != 9) //ASCII code for horizontal tab (it's just get messy!)
-				{
-					//std::cout << (int)list.at(i * 28 + j);		//yep, it is a struct of vectors of vectors, but it works fast
-					//to get a 0-255 pixel value just cast to int (do we even need it?)
-				}
-				else
-				{
-					//std::cout << (unsigned char)0;			//it's better to display nothing than some ASCII garbage		
-				}
-			}									
-			std::cout << std::endl;
+				//std::cout << "o";
+				float d = sqrt(pow(i - x_avg, 2) + pow(j - y_avg, 2));
+				result += pow(d, p);
+			}
+			else
+			{
+				std::cout << (unsigned char)0;
+			}
 		}
+		//std::cout << "\n";
+	}
+	return result / data.size();
+}
+
+float mi_p(pointerFunctionType data, int p, float x_avg, float y_avg)
+{
+	float result = { 0.0f };
+	float m_1 = m_p(data, p, x_avg, y_avg);
+	int width = sqrt(data.size());
+	int height = width;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if ((int)data.at(i * height + j) > 250)
+			{
+				float d = sqrt(pow(i - x_avg, 2) + pow(j - y_avg, 2));
+				result += pow(d - m_1, p);
+			}
+		}
+	}
+	return result / data.size();
+}
+
+float F_1(pointerFunctionType data)
+{
+	//std::cout << "TUTEJ" << std::endl;
+	float result = { 0.0f };
+	std::vector<unsigned char> list = linearFilter(data);
+
+	float x_avg = M_ij(data, 1, 0) / M_ij(data, 0, 0);
+	float y_avg = M_ij(data, 0, 1) / M_ij(data, 0, 0);
+	result = sqrt(mi_p(list, 2, x_avg, y_avg)) / m_p(list, 1, x_avg, y_avg);
+
+	//std::cout << "sqrt: " << sqrt(mi_p(list, 2, x_avg, y_avg)) << " m1: " << m_p(list, 1, x_avg, y_avg) << std::endl;
+
+	return result;
+}
+
+float F_2(pointerFunctionType data)
+{
+	std::vector<unsigned char> list = linearFilter(data);
+	float x_avg = M_ij(data, 1, 0) / M_ij(data, 0, 0);
+	float y_avg = M_ij(data, 0, 1) / M_ij(data, 0, 0);
+	return mi_p(list, 3, x_avg, y_avg) / pow(mi_p(list, 2, x_avg, y_avg), (3 / 2));
+}
+
+float F_3(pointerFunctionType data)
+{
+	std::vector<unsigned char> list = linearFilter(data);
+	float x_avg = M_ij(data, 1, 0) / M_ij(data, 0, 0);
+	float y_avg = M_ij(data, 0, 1) / M_ij(data, 0, 0);
+	return mi_p(list, 4, x_avg, y_avg) / pow(mi_p(list, 2, x_avg, y_avg), 2);
+}
+
+using namespace cv;
+
+std::vector<unsigned char> test(pointerFunctionType data)
+{
+
+	std::vector<unsigned char> result;
+
+	// Mat(int rows, int cols, int type, void* data, size_t step=AUTO_STEP);
+	Mat src = imread("STaR_database/train/brush/brush_0433.png", 1);   // Read the file
+	//imshow("test3", src);
+	//waitKey(0);
+
+	for (int y = 0; y < src.rows; y++)
+	{
+		for (int x = 0; x < src.cols; x++)
+		{
+			unsigned char t = data.at(y * src.rows + x);
+			src.at<Vec3b>(y, x)[0] = t;
+			src.at<Vec3b>(y, x)[1] = t;
+			src.at<Vec3b>(y, x)[2] = t;
+		}
+
+	}
+	/*FILTER*/
+	//int MAX_KERNEL_LENGTH = 35;
+	//Mat dst = src.clone();
+
+	//for (int i = 1; i < MAX_KERNEL_LENGTH; i = i + 2)
+	//{
+		//GaussianBlur(src, dst, Size(i, i), 0, 0);
+		//medianBlur(src, dst, i);
+		//bilateralFilter(src, dst, i, i * 2, i / 2);
+	//}
+	//bilateralFilter(src, dst, MAX_KERNEL_LENGTH, MAX_KERNEL_LENGTH * 2, MAX_KERNEL_LENGTH / 2);
+	//imshow("test", dst);
+	//waitKey(0);
+	//src = dst;
+	/*FILTER END*/
+	Mat samples(src.rows * src.cols, 3, CV_32F);
+	for (int y = 0; y < src.rows; y++)
+		for (int x = 0; x < src.cols; x++)
+			for (int z = 0; z < 3; z++)
+				samples.at<float>(y + x * src.rows, z) = src.at<Vec3b>(y, x)[z];
+
+	int clusterCount = 2;
+	Mat labels;
+	int attempts = 2;
+	Mat centers;
+	kmeans(samples, clusterCount, labels, TermCriteria(CV_TERMCRIT_ITER | CV_TERMCRIT_EPS, 10000, 0.0001), attempts, KMEANS_PP_CENTERS, centers);
+
+	//Mat new_image(src.size(), src.type());
+	for (int y = 0; y < src.rows; y++)
+		for (int x = 0; x < src.cols; x++)
+		{
+			int cluster_idx = labels.at<int>(y + x*src.rows, 0);
+			result.push_back(centers.at<float>(cluster_idx, 0));
+			/*new_image.at<Vec3b>(y, x)[0] = centers.at<float>(cluster_idx, 0);
+			new_image.at<Vec3b>(y, x)[1] = centers.at<float>(cluster_idx, 1);
+			new_image.at<Vec3b>(y, x)[2] = centers.at<float>(cluster_idx, 2);*/
+		}
+	//imshow("test2", new_image);
+	//waitKey(0);
+
+	return result;
 
 }
