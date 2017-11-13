@@ -10,6 +10,7 @@ float mi_ij(pointerFunctionType data, int i, int j);
 float eta_ij(pointerFunctionType data, int i, int j);
 float m_p(pointerFunctionType data, int p, float x_avg, float y_avg);
 float mi_p(pointerFunctionType data, int p, float x_avg, float y_avg);
+float Hu(pointerFunctionType data);
 std::vector<unsigned char> linearFilter(pointerFunctionType data);
 void normalize(int newMin, int newMax, std::vector<float> &list, float max = -INFINITY, float min = INFINITY);
 

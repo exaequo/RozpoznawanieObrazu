@@ -77,9 +77,9 @@ std::vector<unsigned char> StarReader::getDataVectorFromPngFile(const std::strin
 	Mat dst = src.clone();
 	int MAX_KERNEL_LENGTH = 7;
 	GaussianBlur(src, dst, Size(MAX_KERNEL_LENGTH, MAX_KERNEL_LENGTH), 3, 3);
-	MAX_KERNEL_LENGTH = 17;
+	MAX_KERNEL_LENGTH = 31;
 	bilateralFilter(dst, src, MAX_KERNEL_LENGTH, MAX_KERNEL_LENGTH * 2, MAX_KERNEL_LENGTH / 2);
-
+	//src = dst.clone();
 	Mat samples(src.rows * src.cols, 3, CV_32F);
 	for (int y = 0; y < src.rows; y++)
 		for (int x = 0; x < src.cols; x++)
@@ -112,6 +112,8 @@ std::vector<unsigned char> StarReader::getDataVectorFromPngFile(const std::strin
 
 	threshold(src, dst, avg, 255, THRESH_BINARY);
 
+	//dst = src.clone();
+
 	//imshow("test", dst);
 	//waitKey(0);
 
@@ -119,9 +121,12 @@ std::vector<unsigned char> StarReader::getDataVectorFromPngFile(const std::strin
 	{
 		for (int x = 0; x < dst.cols; x++)
 		{
+			//std::cout << dst.at<Vec3b>(y, x)[0];
 			result.push_back(dst.at<Vec3b>(y, x)[0]);
 		}
 	}
+
+	//waitKey(0);
 
 	//std::vector<unsigned char> image; //the raw pixels
 	//unsigned width, height;

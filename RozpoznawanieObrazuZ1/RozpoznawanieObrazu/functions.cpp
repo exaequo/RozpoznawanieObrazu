@@ -398,32 +398,77 @@ float M_ij(pointerFunctionType data, int i, int j)
 	return result;
 }
 
+using namespace cv;
+
 float mi_ij(pointerFunctionType data, int i, int j)
 {
 	float x_avg = M_ij(data, 1, 0) / M_ij(data, 0, 0);
 	float y_avg = M_ij(data, 0, 1) / M_ij(data, 0, 0);
 	float result = { 0.0f };
 
+
+	Mat src = imread("STaR_database/train/brush/brush_0433.png", 1);   
+	for (int y = 0; y < src.rows; y++)
+	{
+		for (int x = 0; x < src.cols; x++)
+		{
+			unsigned char t = data.at(y * src.rows + x);
+			src.at<Vec3b>(y, x)[0] = t;
+			src.at<Vec3b>(y, x)[1] = t;
+			src.at<Vec3b>(y, x)[2] = t;
+		}
+
+	}
+	Mat canny_output = src.clone();
+	std::vector<std::vector<Point> > contours;
+	int thresh = 100;
+	int max_thresh = 255;
+	std::vector<Vec4i> hierarchy;
+	Canny(src, canny_output, thresh, thresh * 2, 3);
+	/// Find contours
+	findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+
+	std::vector<Point> c;
+
+	for (int i = 0; i < contours.size(); ++i)
+	{
+		c.insert(c.end(), contours[i].begin(), contours[i].end());
+	}
+
+	Moments mu{};
+	mu = moments(c, false);
+	
+
 	if (i == 0 && j == 0)
-		return M_ij(data, 0, 0);
+		return mu.m00;
+		//return M_ij(data, 0, 0);
 	if (i == 0 && j == 1)
-		return 0.0f;
+		return mu.m01;
+		//return 0.0f;
 	if (i == 1 && j == 0)
-		return 0.0f;
+		return mu.m10;
+		//return 0.0f;
 	if (i == 1 && j == 1)
-		return M_ij(data, 1, 1) - x_avg * M_ij(data, 0, 1);
+		return mu.m11;
+	//		return M_ij(data, 1, 1) - x_avg * M_ij(data, 0, 1);
 	if (i == 2 && j == 0)
-		return M_ij(data, 2, 0) - x_avg * M_ij(data, 1, 0);
+		return mu.m20;
+	//return M_ij(data, 2, 0) - x_avg * M_ij(data, 1, 0);
 	if (i == 0 && j == 2)
-		return M_ij(data, 0, 2) - y_avg * M_ij(data, 0, 1);
+		return mu.m02;
+	//return M_ij(data, 0, 2) - y_avg * M_ij(data, 0, 1);
 	if (i == 2 && j == 1)
-		return M_ij(data, 2, 1) - 2 * x_avg * M_ij(data, 1, 1) - y_avg * M_ij(data, 2, 0) + 2 * pow(x_avg, 2) * M_ij(data, 0, 1);
+		return mu.m21;
+	//return M_ij(data, 2, 1) - 2 * x_avg * M_ij(data, 1, 1) - y_avg * M_ij(data, 2, 0) + 2 * pow(x_avg, 2) * M_ij(data, 0, 1);
 	if (i == 1 && j == 2)
-		return M_ij(data, 1, 2) - 2 * y_avg * M_ij(data, 1, 1) - x_avg * M_ij(data, 0, 2) + 2 * pow(y_avg, 2) * M_ij(data, 1, 0);
+		return mu.m12;
+	//return M_ij(data, 1, 2) - 2 * y_avg * M_ij(data, 1, 1) - x_avg * M_ij(data, 0, 2) + 2 * pow(y_avg, 2) * M_ij(data, 1, 0);
 	if (i == 3 && j == 0)
-		return M_ij(data, 3, 0) - 3 * x_avg * M_ij(data, 2, 0) + 2 * pow(x_avg, 2) * M_ij(data, 1, 0);
+		return mu.m30;
+	//return M_ij(data, 3, 0) - 3 * x_avg * M_ij(data, 2, 0) + 2 * pow(x_avg, 2) * M_ij(data, 1, 0);
 	if (i == 0 && j == 3)
-		return M_ij(data, 0, 3) - 3 * y_avg * M_ij(data, 0, 2) + 2 * pow(y_avg, 2) * M_ij(data, 0, 1);
+		return mu.m03;
+	//return M_ij(data, 0, 3) - 3 * y_avg * M_ij(data, 0, 2) + 2 * pow(y_avg, 2) * M_ij(data, 0, 1);
 
 
 	int width = sqrt(data.size());
@@ -444,16 +489,115 @@ float mi_ij(pointerFunctionType data, int i, int j)
 
 float eta_ij(pointerFunctionType data, int i, int j)
 {
+	Mat src = imread("STaR_database/train/brush/brush_0433.png", 1);
+	for (int y = 0; y < src.rows; y++)
+	{
+		for (int x = 0; x < src.cols; x++)
+		{
+			unsigned char t = data.at(y * src.rows + x);
+			src.at<Vec3b>(y, x)[0] = t;
+			src.at<Vec3b>(y, x)[1] = t;
+			src.at<Vec3b>(y, x)[2] = t;
+		}
+
+	}
+	Mat canny_output = src.clone();
+	std::vector<std::vector<Point> > contours;
+	int thresh = 100;
+	int max_thresh = 255;
+	std::vector<Vec4i> hierarchy;
+	Canny(src, canny_output, thresh, thresh * 2, 3);
+	/// Find contours
+	findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+
+	std::vector<Point> c;
+
+	for (int i = 0; i < contours.size(); ++i)
+	{
+		c.insert(c.end(), contours[i].begin(), contours[i].end());
+	}
+
+	Moments mu{};
+	mu = moments(c, false);
+
+	if (i == 0 && j == 2)
+		return mu.nu02;
+	if (i == 0 && j == 3)
+		return mu.nu03;
+	if (i == 1 && j == 1)
+		return mu.nu11;
+	if (i == 1 && j == 2)
+		return mu.nu12;
+	if (i == 2 && j == 0)
+		return mu.nu20;
+	if (i == 2 && j == 1)
+		return mu.nu21;
+	if (i == 3 && j == 0)
+		return mu.nu30;
+
 	float result = mi_ij(data, i, j);
 	float mi00 = mi_ij(data, 0, 0);
 	result /= pow(mi00, (1.0 + ((i + j) / 2.0)));
 	return result;
 }
 
+float Hu(pointerFunctionType data, int i)
+{
+	Mat src = imread("STaR_database/train/brush/brush_0433.png", 1);
+	for (int y = 0; y < src.rows; y++)
+	{
+		for (int x = 0; x < src.cols; x++)
+		{
+			unsigned char t = data.at(y * src.rows + x);
+			src.at<Vec3b>(y, x)[0] = t;
+			src.at<Vec3b>(y, x)[1] = t;
+			src.at<Vec3b>(y, x)[2] = t;
+		}
+
+	}
+	Mat canny_output = src.clone();
+	std::vector<std::vector<Point> > contours;
+	int thresh = 100;
+	int max_thresh = 255;
+	std::vector<Vec4i> hierarchy;
+	Canny(src, canny_output, thresh, thresh * 2, 3);
+	/// Find contours
+	findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+
+	std::vector<Point> c;
+
+	for (int i = 0; i < contours.size(); ++i)
+	{
+		c.insert(c.end(), contours[i].begin(), contours[i].end());
+	}
+
+	Moments mu{};
+	mu = moments(c, false);
+
+	double hu[7];
+
+	HuMoments(mu, hu);
+
+	return hu[i];
+}
+
 float I_1(pointerFunctionType data)
 {
 	//test(data);
 	//std::vector<unsigned char> list = test(data);
+
+	//for (int i = 0; i < 256; ++i)
+	//{
+	//	for (int j = 0; j < 256; ++j)
+	//	{
+	//		std::cout << data.at(i * 256 + j);
+	//	}
+	//	std::cout << std::endl;
+	//}
+
+	//waitKey(0);
+
+	return Hu(data, 0);
 	float eta20 = eta_ij(data, 2, 0);
 	float eta02 = eta_ij(data, 0, 2);
 	return eta20 + eta02;
@@ -462,6 +606,7 @@ float I_1(pointerFunctionType data)
 float I_2(pointerFunctionType data)
 {
 	//std::vector<unsigned char> list = test(data);
+	return Hu(data, 1);
 	float eta20 = eta_ij(data, 2, 0);
 	float eta02 = eta_ij(data, 0, 2);
 	float eta11 = eta_ij(data, 1, 1);
@@ -470,6 +615,7 @@ float I_2(pointerFunctionType data)
 
 float I_3(pointerFunctionType data)
 {
+	return Hu(data, 2);
 	//std::vector<unsigned char> list = test(data);
 	float eta30 = eta_ij(data, 3, 0);
 	float eta12 = eta_ij(data, 1, 2);
@@ -481,6 +627,7 @@ float I_3(pointerFunctionType data)
 
 float I_4(pointerFunctionType data)
 {
+	return Hu(data, 3);
 	//std::vector<unsigned char> list = test(data);
 	float eta30 = eta_ij(data, 3, 0);
 	float eta12 = eta_ij(data, 1, 2);
@@ -492,6 +639,7 @@ float I_4(pointerFunctionType data)
 
 float I_5(pointerFunctionType data)
 {
+	return Hu(data, 4);
 	//std::vector<unsigned char> list = test(data);
 	float eta30 = eta_ij(data, 3, 0);
 	float eta12 = eta_ij(data, 1, 2);
@@ -504,6 +652,7 @@ float I_5(pointerFunctionType data)
 
 float I_6(pointerFunctionType data)
 {
+	return Hu(data, 5);
 	//std::vector<unsigned char> list = test(data);
 	float eta20 = eta_ij(data, 2, 0);
 	float eta02 = eta_ij(data, 0, 2);
@@ -519,6 +668,7 @@ float I_6(pointerFunctionType data)
 
 float I_7(pointerFunctionType data)
 {
+	return Hu(data, 6);
 	//std::vector<unsigned char> list = test(data);
 	float eta21 = eta_ij(data, 2, 1);
 	float eta03 = eta_ij(data, 0, 3);

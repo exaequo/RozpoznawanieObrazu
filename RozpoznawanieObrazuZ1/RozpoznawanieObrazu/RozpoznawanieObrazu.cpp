@@ -59,6 +59,15 @@ int main()
 	std::vector<std::string> starAtt = FunctionStruct::getStarAttributeList();
 	
 	StarReader starDataset{ "STaR_database/train", "STaR_database/test" };
+
+	//for (int i = 0; i < 256; ++i)
+	//{
+	//	for (int j = 0; j < 256; ++j)
+	//	{
+	//		std::cout << starDataset.trainingSet.at(0).at(i * 256 + j);
+	//	}
+	//	std::cout << std::endl;
+	//}
 	
 	std::cout << "DONE STAR PROCESSING\n";
 	std::cout << "training data " << starDataset.trainingSet.size() << ", lab: " << starDataset.trainingLabels.size() << ", first data size: " <<starDataset.trainingSet[0].size() << "\n";
@@ -109,11 +118,11 @@ int main()
 
 
 		// ----------- TO SAVE A FILE ---------------------
-		Extractor extr{};
+		//Extractor extr{};
 
-		extr.extractAttributes(starDataset.trainingSet, starDataset.trainingLabels, starAtt);
-		sav.saveToFile(extr.getObjects(), starAtt);
-		std::cout << "SAVED\n";
+		//extr.extractAttributes(starDataset.trainingSet, starDataset.trainingLabels, starAtt);
+		//sav.saveToFile(extr.getObjects(), starAtt);
+		//std::cout << "SAVED\n";
 		
 		//-------------END FILE SAVE ----------------------
 
@@ -128,12 +137,12 @@ int main()
 		std::vector<unsigned char> lab{ starDataset.testLabels.begin(), starDataset.testLabels.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur};
 		classifier.computeTestSet(imag, lab);
 
-		classifier.knn(5, 8);
+		classifier.knn(15, 1);
 
 		int count = 0;
 		for (auto& test : classifier.getTestSet())
 		{
-			//std::cout << test.toOutputFormat() << std::endl;
+			std::cout << test.toOutputFormat() << std::endl;
 			count += test.getSuccessIdentifier();
 		}
 		std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) <<"\n";
