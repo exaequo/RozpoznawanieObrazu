@@ -29,21 +29,15 @@
 \section{Cel}
 Zadanie polegało na stworzeniu szkieletu uniwersalnej aplikacji do rozpoznawania obiektów. W tym celu należało przygotować odpowiedni zestaw cech do klasyfikacji oraz opracować moduł jej dokonujący z wykorzystaniem zadanej metryki. W celu sprawdzenia stworzonej aplikacji należało wykorzystać ją do klasyfikacji obiektów 2 baz danych: MNIST oraz STaR.
 
-\section{Opis implementacji}
-
-Aplikacja została napisana w języku C++, jako środowisko zostało wykorzystane Qt. Pozwoliło to na ograniczenie ilości wymaganych klas, gdyż cały wygląd programu opracowany został za pomocą języka QML. Jedynie obliczenia wykonywanych metod wymagały kodu w języku C++, a co za tym idzie zaimplementowania przechowujących je klasy. Z racji na tą uproszczoną strukturę uznano, iż budowa diagramu UML jest zbędna.
-
-Program pozwala na operacje na obrazie w skali odcieni szarości. Mając obraz wejściowy użytkownik jest w stanie dokonywać przetwarzania obrazu wyjściowego i obserwować te zmiany zarówno na samym obrazie jak i jego histogramie. W momencie zaakceptowania zmian obraz wejściowy zamieniany jest z tym zmodyfikowanym, co pozwala na przeprowadzenie na nim dalszych operacji.
-
 \section{MNIST}
 
-Baza MNIST zawiera ręcznie pisane cyfry. Składa się ze zbioru uczącego (60 000 przykładów) oraz testowego (10 000). Każdy z przykładów to obraz pojedynczej cyfry.
+Baza MNIST zawiera ręcznie pisane cyfry. Składa się ze zbioru uczącego (60 000 przykładów) oraz testowego (10 000 przykładów). Każdy z przykładów to obraz pojedynczej cyfry.
 
 \subsection{Zestaw cech}
 
 Dla bazy MNIST zaproponowaliśmy użycie 8 cech:
 
-\textsl{Uwaga: Każdy obraz traktowaliśmy jako binarny tj. piksel był uznawany za element, gdy jego jasność była większa niż 10 (w skali 0-255). Wszystkie inne uznawane są za tło.}
+\textsl{Uwaga: Każdy obraz traktowaliśmy jako binarny tj. piksel był uznawany za piksel wchodzący w skład obiektu, gdy jego jasność była większa niż 10 (w skali 0-255). Wszystkie inne uznawane są za tło.}
 
 \textsl{Uwaga: Przy pierwszych 6 poniższych cechach dla każdej cyfry wyznaczaliśmy bryłę brzegową (ang. bounding box). Dzięki temu wyeliminowaliśmy przesunięcia cyfr w każdym kierunku.}
 
@@ -66,7 +60,6 @@ Sprawdzając każdy z wierszy zliczaliśmy ciemne piksele, aż do napotkania pie
 \subsection{Niewykorzystane cechy}
 
 Początkowo próbowaliśmy użyć jeszcze kilku innych cech - odrzuciliśmy je jednak z powodu braku znacznego polepszenia wyników (a czasem nawet pogorszenia) oraz wydłużania czasu obliczeń.
-
 \begin{itemize}
 \item \textbf{Ilość jasnych pikseli cyfry}\\
  Statystycznie każda cyfra powinna mieć inną ilość pikseli składowych, niestety nie sprawdziło się to ze względu na różną wielkość cyfr.
@@ -78,7 +71,6 @@ Do wyznaczenia konturów użyliśmy filtracji liniowej.
 \end{itemize}
 
 \subsection{Wyniki}
-
 \begin{table}[h!]
   \centering
   \caption{Wyniki jakości klasyfikacji oraz czasu obliczeń k-NN dla bazy MNIST dla różnych wartości $k$}
@@ -188,7 +180,7 @@ Jest to baza obrazów dziesięciu obiektów. Na zdjęciach występują 3 rodzaje
 
 \subsection{Zestaw cech}
 
-Dla bazy STaR zdecydowaliśmy się skorzystać z tzw. momentów obiektu (obrazu), a dokładnie niezmienników przekształceń. Metoda ta pozwala na rozpoznawanie wzorów  niezależnie od pozycji, rozmiaru czy obrotu. Jako cechy użyliśmy każdego z niezmienników - wzory podajemy poniżej:\\
+Dla bazy STaR zdecydowaliśmy się skorzystać z tzw. momentów obiektu (obrazu), a dokładnie niezmienników przekształceń. Metoda ta pozwala na rozpoznawanie wzorów  niezależnie od pozycji, rozmiaru czy obrotu. Jako cechy użyliśmy każdego z niezmienników (łącznie 7 cech) - wzory podajemy poniżej:\\
 
 $I_1 = \eta_{20} + \eta_{02}$
 
@@ -210,9 +202,70 @@ Początkowo planowaliśmy wykorzystać cechy stworzone dla bazy MNIST, jednak ż
 
 \subsection{Wyniki}
 
+\begin{table}[h!]
+  \centering
+  \caption{Wyniki jakości klasyfikacji oraz czasu obliczeń k-NN dla bazy STaR dla różnych wartości $k$}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|}
+    \hline
+	k & jakość & czas[s]\\
+    \hline
+	1 & 24.66 & 10.549\\
+    \hline
+	3 & 28.66 & 4.333\\
+	\hline
+	5 & 30.66 & 4.248\\
+	\hline
+	7 & 32.00 & 4.247\\
+	\hline
+	9 & 34.00 & 4.274\\
+	\hline
+	11 & 34.66 & 4.338\\
+	\hline
+	13 & 32.66 & 4.431\\
+	\hline
+	15 & 29.33 & 4.257\\
+	\hline
+	31 & 29.33 & 4.279\\
+	\hline
+	99 & 24.00 & 4.248\\
+	\hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{Macierz pomyłek k-NN dla bazy STaR dla wszystkich cech oraz $k=11$}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+	. & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & success ratio \\
+    \hline
+	0 & 4 & 5 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 3 & 26.67\\
+    \hline
+	1 & 1 & 8 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 5 & 53.33\\
+	\hline
+	2 & 0 & 3 & 3 & 2 & 0 & 1 & 0 & 0 & 0 & 6 & 20.00\\
+	\hline
+	3 & 1 & 1 & 0 & 8 & 2 & 2 & 0 & 0 & 0 & 1 & 53.33\\
+	\hline
+	4 & 3 & 4 & 0 & 7 & 1 & 0 & 0 & 0 & 0 & 0 & 6.66\\
+	\hline
+	5 & 0 & 1 & 2 & 0 & 0 & 7 & 3 & 0 & 2 & 0 & 46.66\\
+	\hline
+	6 & 1 & 2 & 2 & 0 & 0 & 2 & 8 & 0 & 0 & 0 & 53.33\\
+	\hline
+	7 & 1 & 5 & 2 & 2 & 0 & 1 & 1 & 0 & 0 & 3 & 0.00\\
+	\hline
+	8 & 1 & 3 & 0 & 4 & 1 & 1 & 3 & 0 & 0 & 2 & 0.00\\
+	\hline
+	9 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 13 & 86.66\\    
+    \hline
+  \end{tabular}
+\end{table}
+
 \section{Wnioski}
 
-
-
+Wyniki dla bazy MNIST przy użyciu jedynie 8 cech są zadowalające. Dodatkowo czasy przetwarzania 10 000 elementów są relatywnie krótkie. Parametr $k$ nie wpływa w naszej implementacji na czas wykonania obliczeń - jedynie na jakość klasyfikacji. Tutaj warto zauważyć, że wraz ze wzrostem $k$ klasyfikator zwracał większa liczbę poprawnych wyników, aczkolwiek wynik najlepszy osiągnęliśmy przy $k=11$: $78.58\%$. Zwiększając coraz bardziej $k$ wynik staje się tylko gorszy. Wybór oraz zdefiniowanie odpowiedniego zestawu cech jest kluczowy przy tym rodzaju klasyfikacji. Mając jednak ich w tym przypadku 8 bardzo ciężko jest wybrać te, które wpłyną na osiągnięcie najlepszego wyniku. Postanowiliśmy sprawdzić to porównując różne zestawy: złożone z najlepszych statystycznie cech oraz tych najgorszych. Możemy powiedzieć, że jeśli istnieje jakiś związek między cechami, a końcową jakością klasyfikacji to będzie to raczej ilość użytych cech, niż fakt użycia najlepszych statystycznie (tu: uzyskujących najlepsze wyniki przy skorzystaniu tylko z jednej cechy). Analizując macierz pomyłek możemy zauważyć, że klasyfikator najlepiej sobie poradził z cyframi 1, 0 i 6 uzyskując wynik ponad $92\%$ dla każdej. Powyżej $70\%$ były kolejno 9, 7, 4, 8 oraz 3. Najgorzej wypadło rozpoznawanie cyfr 2 i 5 (poniżej $65\%$). Warto zauważyć, że najczęściej błędnie były klasyfikowane jako cyfra 3. Możliwe, że przez podobieństwo górnej połowy (do cyfry 2) oraz dolnej (do cyfry 5).
 
 \end{document}
