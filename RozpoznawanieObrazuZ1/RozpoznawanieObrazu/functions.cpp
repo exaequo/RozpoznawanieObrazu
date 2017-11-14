@@ -326,7 +326,7 @@ float distanceCenter(pointerFunctionType data)
 			}
 		}
 	}
-	return result;
+	return result / extractWhitePixelsCount(data);
 }
 
 float heightWidthRatio(pointerFunctionType data)

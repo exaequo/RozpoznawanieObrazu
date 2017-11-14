@@ -82,33 +82,73 @@ void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator s
 
 	for (auto i = start; i < end; ++i)
 	{
-
-		std::sort(trainingSetCopy.begin(), trainingSetCopy.end(), //sort the training vector
-			[&](const ClassifableObject* a, const ClassifableObject* b) -> bool {
-			//true if the first element should go before the second
-			if (b->getNumberOfAttributes() > 0) { return metric((*i), *a) < metric((*i), *b); }
-			return false;
-		});
-
-		std::map<int, int> counts{}; //create a map; first: class, second: quantitity
-		std::vector<std::pair<int, int> >countsVec{}; //create a vector of pairs same as map
-
-		for (int j = 0; j < k; ++j)
+		if (log2(trainingSet->size()) < k)
 		{
-			++counts[trainingSetCopy.at(j)->getClass()]; //create needed positions in map
+			std::sort(trainingSetCopy.begin(), trainingSetCopy.end(), //sort the training vector
+				[&](const ClassifableObject* a, const ClassifableObject* b) -> bool {
+				//true if the first element should go before the second
+				if (b->getNumberOfAttributes() > 0) { return metric((*i), *a) < metric((*i), *b); }
+				return false;
+			});
+
+			std::map<int, int> counts{}; //create a map; first: class, second: quantitity
+			std::vector<std::pair<int, int> >countsVec{}; //create a vector of pairs same as map
+
+			for (int j = 0; j < k; ++j)
+			{
+				++counts[trainingSetCopy.at(j)->getClass()]; //create needed positions in map
+			}
+			for (auto elem : counts)
+			{
+				countsVec.push_back({ elem.first, elem.second });//transfer information to vector
+			}
+
+			std::sort(countsVec.begin(), countsVec.end(), //sort vector over quantity
+				[&](std::pair<int, int> &l, std::pair<int, int> &r)->bool {
+				return l.second > r.second;
+			});
+
+
+			(*i).predictClass(countsVec[0].first);//first in first elem in vector is the one with largest quantity
 		}
-		for (auto elem : counts)
+		else
 		{
-			countsVec.push_back({ elem.first, elem.second });//transfer information to vector
+			std::map<int, int> counts{}; //create a map; first: class, second: quantitity
+			std::vector<std::pair<int, int> >countsVec{}; //create a vector of pairs same as map
+
+						
+			for (int kIter = 0; kIter < k; ++kIter)
+			{
+				float dist = (std::numeric_limits<float>::max)();
+				ClassifableObject* obj = trainingSetCopy[0];
+
+				for (int iter = 0; iter < trainingSetCopy.size(); ++iter)
+				{
+					float tmpDist = metric((*i), *trainingSetCopy.at(iter));
+					if (tmpDist < dist)
+					{
+						dist = tmpDist;
+						obj = trainingSetCopy.at(iter);
+					}
+				}
+				++counts[obj->getClass()];
+			}
+
+			for (auto elem : counts)
+			{
+				countsVec.push_back({ elem.first, elem.second });//transfer information to vector
+			}
+
+			std::sort(countsVec.begin(), countsVec.end(), //sort vector over quantity
+				[&](std::pair<int, int> &l, std::pair<int, int> &r)->bool {
+				return l.second > r.second;
+			});
+
+			(*i).predictClass(countsVec[0].first);
+			//(*i).predictClass(obj->getClass());
 		}
 
-		std::sort(countsVec.begin(), countsVec.end(), //sort vector over quantity
-			[&](std::pair<int, int> &l, std::pair<int, int> &r)->bool {
-			return l.second > r.second;
-		});
-
-
-		(*i).predictClass(countsVec[0].first);//first in first elem in vector is the one with largest quantity
+		
 		
 	}
 	std::cout << "THREAD FINISHED\n";
