@@ -1,17 +1,17 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.3.27)  14 NOV 2017 01:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2016.12.28)  14 NOV 2017 10:59
 entering extended mode
 **./sprawozdanie.tex
 (sprawozdanie.tex
-LaTeX2e <2017/01/01> patch level 1
+LaTeX2e <2016/03/31> patch level 3
 Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
 (classrep.cls
 Document Class: classrep 2009/11/27 ICS Class Assignment Report
-(C:\Users\Artur\AppData\Roaming\MiKTeX\2.9\tex\latex\mwcls\mwart.cls
+(D:\Programy\MIKTEX\tex\latex\mwcls\mwart.cls
 Document Class: mwart 2009/09/27 v0.74 A LaTeX document class (MW)
 *** Beta version. Formatting may change
 *** in future versions of this class.
 \l@nohyphenation=\language75
-(C:\Users\Artur\AppData\Roaming\MiKTeX\2.9\tex\latex\mwcls\mw12.clo
+(D:\Programy\MIKTEX\tex\latex\mwcls\mw12.clo
 File: mw12.clo 2009/09/27 v0.74 A document class size option (MW)
 )
 \@parindent=\dimen102
@@ -27,30 +27,30 @@ File: mw12.clo 2009/09/27 v0.74 A document class size option (MW)
 \belowcaptionskip=\skip42
 \bibindent=\dimen103
 )
-(C:\Users\Artur\AppData\Roaming\MiKTeX\2.9\tex\latex\polski\polski.sty
+(D:\Programy\MIKTEX\tex\latex\polski\polski.sty
 Package: polski 2008/02/24 v1.3.3 Polish language package
 
 Document language package `polski' v1.3.3 <2008/02/24>
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ot4enc.def"
-File: ot4enc.def 2017/01/24 v2.0c Standard LaTeX file
+(D:\Programy\MIKTEX\tex\latex\base\ot4enc.def
+File: ot4enc.def 2016/06/19 v1.99m Standard LaTeX file
 ))
-(C:\Users\Artur\AppData\Roaming\MiKTeX\2.9\tex\latex\url\url.sty
+(D:\Programy\MIKTEX\tex\latex\url\url.sty
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\inputenc.sty"
+(D:\Programy\MIKTEX\tex\latex\base\inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
+(D:\Programy\MIKTEX\tex\latex\base\utf8.def
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
+(D:\Programy\MIKTEX\tex\latex\base\t1enc.dfu
 File: t1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
@@ -287,7 +287,7 @@ File: t1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
+(D:\Programy\MIKTEX\tex\latex\base\ot1enc.dfu
 File: ot1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
@@ -328,7 +328,7 @@ File: ot1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
 Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
+(D:\Programy\MIKTEX\tex\latex\base\omsenc.dfu
 File: omsenc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00B6 (decimal 182)
@@ -354,39 +354,39 @@ Now handling font encoding OT4 ...
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
+(D:\Programy\MIKTEX\tex\latex\graphics\color.sty
 Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
+(D:\Programy\MIKTEX\tex\latex\graphics-cfg\color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
-File: pdftex.def 2017/01/12 v0.06k Graphics/color for pdfTeX
+(D:\Programy\MIKTEX\tex\latex\graphics-def\pdftex.def
+File: pdftex.def 2016/07/10 v0.06j Graphics/color for pdfTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+(D:\Programy\MIKTEX\tex\generic\oberdiek\infwarerr.sty
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+(D:\Programy\MIKTEX\tex\generic\oberdiek\ltxcmds.sty
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count87
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+(D:\Programy\MIKTEX\tex\latex\graphics\graphicx.sty
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+(D:\Programy\MIKTEX\tex\latex\graphics\keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
-Package: graphics 2016/10/09 v1.0u Standard LaTeX Graphics (DPC,SPQR)
+(D:\Programy\MIKTEX\tex\latex\graphics\graphics.sty
+Package: graphics 2016/07/10 v1.0t Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+(D:\Programy\MIKTEX\tex\latex\graphics\trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+(D:\Programy\MIKTEX\tex\latex\graphics-cfg\graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
@@ -394,7 +394,7 @@ Package graphics Info: Driver file: pdftex.def on input line 99.
 \Gin@req@height=\dimen104
 \Gin@req@width=\dimen105
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\float\float.sty"
+(D:\Programy\MIKTEX\tex\latex\float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count88
 \float@exts=\toks17
@@ -431,12 +431,12 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
 LaTeX Font Info:    ... okay on input line 25.
 LaTeX Font Info:    Checking defaults for OT4/cmr/m/n on input line 25.
 LaTeX Font Info:    Try loading font information for OT4+cmr on input line 25.
- (C:\Users\Artur\AppData\Roaming\MiKTeX\2.9\tex\latex\polski\ot4cmr.fd
+ (D:\Programy\MIKTEX\tex\latex\polski\ot4cmr.fd
 File: ot4cmr.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
 LaTeX Font Info:    ... okay on input line 25.
 
-(C:\Users\Artur\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+(D:\Programy\MIKTEX\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count89
 \scratchdimen=\dimen106
@@ -449,15 +449,15 @@ LaTeX Font Info:    ... okay on input line 25.
 \MPnumerator=\count93
 \makeMPintoPDFobject=\count94
 \everyMPtoPDFconversion=\toks20
-) ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
+) (D:\Programy\MIKTEX\tex\generic\oberdiek\pdftexcmds.sty
 Package: pdftexcmds 2016/05/21 v0.22 Utility functions of pdfTeX for LuaTeX (HO
 )
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
+(D:\Programy\MIKTEX\tex\generic\oberdiek\ifluatex.sty
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+(D:\Programy\MIKTEX\tex\generic\oberdiek\ifpdf.sty
 Package: ifpdf 2016/05/14 v3.1 Provides the ifpdf switch
 )
 Package pdftexcmds Info: LuaTeX not detected.
@@ -465,22 +465,22 @@ Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+(D:\Programy\MIKTEX\tex\latex\oberdiek\epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+(D:\Programy\MIKTEX\tex\latex\oberdiek\grfext.sty
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
+(D:\Programy\MIKTEX\tex\generic\oberdiek\kvdefinekeys.sty
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+(D:\Programy\MIKTEX\tex\latex\oberdiek\kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
+(D:\Programy\MIKTEX\tex\generic\oberdiek\kvsetkeys.sty
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
+(D:\Programy\MIKTEX\tex\generic\oberdiek\etexcmds.sty
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
@@ -511,12 +511,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 26--26
 
 LaTeX Font Info:    Try loading font information for OT4+cmtt on input line 26.
 
-(C:\Users\Artur\AppData\Roaming\MiKTeX\2.9\tex\latex\polski\ot4cmtt.fd
+(D:\Programy\MIKTEX\tex\latex\polski\ot4cmtt.fd
 File: ot4cmtt.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
-)
-[1
+) [1
 
-{C:/Users/Artur/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 76.
 
@@ -549,34 +548,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 183--184
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[4] [5] (sprawozdanie.aux)
+[4] [5] [6] (sprawozdanie.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
  2353 strings out of 493333
- 31219 string characters out of 3139194
- 108266 words of memory out of 3000000
+ 30271 string characters out of 3143080
+ 108180 words of memory out of 3000000
  5846 multiletter control sequences out of 15000+200000
  11436 words of font info for 35 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,8n,26p,1579b,287s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/Artur/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/pl/plrm.enc}<C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Fi
-les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb><C:/Users/Artur/AppData/Roaming/MiKTeX/2.9/fonts/type1/pub
-lic/pl/plbx12.pfb><C:/Users/Artur/AppData/Roaming/MiKTeX/2.9/fonts/type1/public
-/pl/plr10.pfb><C:/Users/Artur/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/pl/
-plr12.pfb><C:/Users/Artur/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/pl/plr1
-7.pfb><C:/Users/Artur/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/pl/plsl12.p
-fb>
-Output written on sprawozdanie.pdf (5 pages, 122950 bytes).
+ 40i,8n,26p,1579b,287s stack positions out of 5000i,500n,10000p,200000b,50000s
+{D:/Programy/MIKTEX/fonts/enc/dvips/pl/plrm.enc}<D:/Programy/MIKTEX/fonts/typ
+e1/public/amsfonts/cm/cmmi10.pfb><D:/Programy/MIKTEX/fonts/type1/public/amsfont
+s/cm/cmmi12.pfb><D:/Programy/MIKTEX/fonts/type1/public/amsfonts/cm/cmr10.pfb><D
+:/Programy/MIKTEX/fonts/type1/public/amsfonts/cm/cmr12.pfb><D:/Programy/MIKTEX/
+fonts/type1/public/amsfonts/cm/cmr8.pfb><D:/Programy/MIKTEX/fonts/type1/public/
+amsfonts/cm/cmsy10.pfb><D:/Programy/MIKTEX/fonts/type1/public/pl/plbx12.pfb><D:
+/Programy/MIKTEX/fonts/type1/public/pl/plr10.pfb><D:/Programy/MIKTEX/fonts/type
+1/public/pl/plr12.pfb><D:/Programy/MIKTEX/fonts/type1/public/pl/plr17.pfb><D:/P
+rogramy/MIKTEX/fonts/type1/public/pl/plsl12.pfb>
+Output written on sprawozdanie.pdf (6 pages, 124327 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
+ 66 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
