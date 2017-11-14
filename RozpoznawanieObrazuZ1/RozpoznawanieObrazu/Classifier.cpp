@@ -13,7 +13,7 @@ Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const 
 
 	this->trainingSet = &trainingSet; 
 	
-	attributeNormalizingValues = std::vector<float>(whichAttributesToExtract.size(), 1.f);
+	attributeNormalizingValues = std::vector<std::pair<float, float>>(whichAttributesToExtract.size(), { 0.f, 1.f });
 
 	normalizeTrainingSet();
 
@@ -123,28 +123,34 @@ void Classifier::normalizeObject(ClassifableObject & obj) const
 {
 	for (int i = 0; i < obj.size(); ++i)
 	{
-		obj[i] *= attributeNormalizingValues.at(i);
+		obj[i] = (obj[i] - attributeNormalizingValues.at(i).first) / (attributeNormalizingValues.at(i).second - attributeNormalizingValues.at(i).first);
 	}
 }
 
 void Classifier::normalizeTrainingSet()//normalizes to range 0 - 1
 {
-	std::vector<float> maxValues( attributesToExtract.size(), (std::numeric_limits<float>::min)() );
+	std::vector<std::pair<float, float>> values(attributesToExtract.size(), { (std::numeric_limits<float>::max)(), (std::numeric_limits<float>::min)() });
 
 	for (const auto &item : *trainingSet) //iterate over whole training set
 	{
 		for (int i = 0; i < attributesToExtract.size(); ++i) //iterate over attributes of each item
 		{
-			if (maxValues[i] < fabsf(item[i])) //if the value of an attribute is greater than the biggest one yet, it becomes new greatest value
+			if (values[i].first > item[i]) //if the value of an attribute is greater than the biggest one yet, it becomes new greatest value
 			{
-				maxValues[i] = fabsf(item[i]);
+				values[i].first = item[i];
+			}
+
+			if (values[i].second < item[i])
+			{
+				values[i].second = item[i];
 			}
 		}
 	}
 
 	for (int i = 0; i < attributeNormalizingValues.size(); ++i) //iterate over attributeNormalizing vector
 	{
-		attributeNormalizingValues[i] = 1.f / (maxValues[i]); //change values at the vector to inverse of max values in the training set
+		attributeNormalizingValues[i].first = values[i].first; //change values at the vector to inverse of max values in the training set
+		attributeNormalizingValues[i].second = values[i].second;
 	}
 
 	for (auto &item : *trainingSet)//iterate over whole training set again to normalize

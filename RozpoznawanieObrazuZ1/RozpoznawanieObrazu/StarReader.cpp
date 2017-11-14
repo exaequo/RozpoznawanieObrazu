@@ -57,13 +57,13 @@ void StarReader::addDataToSetFromFile(dataVector & data, std::vector<unsigned ch
 
 std::vector<std::string> StarReader::getAllFilesNamesWithinFolder(const std::string & folder) const
 {
-	//std::vector<std::string> result{};
-	//for (auto & p : fs::recursive_directory_iterator(folder))
-	//{
-	//	result.push_back(p.path().filename().string());
-	//	
-	//}
-	//return result;
+	std::vector<std::string> result{};
+	for (auto & p : fs::recursive_directory_iterator(folder))
+	{
+		result.push_back(p.path().filename().string());
+		
+	}
+	return result;
 }
 
 using namespace cv;

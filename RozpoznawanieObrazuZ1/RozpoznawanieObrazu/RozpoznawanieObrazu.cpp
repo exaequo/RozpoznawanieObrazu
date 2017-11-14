@@ -5,163 +5,168 @@
 #include <iostream>
 #include <chrono>
 
+void printSuccess(Classifier& classifier)
+{
+	int count = 0;
+	for (auto& test : classifier.getTestSet())
+	{
+		//std::cout << test.toOutputFormat() << std::endl;
+		count += test.getSuccessIdentifier();
+	}
+	std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) << "\n";
+
+	Statistics::getInstance().printMistakesMatrix(std::cout);
+}
+
 int main()
 {
+	//std::vector<std::string> att;
+	//std::vector<ClassifableObject> data{};
+	//Extractor extr{};
 
+	//char choice = -1;
+	//std::string filename{};
 
-	//just a simple example how to read digits from database and display them in terminal
-	//you can wrap it if you want to
-
-	std::string MNIST_DATA_LOCATION = "mnist/";				//it will be easier if i just push the files on repo
-	std::cout << "MNIST data directory: " << MNIST_DATA_LOCATION << std::endl;
-
-	mnist::MNIST_dataset<std::vector, std::vector<uint8_t>, uint8_t> dataset = 
-		mnist::read_dataset<std::vector, std::vector, uint8_t, uint8_t>(MNIST_DATA_LOCATION);
-
-	std::cout << "MNIST LOADED\n";
-
-	//std::cout << "Nbr of training images (train-images-idx3-ubyte) = " << dataset.training_images.size() << std::endl;	//this time we only use this
-	//std::cout << "Nbr of training labels (train-labels-idx1-ubyte) = " << dataset.training_labels.size() << std::endl;	//and this
-	/*std::cout << "Nbr of test images (t10k-images-idx3-ubyte) = " << dataset.test_images.size() << std::endl;
-	std::cout << "Nbr of test labels (t10k-labels-idx1-ubyte) = " << dataset.test_labels.size() << std::endl;*/
-	//int k = 0;
-	//std::cout << "Which element do you want to see?\n Write number and press ENTER.\n";
-	//std::cin >> k;
-	//std::cout << "An raw cout is presented below." << std::endl;
-	//while (k != -1) {
-	//	for (int i = 0; i < 28; i++)				//size of every image is 28
-	//	{
-	//		for (int j = 0; j < 28; j++)			//by 28
-	//		{
-	//			//it's needed for proper display digits in terminal (but the dataset is correct)
-	//			if ((int)dataset.training_images.at(k).at(i * 28 + j) != 10 &&	//ASCII code for new line (we don't want extra new line in digit!)
-	//				(int)dataset.training_images.at(k).at(i * 28 + j) != 13 &&	//ASCII code for carriage return (part of digit is at the beggining of a line!)
-	//					(int)dataset.training_images.at(k).at(i * 28 + j) != 9) //ASCII code for horizontal tab (it's just get messy!)
-	//			{
-	//				std::cout << dataset.training_images.at(k).at(i * 28 + j);		//yep, it is a struct of vectors of vectors, but it works fast
-	//				//to get a 0-255 pixel value just cast to int (do we even need it?)
-	//			}
-	//			else
-	//			{
-	//				std::cout << (unsigned char)0;			//it's better to display nothing than some ASCII garbage		
-	//			}
-	//		}									
-	//		std::cout << std::endl;
-	//	}
-	//	std::cout << "There is a " << (int)dataset.training_labels.at(k) << " on selected image." << std::endl;
-	//	std::cout << "Which element do you want to see?\n Write number and press ENTER.\n If you want to finish write -1.\n";
-	//	std::cin >> k;
-	//}
-
-		
-	std::vector<ClassifableObject> data{};
-//	std::vector<std::string> att = FunctionStruct::getDefaultAttributesList();		
-	std::vector<std::string> starAtt = FunctionStruct::getStarAttributeList();
-	
-	StarReader starDataset{ "STaR_database/train", "STaR_database/test" };
-
-	//for (int i = 0; i < 256; ++i)
+	//std::cout << "EXTRACTOR:\n\n ";
+	//std::cout << "Choose:\n" <<
+	//	"(1) MNIST\n" <<
+	//	"(2) STAR\n";
+	//
+	//while (choice != '1' && choice != '2')
 	//{
-	//	for (int j = 0; j < 256; ++j)
-	//	{
-	//		std::cout << starDataset.trainingSet.at(0).at(i * 256 + j);
-	//	}
-	//	std::cout << std::endl;
+	//	choice = std::cin.get();	
 	//}
-	
-	std::cout << "DONE STAR PROCESSING\n";
-	std::cout << "training data " << starDataset.trainingSet.size() << ", lab: " << starDataset.trainingLabels.size() << ", first data size: " <<starDataset.trainingSet[0].size() << "\n";
-	std::cout << "test data " << starDataset.testSet.size() << ", lab: " << starDataset.testLabels.size() << ", first data size: " << starDataset.testSet[1].size() << "\n";
+	//std::cin.get();
+	//std::cout << "\nfilename:\n";
+	//std::cin >> filename;
 
+	//std::cout << "\nCHOSEN_FILENAME: " << filename << "\n";
+
+	//auto startClock = std::chrono::steady_clock::now();
+	//FileSaver sav{ filename };
+
+	//if (choice == '1')	// MNIST
+	//{
+	//	std::cout << "MNIST PROCESSING...\n";
+	//	att = FunctionStruct::getDefaultAttributesList();
+
+	//	std::string MNIST_DATA_LOCATION = "mnist/";				
+	//	std::cout << "MNIST data directory: " << MNIST_DATA_LOCATION << std::endl;
+
+	//	mnist::MNIST_dataset<std::vector, std::vector<uint8_t>, uint8_t> dataset =
+	//		mnist::read_dataset<std::vector, std::vector, uint8_t, uint8_t>(MNIST_DATA_LOCATION);
+
+	//	std::cout << "MNIST LOADED\n";
+
+
+	//	extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
+	//	sav.saveToFile(extr.getObjects(), att);
+
+	//}
+	//else				//STAR
+	//{
+	//	std::cout << "STAR PROCESSING...\n";
+	//	att = FunctionStruct::getStarAttributeList();
+
+	//	StarReader starDataset{ "STaR_database/train", "STaR_database/test" };
+
+	//	std::cout << "DONE STAR PROCESSING\n";
+
+	//	extr.extractAttributes(starDataset.trainingSet, starDataset.trainingLabels, att);
+	//	sav.saveToFile(extr.getObjects(), att);
+
+	//}
+	//auto endClock = std::chrono::steady_clock::now();
+	//std::cout << "SAVED to "<<filename<<" in ["<< std::chrono::duration <double, std::milli>(endClock - startClock).count() <<"ms]\n";
+
+	
+	std::vector<std::string> att;
+	std::vector<ClassifableObject> data{};
+	Extractor extr{};
+
+	char choice = -1;
+	int k = 1;
+	std::string filename{};
+
+	std::cout << "CLASSIFIER:\n\n ";
+	std::cout << "Choose:\n" <<
+		"(1) MNIST\n" <<
+		"(2) STAR\n";
+
+	while (choice != '1' && choice != '2')
+	{
+		choice = std::cin.get();
+	}
+	std::cout << "\nk: ";
+	std::cin >> k;
+	std::cout << "\nChosen k: " <<k<<" \n";
+
+	std::cin.get();
+	std::cout << "\nfilename:\n";
+	std::cin >> filename;
+
+	std::cout << "\nCHOSEN_FILENAME: " << filename << "\n";
 
 	auto startClock = std::chrono::steady_clock::now();
-	if (true)
+	FileSaver sav{ filename };
+
+	sav.loadFromFile(data, att);
+
+	if (choice == '1')	// MNIST
 	{
-		//______________________________________________________________________________________________________________________________________________TESTY DLA MINST
-		/*FileSaver sav{ "file.txt" };*/
-		//
+		Classifier classifier{ data, att, 10 };
+		std::cout << "MNIST PROCESSING...\n";
+		att = FunctionStruct::getDefaultAttributesList();
 
-		//// ----------- TO SAVE A FILE ---------------------
-		//Extractor extr{};
+		std::string MNIST_DATA_LOCATION = "mnist/";				
+		std::cout << "MNIST data directory: " << MNIST_DATA_LOCATION << std::endl;
 
-		//extr.extractAttributes(dataset.training_images, dataset.training_labels, att);
-		//sav.saveToFile(extr.getObjects(), att);
-		//std::cout << "SAVED\n";
+		mnist::MNIST_dataset<std::vector, std::vector<uint8_t>, uint8_t> dataset =
+			mnist::read_dataset<std::vector, std::vector, uint8_t, uint8_t>(MNIST_DATA_LOCATION);
 
-		////-------------END FILE SAVE ----------------------
-		//
+		std::cout << "MNIST LOADED\n";
 
-		////-------------TO LOAD A FILE----------------------
-		//sav.loadFromFile(data, att);
+		int size = dataset.test_images.size();
 
-		//int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 10000;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
-
-		//Classifier classifier{ data, att, 10 };
-		//dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
-		//std::vector<unsigned char> lab{ dataset.test_labels.begin(), dataset.test_labels.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur};
-		//classifier.computeTestSet(imag, lab);
-
-		//
-
-		//classifier.knn(19, 32);
-
-		//int count = 0;
-		//for (auto& test : classifier.getTestSet())
-		//{
-		//	//std::cout << test.toOutputFormat() << std::endl;
-		//	count += test.getSuccessIdentifier();
-		//}
-		//std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) <<"\n";
-
-		//______________________________________________________________________________________________________________________________________________TESTY DLA STAR
-		FileSaver sav{ "file2.txt" };
-
-
-		// ----------- TO SAVE A FILE ---------------------
-		//Extractor extr{};
-
-		//extr.extractAttributes(starDataset.trainingSet, starDataset.trainingLabels, starAtt);
-		//sav.saveToFile(extr.getObjects(), starAtt);
-		//std::cout << "SAVED\n";
-		
-		//-------------END FILE SAVE ----------------------
-
-
-		//-------------TO LOAD A FILE----------------------
-		sav.loadFromFile(data, starAtt);
-
-		int toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur = 150;//tak nazwalem zmienna odpowiedzialna za liczbe cyferek w mainie
-
-		Classifier classifier{ data, starAtt, 10 };
-		dataVector imag = dataVector{ starDataset.testSet.begin(), starDataset.testSet.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur };
-		std::vector<unsigned char> lab{ starDataset.testLabels.begin(), starDataset.testLabels.begin() + toTaZmiennaOdpowiedzialnaJestZaLiczbeCyferekArtur};
+		dataVector imag = dataVector{ dataset.test_images.begin(), dataset.test_images.begin() + size };
+		std::vector<unsigned char> lab{ dataset.test_labels.begin(), dataset.test_labels.begin() + size };
 		classifier.computeTestSet(imag, lab);
 
-		classifier.knn(15, 1);
 
-		int count = 0;
-		for (auto& test : classifier.getTestSet())
-		{
-			std::cout << test.toOutputFormat() << std::endl;
-			count += test.getSuccessIdentifier();
-		}
-		std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) <<"\n";
+		classifier.knn(k, 8);
 
-
-		//------------END FILE LOAD-------------------------
+		printSuccess(classifier);
 	}
-	auto endClock = std::chrono::steady_clock::now();
-	
-	std::cout << "\nMistakes matrix:\n";
-	Statistics::getInstance().printMistakesMatrix(std::cout);
-
-	std::cout << "\nDONE, tajm: "<< std::chrono::duration <double, std::milli>(endClock - startClock).count() <<"ms\n";
-
-	/*for (int i = 0; i < 100; ++i)
+	else				//STAR
 	{
-		std::cout << "DATA " << i << ": " << data[i].toFileFormat() << "\n";
+		std::cout << "STAR DATASET PROCESSING...\n";
+		att = FunctionStruct::getStarAttributeList();
+
+		StarReader starDataset{ "STaR_database/train", "STaR_database/test" };
+
+		std::cout << "DONE STAR PROCESSING\n";
+
+		sav.loadFromFile(data, att);
+
+		int size = starDataset.testSet.size();
+
+		Classifier classifier{ data, att, 10 };
+		dataVector imag = dataVector{ starDataset.testSet.begin(), starDataset.testSet.begin() + size };
+		std::vector<unsigned char> lab{ starDataset.testLabels.begin(), starDataset.testLabels.begin() + size };
+		classifier.computeTestSet(imag, lab);
+
+		classifier.knn(k, 8);
+
+		printSuccess(classifier);
 	}
-	*/
+	
+
+	
+
+	auto endClock = std::chrono::steady_clock::now();
+	std::cout << "SAVED to " << filename << " in [" << std::chrono::duration <double, std::milli>(endClock - startClock).count() << "ms]\n";
+	
+
 	system("pause");
 	return 0;
 }

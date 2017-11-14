@@ -30,7 +30,7 @@ private:
 	void normalizeTrainingSet();
 
 	/*To be used with attributes on every object in test set*/
-	std::vector<float> attributeNormalizingValues;
+	std::vector<std::pair<float,float>> attributeNormalizingValues;
 
 	/*computes distance between two objects*/
 	float metric(const class ClassifableObject& first, const class ClassifableObject& second) const;
