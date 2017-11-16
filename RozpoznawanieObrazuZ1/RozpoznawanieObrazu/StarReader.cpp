@@ -71,15 +71,14 @@ using namespace cv;
 std::vector<unsigned char> StarReader::getDataVectorFromPngFile(const std::string & filename) const
 {
 	std::vector<unsigned char> result{};
-
 	Mat src = imread(filename, 1);
-	
 	Mat dst = src.clone();
-	int MAX_KERNEL_LENGTH = 7;
-	GaussianBlur(src, dst, Size(MAX_KERNEL_LENGTH, MAX_KERNEL_LENGTH), 3, 3);
-	MAX_KERNEL_LENGTH = 31;
-	bilateralFilter(dst, src, MAX_KERNEL_LENGTH, MAX_KERNEL_LENGTH * 2, MAX_KERNEL_LENGTH / 2);
-	//src = dst.clone();
+
+	int MAX_KERNEL_LENGTH = 15;
+	GaussianBlur(src, dst, Size(MAX_KERNEL_LENGTH, MAX_KERNEL_LENGTH), 15, 15);
+	//MAX_KERNEL_LENGTH = 31;
+	//bilateralFilter(dst, src, MAX_KERNEL_LENGTH, MAX_KERNEL_LENGTH * 2, MAX_KERNEL_LENGTH / 2);
+	src = dst.clone();
 	Mat samples(src.rows * src.cols, 3, CV_32F);
 	for (int y = 0; y < src.rows; y++)
 		for (int x = 0; x < src.cols; x++)
@@ -101,7 +100,6 @@ std::vector<unsigned char> StarReader::getDataVectorFromPngFile(const std::strin
 		{
 			int cluster_idx = labels.at<int>(y + x * dst.rows, 0);
 			avg += centers.at<float>(cluster_idx, 0);
-			//result.push_back(centers.at<float>(cluster_idx, 0));
 			src.at<Vec3b>(y, x)[0] = centers.at<float>(cluster_idx, 0);
 			src.at<Vec3b>(y, x)[1] = centers.at<float>(cluster_idx, 1);
 			src.at<Vec3b>(y, x)[2] = centers.at<float>(cluster_idx, 2);
@@ -109,42 +107,16 @@ std::vector<unsigned char> StarReader::getDataVectorFromPngFile(const std::strin
 	}
 
 	avg /= (src.rows * src.cols);
+	threshold(src, dst, avg, 255, THRESH_BINARY_INV);
 
-	threshold(src, dst, avg, 255, THRESH_BINARY);
-
-	//dst = src.clone();
-
-	//imshow("test", dst);
-	//waitKey(0);
 
 	for (int y = 0; y < dst.rows; y++)
 	{
 		for (int x = 0; x < dst.cols; x++)
 		{
-			//std::cout << dst.at<Vec3b>(y, x)[0];
 			result.push_back(dst.at<Vec3b>(y, x)[0]);
 		}
 	}
-
-	//waitKey(0);
-
-	//std::vector<unsigned char> image; //the raw pixels
-	//unsigned width, height;
-
-	//decode
-	//std::cout << "filename: " << filename << std::endl;
-	//unsigned error = lodepng::decode(image, width, height, filename);
-
-	//if there's an error, display it
-	//if (error) std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
-
-	//the pixels are now in the vector "image", 4 bytes per pixel, ordered RGBARGBA
-
-	//we only need first of this RGBA sequence so i+=4
-	//for (int i = 0; i < image.size(); i += 4)
-	//{
-	//	result.push_back(image.at(i));
-	//}
 
 	return result;
 }

@@ -5,17 +5,8 @@
 typedef const std::vector<unsigned char> & pointerFunctionType;
 
 //helpers
-float M_ij(pointerFunctionType data, int i, int j);
-float mi_ij(pointerFunctionType data, int i, int j);
-float eta_ij(pointerFunctionType data, int i, int j);
-float m_p(pointerFunctionType data, int p, float x_avg, float y_avg);
-float mi_p(pointerFunctionType data, int p, float x_avg, float y_avg);
-float Hu(pointerFunctionType data);
-std::vector<unsigned char> linearFilter(pointerFunctionType data);
+float Hu(pointerFunctionType data, int);
 void normalize(int newMin, int newMax, std::vector<float> &list, float max = -INFINITY, float min = INFINITY);
-
-
-std::vector<unsigned char> test(pointerFunctionType data);
 
 //CONTAINS all functions to be used for computing attributes
 
@@ -47,10 +38,6 @@ float centerHeight(pointerFunctionType data);
 float distanceCenter(pointerFunctionType data);
 /*is digit higher or wider? basd on centerWidth and centerHeight*/
 float heightWidthRatio(pointerFunctionType data);
-/*extracts data from whole image 28x28 and coverts it to float*/
-float extractWholeImage(pointerFunctionType data);
-/*extracts data from whole image 28x28 and coverts it to float but starts from the end of vector*/
-float extractWholeImageInverse(pointerFunctionType data);
 
 float I_1(pointerFunctionType data);
 float I_2(pointerFunctionType data);
@@ -59,11 +46,6 @@ float I_4(pointerFunctionType data);
 float I_5(pointerFunctionType data);
 float I_6(pointerFunctionType data);
 float I_7(pointerFunctionType data);
-float angle(pointerFunctionType data);
-
-float F_1(pointerFunctionType data);
-float F_2(pointerFunctionType data);
-float F_3(pointerFunctionType data);
 
 struct FunctionStruct {//because it somehow doesnt work without bewing in some sort of class, for now we'll leave it at that
 	/*Vector of functions to be used for computing of attributes*/
@@ -81,8 +63,6 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{"centerWidth", &centerWidth},
 		{"centerHeight", &centerHeight},
 		{"distanceCenter", &distanceCenter},
-		{"wholeImage", &extractWholeImage},
-		{"wholeImageInv", &extractWholeImageInverse},
 		{"heightWidthRatio", &heightWidthRatio},
 		{"I_1", &I_1},
 		{"I_2", &I_2},
@@ -90,11 +70,7 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{"I_4", &I_4},
 		{"I_5", &I_5},
 		{"I_6", &I_6},
-		{"I_7", &I_7},
-		{"angle", &angle},
-		{"F_1", &F_1},
-		{"F_2", &F_2},
-		{"F_3", &F_3}
+		{"I_7", &I_7}
 	};
 
 	static std::vector<std::string> getDefaultAttributesList() {
@@ -102,8 +78,6 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 			"leftSideShape", "rightSideShape",
 			"topShape", "bottomShape",
 			"distanceCenter", "heightWidthRatio"};
-		/*, "wholeImage", "wholeImageInv"
-	};*/
 	};
 
 	static std::vector<std::string> getStarAttributeList() {
