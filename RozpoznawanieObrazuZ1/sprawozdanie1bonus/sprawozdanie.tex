@@ -1,0 +1,165 @@
+% vim:encoding=utf8 ft=tex sts=2 sw=2 et:
+
+\documentclass{classrepshort}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+
+\studycycle{Informatyka, studia dzienne, mgr II st.}
+\coursesemester{II}
+
+\coursename{Rozpoznawanie obrazów}
+\courseyear{2016/2017}
+
+\courseteacher{dr inż. Bartłomiej Stasiak}
+\coursegroup{wtorek, 12:00}
+
+\author{
+  \studentinfo{Hubert Marcinkowski}{214942} \and
+  \studentinfo{Artur Wróblewski}{214985}
+}
+
+\title{Zadanie 1}
+
+\begin{document}
+\maketitle
+
+\section{MNIST}
+
+\subsection{Wyniki}
+\begin{table}[h!]
+  \centering
+  \caption{Wyniki jakości klasyfikacji oraz czasu obliczeń k-NN dla bazy MNIST dla różnych wartości $k$}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|}
+    \hline
+	k & jakość & czas[s]\\
+    \hline
+	1 & 75.89 & 3.024\\
+    \hline
+	3 & 78.26 & 7.410\\
+	\hline
+	5 & 79.59 & 11.446\\
+	\hline
+	7 & 80.25 & 15.924\\
+	\hline
+	9 & 80.73 & 19.927\\
+	\hline
+	11 & 80.47 & 24.083\\
+	\hline
+	13 & 80.67 & 28.342\\
+	\hline
+	15 & 80.58 & 32.804\\
+	\hline
+	19 & 80.55 & 42.011\\
+	\hline
+	51 & 79.968 & 111.047\\
+	\hline
+	53 & 79.60 & 113.578\\
+	\hline
+	99 & 78.80 & 113.852\\
+	\hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{TO-DO Macierz pomyłek k-NN dla bazy MNIST dla wszystkich cech oraz $k=11$}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+	. & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & success ratio \\
+    \hline
+	0 & 925 & 0 & 15 & 3 & 11 & 1 & 3 & 0 & 18 & 4 & 94.38\\
+    \hline
+	1 & 0 & 1086 & 8 & 7 & 4 & 5 & 4 & 0 & 16 & 5 & 95.68\\
+	\hline
+	2 & 32 & 11 & 633 & 186 & 20 & 78 & 29 & 15 & 25 & 3 & 61.33\\
+	\hline
+	3 & 25 & 16 & 103 & 719 & 1 & 33 & 7 & 45 & 45 & 16 & 71.18\\
+	\hline
+	4 & 20 & 13 & 27 & 2 & 772 & 18 & 8 & 6 & 10 & 106 & 78.81\\
+	\hline
+	5 & 19 & 11 & 80 & 102 & 13 & 506 & 30 & 33 & 87 & 11 & 56.72\\
+	\hline
+	6 & 6 & 8 & 21 & 3 & 6 & 23 & 885 & 0 & 6 & 0 & 92.38\\
+	\hline
+	7 & 2 & 36 & 10 & 24 & 15 & 25 & 0 & 818 & 26 & 72 & 79.57\\
+	\hline
+	8 & 87 & 5 & 18 & 31 & 23 & 39 & 9 & 13 & 701 & 48 & 71.97\\
+	\hline
+	9 & 18 & 14 & 4 & 18 & 47 & 12 & 3 & 41 & 39 & 813 & 80.57\\    
+    \hline
+  \end{tabular}
+\end{table}
+
+\newpage
+
+\section{STaR}
+
+\subsection{Wyniki}
+
+\begin{table}[h!]
+  \centering
+  \caption{TO-DO Wyniki jakości klasyfikacji oraz czasu obliczeń k-NN dla bazy STaR dla różnych wartości $k$}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|}
+    \hline
+	k & jakość & czas[s]\\
+    \hline
+	1 & 74.00 & 13.170\\
+    \hline
+	3 & 28.66 & 4.333\\
+	\hline
+	5 & 30.66 & 4.248\\
+	\hline
+	7 & 32.00 & 4.247\\
+	\hline
+	9 & 34.00 & 4.274\\
+	\hline
+	11 & 34.66 & 4.338\\
+	\hline
+	13 & 32.66 & 4.431\\
+	\hline
+	15 & 29.33 & 4.257\\
+	\hline
+	31 & 29.33 & 4.279\\
+	\hline
+	99 & 24.00 & 4.248\\
+	\hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{TO-DO Macierz pomyłek k-NN dla bazy STaR dla wszystkich cech oraz $k=11$}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+	. & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & success ratio \\
+    \hline
+	0 & 4 & 5 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 3 & 26.67\\
+    \hline
+	1 & 1 & 8 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 5 & 53.33\\
+	\hline
+	2 & 0 & 3 & 3 & 2 & 0 & 1 & 0 & 0 & 0 & 6 & 20.00\\
+	\hline
+	3 & 1 & 1 & 0 & 8 & 2 & 2 & 0 & 0 & 0 & 1 & 53.33\\
+	\hline
+	4 & 3 & 4 & 0 & 7 & 1 & 0 & 0 & 0 & 0 & 0 & 6.66\\
+	\hline
+	5 & 0 & 1 & 2 & 0 & 0 & 7 & 3 & 0 & 2 & 0 & 46.66\\
+	\hline
+	6 & 1 & 2 & 2 & 0 & 0 & 2 & 8 & 0 & 0 & 0 & 53.33\\
+	\hline
+	7 & 1 & 5 & 2 & 2 & 0 & 1 & 1 & 0 & 0 & 3 & 0.00\\
+	\hline
+	8 & 1 & 3 & 0 & 4 & 1 & 1 & 3 & 0 & 0 & 2 & 0.00\\
+	\hline
+	9 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 13 & 86.66\\    
+    \hline
+  \end{tabular}
+\end{table} 
+
+\end{document}

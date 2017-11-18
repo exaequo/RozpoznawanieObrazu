@@ -67,8 +67,6 @@ void Classifier::knn(const int k, const int numberOfThreadsToUse)
 	{
 		throw new std::exception("Classifier wasn't initialized with data");
 	}
-
-	
 }
 
 void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator start, std::vector<ClassifableObject>::iterator end)
@@ -80,9 +78,12 @@ void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator s
 		trainingSetCopy.push_back(&(*i));
 	}
 
+	bool toSortOrNotToSort = 54 < k;//log2(trainingSet->size()) < k;
+
+
 	for (auto i = start; i < end; ++i)
 	{
-		if (log2(trainingSet->size()) < k)
+		if (toSortOrNotToSort)
 		{
 			std::sort(trainingSetCopy.begin(), trainingSetCopy.end(), //sort the training vector
 				[&](const ClassifableObject* a, const ClassifableObject* b) -> bool {
@@ -148,9 +149,6 @@ void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator s
 			(*i).predictClass(countsVec[0].first);
 			//(*i).predictClass(obj->getClass());
 		}
-
-		
-		
 	}
 	std::cout << "THREAD FINISHED\n";
 }

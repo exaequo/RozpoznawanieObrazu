@@ -315,18 +315,20 @@ float distanceCenter(pointerFunctionType data)
 	float x = centerWidth(data);
 	float y = centerHeight(data);
 	float result = { 0.0f };
+	float whitePixels = { 0.0 };
 	for (int i = 0; i < 28; ++i)
 	{
 		for (int j = 0; j < 28; ++j)
 		{
 			if (data.at(j + i * 28) >(unsigned char)10)
 			{
+				whitePixels += 1.0f;
 				float distance = sqrt((i - x)*(i - x) + (j - y)*(j - y));
 				result += distance;
 			}
 		}
 	}
-	return result / extractWhitePixelsCount(data);
+	return result / whitePixels;
 }
 
 float heightWidthRatio(pointerFunctionType data)
