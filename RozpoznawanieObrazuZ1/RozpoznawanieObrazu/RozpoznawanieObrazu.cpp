@@ -23,8 +23,12 @@ int main()
 	//also the lazy way of doing double version application
 	//1 EXTRACTOR
 	//2 CLASIFFIER
-	int option = 1;
-	if (option == 1)
+	std::cout << "1. EXTRACTOR:\n";
+	std::cout << "2. CLASIFFIER:\n\n ";
+	char option;
+	std::cin >> option;
+
+	if (option == '1')
 	{
 		std::vector<std::string> att;
 		std::vector<ClassifableObject> data{};

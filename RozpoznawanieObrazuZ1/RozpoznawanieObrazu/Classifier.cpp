@@ -116,7 +116,7 @@ void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator s
 			std::map<int, int> counts{}; //create a map; first: class, second: quantitity
 			std::vector<std::pair<int, int> >countsVec{}; //create a vector of pairs same as map
 
-						
+			float prevDist = (std::numeric_limits<float>::min)();
 			for (int kIter = 0; kIter < k; ++kIter)
 			{
 				float dist = (std::numeric_limits<float>::max)();
@@ -125,12 +125,13 @@ void Classifier::knnPart(const int k, std::vector<ClassifableObject>::iterator s
 				for (int iter = 0; iter < trainingSetCopy.size(); ++iter)
 				{
 					float tmpDist = metric((*i), *trainingSetCopy.at(iter));
-					if (tmpDist < dist)
+					if (tmpDist < dist && tmpDist > prevDist)
 					{
 						dist = tmpDist;
 						obj = trainingSetCopy.at(iter);
 					}
 				}
+				prevDist = dist;
 				++counts[obj->getClass()];
 			}
 
