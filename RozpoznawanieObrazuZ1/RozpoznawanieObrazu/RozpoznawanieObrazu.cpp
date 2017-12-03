@@ -91,7 +91,7 @@ int main()
 			std::cout << "TEXTURES PROCESSING...\n";
 			att = FunctionStruct::getTexturesAttributeList();
 
-			TexturesReader texturesDataset{ "textures/texture-train" }; //TODO: texture-test
+			TexturesReader texturesDataset{ "textures/texture-train", "textures/testonly" }; //TODO: texture-test
 
 			std::cout << "DONE TEXTURES PROCESSING\n";
 			std::cout << "EXTRACTING ATTRIBUTES\n";
@@ -115,9 +115,10 @@ int main()
 		std::cout << "CLASSIFIER:\n\n ";
 		std::cout << "Choose:\n" <<
 			"(1) MNIST\n" <<
-			"(2) STAR\n";
+			"(2) STAR\n" <<
+			"(3) TEXTURES\n";
 
-		while (choice != '1' && choice != '2')
+		while (choice != '1' && choice != '2' && choice != '3')
 		{
 			choice = std::cin.get();
 		}
@@ -161,7 +162,7 @@ int main()
 
 			printSuccess(classifier);
 		}
-		else				//STAR
+		else if (choice == '2')				//STAR
 		{
 			std::cout << "STAR DATASET PROCESSING...\n";
 			att = FunctionStruct::getStarAttributeList();
@@ -177,6 +178,28 @@ int main()
 			Classifier classifier{ data, att, 10 };
 			dataVector imag = dataVector{ starDataset.testSet.begin(), starDataset.testSet.begin() + size };
 			std::vector<unsigned char> lab{ starDataset.testLabels.begin(), starDataset.testLabels.begin() + size };
+			classifier.computeTestSet(imag, lab);
+
+			classifier.knn(k, 32);
+
+			printSuccess(classifier);
+		}
+		else if (choice == '3')
+		{
+			std::cout << "TEXTURES DATASET PROCESSING...\n";
+			att = FunctionStruct::getTexturesAttributeList();
+
+			TexturesReader texturesDataset{ "textures/texture-train", "textures/testonly" };
+
+			std::cout << "DONE TEXTURES PROCESSING\n";
+
+			sav.loadFromFile(data, att);
+
+			int size = texturesDataset.testSet.size();
+
+			Classifier classifier{ data, att, 4 };
+			dataVector imag = dataVector{ texturesDataset.testSet.begin(), texturesDataset.testSet.begin() + size };
+			std::vector<unsigned char> lab{ texturesDataset.testLabels.begin(), texturesDataset.testLabels.begin() + size };
 			classifier.computeTestSet(imag, lab);
 
 			classifier.knn(k, 32);

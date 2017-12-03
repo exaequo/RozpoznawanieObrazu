@@ -43,8 +43,17 @@ float heightWidthRatio(pointerFunctionType data);
 
 float circle_5_10(pointerFunctionType data);
 float circle_10_20(pointerFunctionType data);
+float circle_20_40(pointerFunctionType data);
+float circle_20_32(pointerFunctionType data);
 
-
+float laplaceOperator(pointerFunctionType data);
+float I_1T(pointerFunctionType data);
+float I_2T(pointerFunctionType data);
+float I_3T(pointerFunctionType data);
+float I_4T(pointerFunctionType data);
+float I_5T(pointerFunctionType data);
+float I_6T(pointerFunctionType data);
+float I_7T(pointerFunctionType data);
 
 float I_1(pointerFunctionType data);
 float I_2(pointerFunctionType data);
@@ -79,7 +88,17 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{"I_6", &I_6},
 		{"I_7", &I_7},
 		{"circle_5_10", &circle_5_10},
-		{ "circle_10_20", &circle_10_20 }
+		{ "circle_10_20", &circle_10_20 },
+		{ "circle_20_40", &circle_20_40 },
+		{ "circle_20_32", &circle_20_32 },
+		{"laplaceOperator", &laplaceOperator },
+		{ "I_1T", &I_1T },
+		{ "I_2T", &I_2T },
+		{ "I_3T", &I_3T },
+		{ "I_4T", &I_4T },
+		{ "I_5T", &I_5T },
+		{ "I_6T", &I_6T },
+		{ "I_7T", &I_7T }
 	};
 
 	static std::vector<std::string> getDefaultAttributesList() {
@@ -94,7 +113,7 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 	};
 
 	static std::vector<std::string> getTexturesAttributeList() {
-		return std::vector<std::string>{ "circle_5_10", "circle_10_20"};
+		return std::vector<std::string>{ "laplaceOperator", "I_1T", "I_2T", "I_3T", "I_4T", "I_5T", "I_6T", "I_7T", "circle_5_10", "circle_10_20", "circle_20_40", "circle_20_32"};
 	};
 };
 

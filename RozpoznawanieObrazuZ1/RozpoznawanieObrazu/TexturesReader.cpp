@@ -6,10 +6,10 @@
 
 namespace fs = std::experimental::filesystem;
 
-TexturesReader::TexturesReader(const std::string & trainingLocation)//, const std::string & testLocation)
+TexturesReader::TexturesReader(const std::string & trainingLocation, const std::string & testLocation)
 {
 	addDataToSetFromFile(trainingSet, trainingLabels, trainingLocation); // we create the training set
-	//addDataToSetFromFile(testSet, testLabels, testLocation); // we create the test set
+	addDataToSetFromFile(testSet, testLabels, testLocation); // we create the test set
 }
 
 

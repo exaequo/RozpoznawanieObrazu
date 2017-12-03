@@ -2,7 +2,7 @@
 class TexturesReader
 {
 public:
-	TexturesReader(const std::string & trainingLocation);// , const std::string & testLocation);
+	TexturesReader(const std::string & trainingLocation , const std::string & testLocation);
 	~TexturesReader();
 
 	/*adds data from folder to the given vectors*/

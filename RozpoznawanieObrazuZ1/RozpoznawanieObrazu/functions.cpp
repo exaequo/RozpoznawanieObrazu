@@ -601,6 +601,32 @@ float spectrum(pointerFunctionType data, float inner, float outer)
 		}
 	}
 
+
+
+	//for (int i = 0; i < width; i++)				//size of every image is 28
+	//{
+	//	for (int j = 0; j < height; j++)			//by 28
+	//	{
+	//		//it's needed for proper display digits in terminal (but the dataset is correct)
+	//		if ((int)result.at(i * width + j) != 10 &&	//ASCII code for new line (we don't want extra new line in digit!)
+	//			(int)result.at(i * width + j) != 13 &&	//ASCII code for carriage return (part of digit is at the beggining of a line!)
+	//			(int)result.at(i * width + j) != 9 //ASCII code for horizontal tab (it's just get messy!)
+	//			&& (int)result.at(i * width + j) > 180)
+	//		{
+	//			std::cout << (int)result.at(i * width + j);		//yep, it is a struct of vectors of vectors, but it works fast
+	//																			//to get a 0-255 pixel value just cast to int (do we even need it?)
+	//		}
+	//		else
+	//		{
+	//			std::cout << (unsigned char)0;			//it's better to display nothing than some ASCII garbage		
+	//		}
+	//	}
+	//	std::cout << std::endl;
+	//}
+
+
+	//system("pause");
+
 	Mat mask = Mat::zeros(width, height, CV_8UC3);
 	int thickness = -1;
 	int lineType = 8;
@@ -627,20 +653,157 @@ float spectrum(pointerFunctionType data, float inner, float outer)
 		}
 	}
 	float r = 0.0f;
+	int counter = 0;
 	for (int i = 0; i < data.size(); ++i)
 	{
+		//if ((int)result.at(i) > 180)
+		//{
+			//counter++;
 			r += (int)result.at(i);
+		//}
 	}
 	return r;
 }
 
-
 float circle_5_10(pointerFunctionType data)
 {
-	return spectrum(data, 5.0, 10.0);
+	return spectrum(data, 2.0, 4.0);
 }
 
 float circle_10_20(pointerFunctionType data)
 {
-	return spectrum(data, 10.0, 20.0);
+	return spectrum(data, 14.0, 16.0);
+}
+
+float circle_20_40(pointerFunctionType data)
+{
+	return spectrum(data, 25.0, 27.0);
+}
+
+float circle_20_32(pointerFunctionType data)
+{
+	return spectrum(data, 8.0, 10.0);
+}
+
+float laplaceOperator(pointerFunctionType data)
+{
+	
+	using namespace cv;
+
+	
+
+	Mat src, src_gray, dst;
+	src = imread("textures/texture-train/linen/linen233.bmp", 1);
+	for (int y = 0; y < src.rows; y++)
+	{
+		for (int x = 0; x < src.cols; x++)
+		{
+			unsigned char t = data.at(y * src.rows + x);
+			src.at<Vec3b>(y, x)[0] = t;
+			src.at<Vec3b>(y, x)[1] = t;
+			src.at<Vec3b>(y, x)[2] = t;
+		}
+	}
+	int kernel_size = 3;
+	int scale = 1;
+	int delta = 0;
+	int ddepth = CV_16S;
+	char* window_name = "Laplace Demo";
+	int c;
+	GaussianBlur(src, src, Size(3, 3), 0, 0, BORDER_DEFAULT);
+	cvtColor(src, src_gray, CV_BGR2GRAY);
+	Mat abs_dst;
+	Laplacian(src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT);
+	convertScaleAbs(dst, abs_dst);
+
+	//abs_dst is the final image
+
+	//imshow("test", abs_dst);
+
+	//waitKey(0);
+
+	threshold(abs_dst, dst, 128, 255, THRESH_BINARY_INV);
+	float r = 0.0f;
+	int counter = 0;
+	for (int y = 0; y < dst.rows; y++)
+	{
+		for (int x = 0; x < dst.cols; x++)
+		{
+			r += (int)dst.at<Vec3b>(y, x)[0];
+		}
+	}
+	return r;
+}
+
+float HuTextures(pointerFunctionType data, int i)
+{
+	using namespace cv;
+	Mat src, src_gray, dst;
+	src = imread("textures/texture-train/linen/linen233.bmp", 1);
+	for (int y = 0; y < src.rows; y++)
+	{
+		for (int x = 0; x < src.cols; x++)
+		{
+			unsigned char t = data.at(y * src.rows + x);
+			src.at<Vec3b>(y, x)[0] = t;
+			src.at<Vec3b>(y, x)[1] = t;
+			src.at<Vec3b>(y, x)[2] = t;
+		}
+	}
+	int kernel_size = 3;
+	int scale = 1;
+	int delta = 0;
+	int ddepth = CV_16S;
+	char* window_name = "Laplace Demo";
+	int c;
+	GaussianBlur(src, src, Size(3, 3), 0, 0, BORDER_DEFAULT);
+	cvtColor(src, src_gray, CV_BGR2GRAY);
+	Mat abs_dst;
+	Laplacian(src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT);
+	convertScaleAbs(dst, abs_dst);
+	//threshold(abs_dst, dst, 128, 255, THRESH_BINARY_INV);
+	
+	Mat d = abs_dst.clone();
+	
+	//cvtColor(abs_dst, d, CV_BGR2GRAY, 1);
+	Moments mu{};
+	mu = moments(d, false);
+	double hu[7];
+	HuMoments(mu, hu);
+	return hu[i];
+}
+
+float I_1T(pointerFunctionType data)
+{
+	return HuTextures(data, 0);
+}
+
+float I_2T(pointerFunctionType data)
+{
+	return HuTextures(data, 1);
+}
+
+float I_3T(pointerFunctionType data)
+{
+	return HuTextures(data, 2);
+}
+
+float I_4T(pointerFunctionType data)
+{
+	return HuTextures(data, 3);
+}
+
+float I_5T(pointerFunctionType data)
+{
+	return HuTextures(data, 4);
+}
+
+float I_6T(pointerFunctionType data)
+{
+	return HuTextures(data, 5);
+}
+
+float I_7T(pointerFunctionType data)
+{
+	return HuTextures(data, 6);
 }
