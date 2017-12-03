@@ -61,7 +61,6 @@ std::vector<std::string> StarReader::getAllFilesNamesWithinFolder(const std::str
 	for (auto & p : fs::recursive_directory_iterator(folder))
 	{
 		result.push_back(p.path().filename().string());
-		
 	}
 	return result;
 }

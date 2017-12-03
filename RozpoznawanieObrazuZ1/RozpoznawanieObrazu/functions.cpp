@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "functions.h"
-#include <math.h>
 #include <random>
 
 float extractWhitePixelsCount(pointerFunctionType data)
@@ -432,4 +431,216 @@ void normalize(int newMin, int newMax, std::vector<float> &list, float max, floa
 	{
 		list[i] = (newMin - newMax) * (list[i] - min) / (min - max) + newMin;
 	}
+}
+
+std::complex<double> WNmnC(int N, int m, int n)
+{
+	double angle = -2 * M_PI * n * m / N;
+	std::complex<double> c(cos(angle), sin(angle));
+	return c;
+}
+
+std::vector<std::complex<double>> OddEvenVector(std::vector<std::complex<double>>& vec, int n)
+{
+	std::vector<std::complex<double>> vR;
+	for (int i = 0; i < vec.size(); i++)
+	{
+		if (i % 2 == n)
+		{
+			vR.push_back(vec.at(i));
+		}
+	}
+	return vR;
+}
+
+void FFTR(std::vector<std::complex<double>>& x, int l)
+{
+	int N = x.size();
+	if (N <= 1)
+		return;
+	std::vector<std::complex<double>> even = OddEvenVector(x, 0);
+	std::vector<std::complex<double>> odd = OddEvenVector(x, 1);
+	FFTR(even, l);
+	FFTR(odd, l);
+	for (int k = 0; k < N / 2; k++)
+	{
+		std::complex<double> W = WNmnC(N, k, l) * odd[k];
+		x[k] = even.at(k) + W;
+		x[k + N / 2] = even.at(k) - W;
+	}
+}
+
+std::vector<std::complex<double>> fft(pointerFunctionType data)
+{
+	int width = sqrt(data.size());
+	int height = sqrt(data.size());
+
+	std::vector<std::complex<double>> complexColors = std::vector<std::complex<double>>(width * height);
+	for (int i = 0; i < width; ++i)
+	{
+		for (int j = 0; j < height; ++j)
+		{
+			complexColors[i + width * j] = data[i + width * j];
+		}
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		std::vector<std::complex<double>>::const_iterator first = complexColors.begin() + (i * width);
+		std::vector<std::complex<double>>::const_iterator last = complexColors.begin() + (i * width) + width;
+		std::vector<std::complex<double>> row(first, last);
+		FFTR(row, 1);
+		for (int j = 0; j < width; j++)
+		{
+			complexColors[j + width * i] = row[j];
+		}
+	}
+
+	for (int i = 0; i < width; i++)
+	{
+		std::vector<std::complex<double>> column(height);
+		for (int j = 0; j < height; j++)
+		{
+			column[j] = complexColors[i + width * j];
+		}
+		FFTR(column, 1);
+		for (int j = 0; j < width; j++)
+		{
+			complexColors[i + width * j] = column[j];
+		}
+	}
+
+	return complexColors;
+	//we should return something...
+	//unless..
+	//of course, we have to change quarters, normalize and then get something from spectrum!
+}
+
+void changeQuarters(std::vector<std::complex<double>> &data)
+{
+	int width = sqrt(data.size());
+	int height = sqrt(data.size());
+	std::vector<std::complex<double>> quarters(data.size());
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			if (i < width / 2 && j < height / 2)
+			{
+				quarters[i + width * j] = data[(i + width / 2) + width * (j + height / 2)];
+			}
+			else if (i >= width / 2 && j >= height / 2)
+			{
+				quarters[i + width * j] = data[(i - width / 2) + width * (j - height / 2)];
+			}
+			else if (i < width / 2 && j >= height / 2)
+			{
+				quarters[i + width * j] = data[(i + width / 2) + width * (j - height / 2)];
+			}
+			else if (i >= width / 2 && j < height / 2)
+			{
+				quarters[i + width * j] = data[(i - width / 2) + width * (j + height / 2)];
+			}
+			else
+			{
+				quarters[i + width * j] = data[i + width * j];
+			}
+		}
+	}
+	data = quarters;
+}
+
+double cMultiplier(std::vector<float> &values)
+{
+	float max = 0;
+	float min = 0;
+
+	for (int i = 0; i < values.size(); i++)
+	{
+		if (values[i] < min)
+		{
+			min = values[i];
+		}
+		if (values[i] > max)
+		{
+			max = values[i];
+		}
+	}
+	double R = fabs(max);
+	if (R < fabs(min))
+	{
+		R = fabs(min);
+	}
+	return 255.0f / log10(1 + R);
+}
+
+float spectrum(pointerFunctionType data, float inner, float outer)
+{
+	using namespace cv;
+	//std::cout << "SPECTRUM" << std::endl;
+	std::vector<unsigned char> result(data.size());
+	int width = sqrt(data.size());
+	int height = sqrt(data.size());
+	std::vector<std::complex<double>> complexColors = fft(data);
+	changeQuarters(complexColors);
+	std::vector<float> values(complexColors.size());
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+				values[i + width * j] = sqrt(real(complexColors[i + width * j]) * real(complexColors[i + width * j]) + imag(complexColors[i + width * j]) * imag(complexColors[i + width * j]));
+		}
+	}
+	double c = cMultiplier(values);
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			int color = c * log10(1 + fabs(values[i + width * j]));
+			result[i + width * j] = color;
+		}
+	}
+
+	Mat mask = Mat::zeros(width, height, CV_8UC3);
+	int thickness = -1;
+	int lineType = 8;
+	Point center(width / 2, height / 2);
+	circle(mask,
+		center,
+		outer,
+		Scalar(1, 1, 1),
+		thickness,
+		lineType);
+
+	circle(mask,
+		center,
+		inner,
+		Scalar(0, 0, 0),
+		thickness,
+		lineType);
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			result[i + width * j] *= mask.at<Vec3b>(i, j)[0];
+		}
+	}
+	float r = 0.0f;
+	for (int i = 0; i < data.size(); ++i)
+	{
+			r += (int)result.at(i);
+	}
+	return r;
+}
+
+
+float circle_5_10(pointerFunctionType data)
+{
+	return spectrum(data, 5.0, 10.0);
+}
+
+float circle_10_20(pointerFunctionType data)
+{
+	return spectrum(data, 10.0, 20.0);
 }

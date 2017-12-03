@@ -7,6 +7,8 @@ typedef const std::vector<unsigned char> & pointerFunctionType;
 //helpers
 float Hu(pointerFunctionType data, int);
 void normalize(int newMin, int newMax, std::vector<float> &list, float max = -INFINITY, float min = INFINITY);
+/*some part of spectrum*/
+float spectrum(pointerFunctionType data, float inner, float outer);
 
 //CONTAINS all functions to be used for computing attributes
 
@@ -39,6 +41,11 @@ float distanceCenter(pointerFunctionType data);
 /*is digit higher or wider? basd on centerWidth and centerHeight*/
 float heightWidthRatio(pointerFunctionType data);
 
+float circle_5_10(pointerFunctionType data);
+float circle_10_20(pointerFunctionType data);
+
+
+
 float I_1(pointerFunctionType data);
 float I_2(pointerFunctionType data);
 float I_3(pointerFunctionType data);
@@ -70,7 +77,9 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{"I_4", &I_4},
 		{"I_5", &I_5},
 		{"I_6", &I_6},
-		{"I_7", &I_7}
+		{"I_7", &I_7},
+		{"circle_5_10", &circle_5_10},
+		{ "circle_10_20", &circle_10_20 }
 	};
 
 	static std::vector<std::string> getDefaultAttributesList() {
@@ -82,6 +91,10 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 
 	static std::vector<std::string> getStarAttributeList() {
 		return std::vector<std::string>{ "I_1", "I_2", "I_3", "I_4", "I_5", "I_6", "I_7"};
+	};
+
+	static std::vector<std::string> getTexturesAttributeList() {
+		return std::vector<std::string>{ "circle_5_10", "circle_10_20"};
 	};
 };
 

@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include <iostream>
 #include <chrono>
+#include <filesystem>
+#include <fstream>
 
 void printSuccess(Classifier& classifier)
 {
@@ -20,11 +22,8 @@ void printSuccess(Classifier& classifier)
 
 int main()
 {
-	//also the lazy way of doing double version application
-	//1 EXTRACTOR
-	//2 CLASIFFIER
 	std::cout << "1. EXTRACTOR:\n";
-	std::cout << "2. CLASIFFIER:\n\n ";
+	std::cout << "2. CLASIFFIER:\n\n";
 	char option;
 	std::cin >> option;
 
@@ -40,9 +39,10 @@ int main()
 		std::cout << "EXTRACTOR:\n\n ";
 		std::cout << "Choose:\n" <<
 			"(1) MNIST\n" <<
-			"(2) STAR\n";
+			"(2) STAR\n" <<
+			"(3) TEXTURES\n";
 		
-		while (choice != '1' && choice != '2')
+		while (choice != '1' && choice != '2' && choice != '3')
 		{
 			choice = std::cin.get();	
 		}
@@ -73,7 +73,7 @@ int main()
 			sav.saveToFile(extr.getObjects(), att);
 
 		}
-		else				//STAR
+		else if (choice == '2')				//STAR
 		{
 			std::cout << "STAR PROCESSING...\n";
 			att = FunctionStruct::getStarAttributeList();
@@ -85,6 +85,19 @@ int main()
 			extr.extractAttributes(starDataset.trainingSet, starDataset.trainingLabels, att);
 			sav.saveToFile(extr.getObjects(), att);
 
+		}
+		else if (choice == '3')		//TEXTURES
+		{
+			std::cout << "TEXTURES PROCESSING...\n";
+			att = FunctionStruct::getTexturesAttributeList();
+
+			TexturesReader texturesDataset{ "textures/texture-train" }; //TODO: texture-test
+
+			std::cout << "DONE TEXTURES PROCESSING\n";
+			std::cout << "EXTRACTING ATTRIBUTES\n";
+			extr.extractAttributes(texturesDataset.trainingSet, texturesDataset.trainingLabels, att);
+			std::cout << "DONE EXTRACTING ATTRIBUTES\n";
+			sav.saveToFile(extr.getObjects(), att);
 		}
 		auto endClock = std::chrono::steady_clock::now();
 		std::cout << "SAVED to "<<filename<<" in ["<< std::chrono::duration <double, std::milli>(endClock - startClock).count() <<"ms]\n";
