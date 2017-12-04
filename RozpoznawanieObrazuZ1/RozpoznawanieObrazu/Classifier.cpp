@@ -52,10 +52,23 @@ void Classifier::computeTestSet(const dataVector & data, const dataVector & labe
 			});
 		}
 
+		//std::map<int, int> col{};
+
+		//for (int k = 0; k < pixels.size(); ++k)
+		//{
+		//	//std::cout << k << ". " << pixels[k].properClass << "/" << (int)labels[0][k] << "\n";
+		//	++col[(int)labels[i][k]];
+		//}
+
+		//for (auto& item : col)
+		//{
+		//	std::cout << "Color: " << item.first << "/" << item.second << "\n";
+		//}
 		classifyPixels(pixels); //compute knn for pixels of the image
 
 		for (int j = 0; j < pixels.size(); ++j)
 		{
+			std::cout << j << ". ";
 			pixels[j].predictClass();
 		}
 	}
@@ -198,19 +211,12 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 	int s = sqrt(pixels.size()); //compute height and width (square image)
 	int windowSize = 64; //window we look at
 
-	float nextProgress = 0.1f;
 	auto startClock = std::chrono::steady_clock::now();
 
 	for (int i = 0; i < s - windowSize; i = i + 16)
 	{
 		for (int j = 0; j < s - windowSize; j = j + 16)
-		{
-			//if (((float)(j + i * (s - windowSize)) / (float)((s - windowSize)*(s - windowSize))) >= nextProgress)
-			//{
-			//std::cout << (float)(i + j * (s - windowSize)) / (float)((s - windowSize)*(s - windowSize)) << "...\n";
-				//nextProgress += 0.1f;
-			//}
-			
+		{		
 			std::vector<unsigned char> window{};
 
 			//create a window
@@ -219,9 +225,8 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 				
 				for (int n = 0; n < windowSize; ++n)
 				{
-					window.push_back(pixels[i + m + (j + n) * windowSize].color);
+					window.push_back(pixels[j + n + (i + m) * windowSize].color);
 				}
-				//window.push_back(line);
 			}
 
 			//create classifable object and compute attributes for it
@@ -243,7 +248,7 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 			{
 				for (int n = 0; n < windowSize; ++n)
 				{
-					++pixels[i + m + (j + n) * windowSize].predicitons[obj.PredictedClass()];
+					++pixels[j + n + (i + m) * windowSize].predicitons[obj.PredictedClass()];
 				}
 			}
 		}

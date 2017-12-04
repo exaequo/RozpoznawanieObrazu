@@ -88,10 +88,13 @@ int TexturesReader::mapColorToClass(unsigned char color)
 	switch ((int)color)//len (224), sól (160), s³oma (96) i drewno (32))
 	{
 	case 224:
+	case 227:
 		return 0;
 	case 160:
+	case 163:
 		return 1;
 	case 96:
+	case 99:
 		return 2;
 	case 32:
 		return 3;

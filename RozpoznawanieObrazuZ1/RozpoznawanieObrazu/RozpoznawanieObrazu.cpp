@@ -198,7 +198,7 @@ int main()
 			int size = texturesDataset.testSet.size();
 
 			Classifier classifier{ data, att, 4 };
-			dataVector imag = dataVector{ texturesDataset.testSet.begin(), texturesDataset.testSet.begin() + size };
+			dataVector imag{ texturesDataset.testSet.begin(), texturesDataset.testSet.begin() + size };
 			dataVector lab{ texturesDataset.testLabels.begin(), texturesDataset.testLabels.begin() + size };
 			
 			std::cout << "STARTING CLASSIFIER PROCESSING\n";
@@ -211,9 +211,8 @@ int main()
 
 		auto endClock = std::chrono::steady_clock::now();
 		std::cout << "SAVED to " << filename << " in [" << std::chrono::duration <double, std::milli>(endClock - startClock).count() << "ms]\n";
-
-
-		system("pause");
-		return 0;
+		
 	}
+	system("pause");
+	return 0;
 }

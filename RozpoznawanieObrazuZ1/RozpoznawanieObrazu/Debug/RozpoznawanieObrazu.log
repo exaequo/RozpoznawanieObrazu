@@ -1,1 +1,56 @@
-﻿  RozpoznawanieObrazu.vcxproj -> D:\Studia\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe
+﻿  stdafx.cpp
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\mnist\mnist_reader_common.hpp(46): warning C4244: "inicjowanie": konwersja z "std::streamoff" do "unsigned int", możliwa utrata danych
+  TexturesReader.cpp
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\texturesreader.cpp(48): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  Statistics.cpp
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\statistics.cpp(40): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\statistics.cpp(46): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\statistics.cpp(54): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  StarReader.cpp
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\starreader.cpp(52): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\starreader.cpp(102): warning C4244: "=": konwersja z "float" do "uchar", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\starreader.cpp(103): warning C4244: "=": konwersja z "float" do "uchar", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\starreader.cpp(104): warning C4244: "=": konwersja z "float" do "uchar", możliwa utrata danych
+  RozpoznawanieObrazu.cpp
+  Object.cpp
+  lodepng.cpp
+  functions.cpp
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(8): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(20): warning C4244: "return": konwersja z "int" do "float", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(268): warning C4244: "return": konwersja z "int" do "float", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(375): warning C4244: "return": konwersja z "double" do "float", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(417): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(430): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(446): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(475): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(476): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(521): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(522): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(558): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(582): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(583): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(591): warning C4244: "=": konwersja z "double" do "float", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(599): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(639): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(646): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(657): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(712): warning C4101: "c": lokalna zmienna, do której nie istnieje odwołanie
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(773): warning C4244: "return": konwersja z "double" do "float", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\functions.cpp(758): warning C4101: "c": lokalna zmienna, do której nie istnieje odwołanie
+  FileSaver.cpp
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\filesaver.cpp(25): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  Extractor.cpp
+  Classifier.cpp
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifier.cpp(45): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifier.cpp(57): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifier.cpp(153): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifier.cpp(199): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifier.cpp(262): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifier.cpp(295): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifier.cpp(309): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  ClassifableObject.cpp
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifableobject.cpp(19): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  Generowanie kodu...
+c:\users\artur\documents\rozpoznawanieobrazu\rozpoznawanieobrazuz1\rozpoznawanieobrazu\classifableobject.cpp(50): warning C4715: "ClassifableObject::operator[]”: niewszystkie ścieżki kodu zwracają wartość
+  LINK : nie znaleziono elementu C:\Users\Artur\Documents\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe ani nie został on skompilowany podczas ostatniego konsolidowania przyrostowego; zostanie wykonana pełna konsolidacja
+  RozpoznawanieObrazu.vcxproj -> C:\Users\Artur\Documents\RozpoznawanieObrazu\RozpoznawanieObrazuZ1\RozpoznawanieObrazu\Debug\RozpoznawanieObrazu.exe

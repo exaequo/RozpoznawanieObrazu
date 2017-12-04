@@ -10,10 +10,11 @@ Statistics::~Statistics()
 
 void Statistics::classPrediction(int proper, int prediction)
 {
-	if (proper >= 0 && prediction >= 0)
-	{
+	//if (proper >= 0 && prediction >= 0)
+	//{
+	//std::cout << proper<<", "<<prediction<<"\n";
 		++mistakesMatrix[proper][prediction];
-	}
+	//}
 		
 	
 	
