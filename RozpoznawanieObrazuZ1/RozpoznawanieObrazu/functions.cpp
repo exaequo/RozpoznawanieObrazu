@@ -687,11 +687,7 @@ float circle_20_32(pointerFunctionType data)
 
 float laplaceOperator(pointerFunctionType data)
 {
-	
 	using namespace cv;
-
-	
-
 	Mat src, src_gray, dst;
 	src = imread("textures/texture-train/linen/linen233.bmp", 1);
 	for (int y = 0; y < src.rows; y++)
@@ -715,13 +711,6 @@ float laplaceOperator(pointerFunctionType data)
 	Mat abs_dst;
 	Laplacian(src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT);
 	convertScaleAbs(dst, abs_dst);
-
-	//abs_dst is the final image
-
-	//imshow("test", abs_dst);
-
-	//waitKey(0);
-
 	threshold(abs_dst, dst, 128, 255, THRESH_BINARY_INV);
 	float r = 0.0f;
 	int counter = 0;
