@@ -10,7 +10,13 @@ Statistics::~Statistics()
 
 void Statistics::classPrediction(int proper, int prediction)
 {
-	++mistakesMatrix[proper][prediction];
+	if (proper >= 0 && prediction >= 0)
+	{
+		++mistakesMatrix[proper][prediction];
+	}
+		
+	
+	
 }
 
 void Statistics::createMistakesMatrix(int numberOfAttributesPerObject)

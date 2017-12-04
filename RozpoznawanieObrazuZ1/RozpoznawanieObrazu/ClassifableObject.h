@@ -33,6 +33,9 @@ public:
 
 	/* -1 if class wasnt guessed, 1 if guessed right, 0 if wrong*/
 	int getSuccessIdentifier() const;
+	
+	/*Property to predictedClass*/
+	int& PredictedClass() { return predictedClass; }
 
 protected:
 	int numberOfAttributes;

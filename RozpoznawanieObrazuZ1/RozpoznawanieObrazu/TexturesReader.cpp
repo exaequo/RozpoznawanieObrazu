@@ -9,7 +9,7 @@ namespace fs = std::experimental::filesystem;
 TexturesReader::TexturesReader(const std::string & trainingLocation, const std::string & testLocation)
 {
 	addDataToSetFromFile(trainingSet, trainingLabels, trainingLocation); // we create the training set
-	addDataToSetFromFile(testSet, testLabels, testLocation); // we create the test set
+	addDataToTestSetFromFile(testSet, testLabels, testLocation); // we create the test set
 }
 
 
@@ -49,6 +49,54 @@ void TexturesReader::addDataToSetFromFile(dataVector & data, std::vector<unsigne
 	{
 		labels.push_back(labelsMap[stringLabels[i]]);
 	}
+}
+
+void TexturesReader::addDataToTestSetFromFile(dataVector & data, dataVector & labels, const std::string & filesLocation)
+{
+	std::vector<std::string> stringLabels{};//needed to extract string labels
+
+	for (auto & p : fs::recursive_directory_iterator(filesLocation))
+	{
+		std::string line = p.path().filename().string().substr(0, p.path().filename().string().size() - 7);
+		auto dot = FileSaver::divideLine(p.path().filename().string(), '.');
+
+		if (dot.size() == 2) //if lines size would be 1 it means that we are looking at a directory not a png file
+		{
+			std::string filename = p.path().string();
+			std::replace(filename.begin(), filename.end(), '\\', '/');
+
+			//std::cout << filename << "\n";
+			auto v = FileSaver::divideLine(filename, '/');
+			std::string sName = v[v.size() - 1];
+
+			if (sName[0] == 'l')
+			{
+				//std::cout << "Adding label\n";
+				labels.push_back(getDataVectorFromPngFile(filename)); //we get the data vector for the given values
+			}
+			else
+			{
+				//std::cout << "Adding data\n";
+				data.push_back(getDataVectorFromPngFile(filename)); //we get the data vector for the given values
+			}
+		}
+	}
+}
+
+int TexturesReader::mapColorToClass(unsigned char color)
+{
+	switch ((int)color)//len (224), sól (160), s³oma (96) i drewno (32))
+	{
+	case 224:
+		return 0;
+	case 160:
+		return 1;
+	case 96:
+		return 2;
+	case 32:
+		return 3;
+	}
+	return -1;
 }
 
 std::vector<std::string> TexturesReader::getAllFilesNamesWithinFolder(const std::string & folder) const

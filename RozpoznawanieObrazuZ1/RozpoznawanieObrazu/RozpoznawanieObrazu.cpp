@@ -91,7 +91,7 @@ int main()
 			std::cout << "TEXTURES PROCESSING...\n";
 			att = FunctionStruct::getTexturesAttributeList();
 
-			TexturesReader texturesDataset{ "textures/texture-train", "textures/testonly" }; //TODO: texture-test
+			TexturesReader texturesDataset{ "textures/texture-train", "textures/texture-test" }; //TODO: texture-test
 
 			std::cout << "DONE TEXTURES PROCESSING\n";
 			std::cout << "EXTRACTING ATTRIBUTES\n";
@@ -189,7 +189,7 @@ int main()
 			std::cout << "TEXTURES DATASET PROCESSING...\n";
 			att = FunctionStruct::getTexturesAttributeList();
 
-			TexturesReader texturesDataset{ "textures/texture-train", "textures/testonly" };
+			TexturesReader texturesDataset{ "textures/texture-train", "textures/texture-test" };
 
 			std::cout << "DONE TEXTURES PROCESSING\n";
 
@@ -199,10 +199,12 @@ int main()
 
 			Classifier classifier{ data, att, 4 };
 			dataVector imag = dataVector{ texturesDataset.testSet.begin(), texturesDataset.testSet.begin() + size };
-			std::vector<unsigned char> lab{ texturesDataset.testLabels.begin(), texturesDataset.testLabels.begin() + size };
-			classifier.computeTestSet(imag, lab);
+			dataVector lab{ texturesDataset.testLabels.begin(), texturesDataset.testLabels.begin() + size };
+			
+			std::cout << "STARTING CLASSIFIER PROCESSING\n";
+			classifier.computeTestSet(imag, lab, k);
 
-			classifier.knn(k, 32);
+			//classifier.knn(k, 32);
 
 			printSuccess(classifier);
 		}

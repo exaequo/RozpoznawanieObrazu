@@ -35,6 +35,32 @@ void Classifier::computeTestSet(const dataVector & data, std::vector<unsigned ch
 	}
 }
 
+void Classifier::computeTestSet(const dataVector & data, const dataVector & labels, int k)
+{
+	definedK = k;
+	for (int i = 0; i < 1; ++i)//data.size(); ++i)
+	{
+		std::cout << "PREDICTING IMAGE "<< i <<"...\n";
+		std::vector<Pixel> pixels;
+		for (int j = 0; j < data[i].size(); ++j)
+		{
+			pixels.push_back({
+				data[i][j],//color
+				TexturesReader::mapColorToClass(labels[i][j]),//properClass
+				-1,//predictedClass
+				{0,0,0,0} //predicitons
+			});
+		}
+
+		classifyPixels(pixels); //compute knn for pixels of the image
+
+		for (int j = 0; j < pixels.size(); ++j)
+		{
+			pixels[j].predictClass();
+		}
+	}
+}
+
 void Classifier::knn(const int k, const int numberOfThreadsToUse)
 {
 	if (!testSet.empty()) //if testSet is not empty then the operations have meaning
@@ -166,6 +192,107 @@ void Classifier::normalizeObject(ClassifableObject & obj) const
 	}
 }
 
+void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
+{
+	FunctionStruct func{};
+	int s = sqrt(pixels.size()); //compute height and width (square image)
+	int windowSize = 64; //window we look at
+
+	float nextProgress = 0.1f;
+	auto startClock = std::chrono::steady_clock::now();
+
+	for (int i = 0; i < s - windowSize; i = i + 16)
+	{
+		for (int j = 0; j < s - windowSize; j = j + 16)
+		{
+			//if (((float)(j + i * (s - windowSize)) / (float)((s - windowSize)*(s - windowSize))) >= nextProgress)
+			//{
+			//std::cout << (float)(i + j * (s - windowSize)) / (float)((s - windowSize)*(s - windowSize)) << "...\n";
+				//nextProgress += 0.1f;
+			//}
+			
+			std::vector<unsigned char> window{};
+
+			//create a window
+			for (int m = 0; m < windowSize; ++m)
+			{
+				
+				for (int n = 0; n < windowSize; ++n)
+				{
+					window.push_back(pixels[i + m + (j + n) * windowSize].color);
+				}
+				//window.push_back(line);
+			}
+
+			//create classifable object and compute attributes for it
+			ClassifableObject obj{ (int)attributesToExtract.size(), -1 };
+
+			for (unsigned int n = 0; n < attributesToExtract.size(); ++n)
+			{
+				obj[n] = func.extractingFunctions[attributesToExtract.at(n)](window);
+			}
+			
+			normalizeObject(obj);
+
+			//compute knn
+			
+			knnForOneObject( definedK, obj);
+			
+			//add pixel predictions
+			for (int m = 0; m < windowSize; ++m)
+			{
+				for (int n = 0; n < windowSize; ++n)
+				{
+					++pixels[i + m + (j + n) * windowSize].predicitons[obj.PredictedClass()];
+				}
+			}
+		}
+
+		std::cout << (i + 1)*(s - windowSize) << "/" << (s - windowSize)*(s - windowSize) << 
+			"["<< std::chrono::duration <double>(std::chrono::steady_clock::now() - startClock).count() <<"ms]\n";
+
+		//Statistics::getInstance().printMistakesMatrix(std::cout);
+	}
+}
+
+void Classifier::knnForOneObject(const int k, ClassifableObject & testedObj) const
+{
+	std::map<int, int> counts{}; //create a map; first: class, second: quantitity
+	std::vector<std::pair<int, int> >countsVec{}; //create a vector of pairs same as map
+
+	float prevDist = (std::numeric_limits<float>::min)();
+	for (int kIter = 0; kIter < k; ++kIter)
+	{
+		float dist = (std::numeric_limits<float>::max)();
+		ClassifableObject* obj = &((*trainingSet)[0]);
+
+		for (int iter = 0; iter < trainingSet->size(); ++iter)
+		{
+			float tmpDist = metric(testedObj, trainingSet->at(iter));
+			if (tmpDist < dist && tmpDist > prevDist)
+			{
+				dist = tmpDist;
+				obj = &(trainingSet->at(iter));
+			}
+		}
+		prevDist = dist;
+		++counts[obj->getClass()];
+	}
+
+	for (auto elem : counts)
+	{
+		countsVec.push_back({ elem.first, elem.second });//transfer information to vector
+	}
+
+	std::sort(countsVec.begin(), countsVec.end(), //sort vector over quantity
+		[&](std::pair<int, int> &l, std::pair<int, int> &r)->bool {
+		return l.second > r.second;
+	});
+
+	testedObj.PredictedClass() = countsVec[0].first;
+	
+}
+
 void Classifier::normalizeTrainingSet()//normalizes to range 0 - 1
 {
 	std::vector<std::pair<float, float>> values(attributesToExtract.size(), { (std::numeric_limits<float>::max)(), (std::numeric_limits<float>::min)() });
@@ -207,4 +334,25 @@ float Classifier::metric(const ClassifableObject & first, const ClassifableObjec
 		result += fabsf(first[i] - second[i]);
 	}
 	return result;
+}
+
+void Pixel::predictClass()
+{
+	int p = -1;
+	int val = -1;
+
+	std::cout << "[";
+	for (int i = 0; i < 4; ++i)
+	{
+		std::cout << predicitons[i] << ",";
+		if (predicitons[i] > val)
+		{
+			p = i;
+			val = predicitons[i];
+		}
+		
+	}
+	std::cout << "]\n";
+	predictedClass = p;
+	Statistics::getInstance().classPrediction(properClass, p);
 }
