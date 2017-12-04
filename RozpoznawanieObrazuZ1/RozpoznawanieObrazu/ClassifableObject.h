@@ -37,11 +37,11 @@ public:
 	/*Property to predictedClass*/
 	int& PredictedClass() { return predictedClass; }
 
+
 protected:
 	int numberOfAttributes;
 	int objectClass;
 	int predictedClass;
-	
 	//std::vector<unsigned char> data;	
 	std::vector<float> attributes;
 };

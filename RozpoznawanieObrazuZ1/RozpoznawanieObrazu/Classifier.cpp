@@ -7,7 +7,7 @@
 #include <limits>
 #include <iostream>
 
-Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract, int numberOfClassess) : attributesToExtract{whichAttributesToExtract}
+Classifier::Classifier(std::vector<class ClassifableObject>& trainingSet, const std::vector<std::string>& whichAttributesToExtract, int numberOfClassess) : attributesToExtract{whichAttributesToExtract}, classes{ numberOfClassess }
 {
 	testSet = {};
 
@@ -233,7 +233,8 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 
 			//compute knn
 			
-			knnForOneObject( definedK, obj);
+			//knnForOneObject( definedK, obj);
+			MarcinkovskyVroblevskyMethod(obj);
 			
 			//add pixel predictions
 			for (int m = 0; m < windowSize; ++m)
@@ -288,6 +289,63 @@ void Classifier::knnForOneObject(const int k, ClassifableObject & testedObj) con
 
 	testedObj.PredictedClass() = countsVec[0].first;
 	
+}
+
+void Classifier::MarcinkovskyVroblevskyMethod(ClassifableObject & obj) const
+{
+	static std::vector<ClassifableObject> centers;
+	
+	static std::vector<std::vector<ClassifableObject *> > classesVec;
+
+	if (classesVec.empty())
+	{
+		centers = std::vector<ClassifableObject>{};
+		classesVec = std::vector<std::vector<ClassifableObject *> >{};
+
+		for (int i = 0; i < classes; ++i)
+		{
+			centers.push_back({ (int)attributesToExtract.size(), i });
+		}
+
+
+		for (int i = 0; i < classes; ++i)
+		{
+			std::vector<ClassifableObject*> singleClass{};
+			classesVec.push_back(singleClass);
+		}
+
+		for (int i = 0; i < trainingSet->size(); ++i)
+		{
+			classesVec[trainingSet->at(i).getClass()].push_back(&(trainingSet->at(i)));
+		}
+
+		for (int i = 0; i < classes; ++i)
+		{
+			for (int j = 0; j < classesVec[i].size(); ++j)
+			{
+				for (int k = 0; k < attributesToExtract.size(); ++k)
+				{
+					centers[i][k] += (*(classesVec[i][j]))[k] / classesVec[i].size();
+				}				
+			}
+		}
+	}
+
+	std::vector<float> distances(classes, 0.f);
+	float minDist = std::numeric_limits<float>::max();
+	int at = -1;
+
+	for (int i = 0; i < classes; ++i)
+	{
+		distances[i] = metric(obj, centers[i]);
+		if (distances[i] < minDist)
+		{
+			minDist = distances[i];
+			at = i;
+		}
+	}
+
+	obj.PredictedClass() = at;
 }
 
 void Classifier::normalizeTrainingSet()//normalizes to range 0 - 1

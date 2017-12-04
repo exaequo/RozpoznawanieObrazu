@@ -29,6 +29,7 @@ public:
 	/*computes knn for one object*/
 	void knnForOneObject(const int k, class ClassifableObject & testedObj) const;
 
+	void MarcinkovskyVroblevskyMethod(class ClassifableObject& obj) const;
 
 	void knnPart(const int k, std::vector<ClassifableObject>::iterator start, std::vector<ClassifableObject>::iterator end);
 	
@@ -52,6 +53,7 @@ private:
 	/*computes distance between two objects*/
 	float metric(const class ClassifableObject& first, const class ClassifableObject& second) const;
 
+	int classes;
 
 	int definedK;
 	//Statistics* classStatistics;
