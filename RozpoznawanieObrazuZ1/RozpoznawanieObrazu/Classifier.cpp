@@ -203,9 +203,9 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 
 	auto startClock = std::chrono::steady_clock::now();
 
-	for (int i = 0; i <= s - windowSize; i = i + 16)
+	for (int i = 0; i <= s - windowSize; i = i + 8)
 	{
-		for (int j = 0; j <= s - windowSize; j = j + 16)
+		for (int j = 0; j <= s - windowSize; j = j + 8)
 		{		
 			std::vector<unsigned char> window{};
 			//std::cout << "\n\nWINDOW!!!1\n";
@@ -233,8 +233,8 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 
 			//compute knn
 			
-			//knnForOneObject( definedK, obj);
-			MarcinkovskyVroblevskyMethod(obj);
+			knnForOneObject( definedK, obj);
+			//MarcinkovskyVroblevskyMethod(obj);
 			
 			//add pixel predictions
 			for (int m = 0; m < windowSize; ++m)

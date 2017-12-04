@@ -29,6 +29,8 @@
 \section{Cel}
 Zadanie polegało na implementacji dodatkowej metody klasyfikacji w istniejącym już szkielecie z zadania nr 1. Dodatkowo należało dokonać analizy zdolności klasyfikacji obu metod wykorzystując obrazy z różnymi teksturami. Konieczne było również wprowadzenie dwóch metod ekstrakcji cech: w dziedzinie czasu oraz w dziedzinie częstotliwości.
 
+\section{Własna metoda}
+Zaimplementowaliśmy autorską metodę Marcinkovsky-Vroblevsky polegającą na wyznaczeniu centroidów każdej z klas oraz obliczeniu odległości od klasyfikowanego obiektu. Klasa do której należy nowy obiekt to ta do którego centrum odległość jest najmniejsza.
 
 \section{Zestawy cech}
 
@@ -53,7 +55,7 @@ Dla dziedziny czasu zaproponowaliśmy użycie 8 cech:
 \item 7 momentów obrazu przedstawionych poniżej
 \end{itemize}
 
-Momentów obiektu (obrazu), a dokładnie niezmienniki przekształceń. Metoda ta pozwala na rozpoznawanie wzorów  niezależnie od pozycji, rozmiaru czy obrotu. Jako cechy użyliśmy każdego z niezmienników (łącznie 7 cech) - wzory podajemy poniżej:\\
+Momenty obiektu (obrazu), a dokładnie niezmienniki przekształceń. Metoda ta pozwala na rozpoznawanie wzorów  niezależnie od pozycji, rozmiaru czy obrotu. Jako cechy użyliśmy każdego z niezmienników (łącznie 7 cech) - wzory podajemy poniżej:\\
 
 $I_1 = \eta_{20} + \eta_{02}$
 
@@ -69,148 +71,125 @@ $I_6 =  (\eta_{20} - \eta_{02})[(\eta_{30} + \eta_{12})^2 - (\eta_{21} + \eta_{0
 
 $I_7 = (3 \eta_{21} - \eta_{03})(\eta_{30} + \eta_{12})[(\eta_{30} + \eta_{12})^2 - 3(\eta_{21} + \eta_{03})^2] - (\eta_{30} - 3\eta_{12})(\eta_{21} + \eta_{03})[3(\eta_{30} + \eta_{12})^2 - (\eta_{21} + \eta_{03})^2]$
 
+\section{Wyniki}
 
-\subsection{Wyniki}
 \begin{table}[h!]
   \centering
-  \caption{Wyniki jakości klasyfikacji oraz czasu obliczeń k-NN dla bazy MNIST dla różnych wartości $k$}
+  \caption{Macierz pomyłek k-NN dla bazy tekstur dla cech w dziedzinie czasu oraz $k=11$}
   \label{tab:tab1}
-  \begin{tabular}{|c|c|c|}
+  \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-	k & jakość & czas[s]\\
+	. & 0 & 1 & 2 & 3 & success ratio \\
     \hline
-	1 & 73.67 & 69.783\\
+	0 & 156927 & 15719 & 7351 & 4289 & 85.15\\
     \hline
-	3 & 76.08 & 67.983\\
+	1 & 27461 & 173534 & 3193 & 388 & 84.82\\
 	\hline
-	5 & 77.90 & 68.175\\
+	2 & 55492 & 21346 & 87646 & 34788 & 43.98\\
 	\hline
-	7 & 78.01 & 68.076\\
-	\hline
-	9 & 78.31 & 67.515\\
-	\hline
-	11 & 78.58 & 68.414\\
-	\hline
-	13 & 78.26 & 67.970\\
-	\hline
-	15 & 77.94 & 67.725\\
-	\hline
-	19 & 78.00 & 67.416\\
-	\hline
-	35 & 77.54 & 67.814\\
-	\hline
-	99 & 75.70 & 68.476\\
-	\hline
+	3 & 66297 & 31129 & 28146 & 76951 & 37.99\\   
+    \hline
   \end{tabular}
 \end{table}
 
 \begin{table}[h!]
   \centering
-  \caption{Wyniki jakości klasyfikacji k-NN dla bazy MNIST dla różnego zestawu cech}
+  \caption{Macierz pomyłek k-NN dla bazy tekstur dla cech w dziedzinie częstotliwości oraz $k=11$}
   \label{tab:tab1}
-  \begin{tabular}{|c|c|}
+  \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-	wybrane cechy & jakość\\
+	. & 0 & 1 & 2 & 3 & success ratio \\
     \hline
-	1 & 21.19\\
+	0 & 142291 & 11 & 35037 & 6947 & 77.21\\
     \hline
-	2 & 21.69\\
+	1 & 153 & 144185 & 59780 & 458 & 70.47\\
 	\hline
-	3 & 18.96\\
+	2 & 1682 & 19914 & 171309 & 2142 & 87.82\\
 	\hline
-	4 & 17.19\\
-	\hline
-	5 & 18.86\\
-	\hline
-	6 & 21.54\\
-	\hline
-	7 & 24.84\\
-	\hline
-	8 & 22.58\\
-	\hline
-	7,8 & 35.62\\
-	\hline
-	3,4 & 29.54\\
-	\hline
-	1,2,6,7,8 & 66.97\\
-	\hline
-	1,3,4,5,6 & 65.59\\
-	\hline
-	3,4,5,6,7 & 67.26\\
-	\hline
-	3,4,5,6,8 & 63.99\\
-	\hline
+	3 & 24578 & 2162 & 64818 & 110965 & 54.79\\   
+    \hline
   \end{tabular}
 \end{table}
 
 \begin{table}[h!]
   \centering
-  \caption{Macierz pomyłek k-NN dla bazy MNIST dla wszystkich cech oraz $k=11$}
+  \caption{Macierz pomyłek k-NN dla bazy tekstur dla cech w dziedzinie czasu oraz częstotliwości oraz $k=11$}
   \label{tab:tab1}
-  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+  \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-	. & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & success ratio \\
+	. & 0 & 1 & 2 & 3 & success ratio \\
     \hline
-	0 & 925 & 0 & 15 & 3 & 11 & 1 & 3 & 0 & 18 & 4 & 94.38\\
+	0 & 161173 & 820 & 13306 & 8987 & 87.45\\
     \hline
-	1 & 0 & 1086 & 8 & 7 & 4 & 5 & 4 & 0 & 16 & 5 & 95.68\\
+	1 & 180 & 176083 & 27727 & 586 & 86.07\\
 	\hline
-	2 & 32 & 11 & 633 & 186 & 20 & 78 & 29 & 15 & 25 & 3 & 61.33\\
+	2 & 4087 & 20949 & 172832 & 1404 & 86.73\\
 	\hline
-	3 & 25 & 16 & 103 & 719 & 1 & 33 & 7 & 45 & 45 & 16 & 71.18\\
-	\hline
-	4 & 20 & 13 & 27 & 2 & 772 & 18 & 8 & 6 & 10 & 106 & 78.81\\
-	\hline
-	5 & 19 & 11 & 80 & 102 & 13 & 506 & 30 & 33 & 87 & 11 & 56.72\\
-	\hline
-	6 & 6 & 8 & 21 & 3 & 6 & 23 & 885 & 0 & 6 & 0 & 92.38\\
-	\hline
-	7 & 2 & 36 & 10 & 24 & 15 & 25 & 0 & 818 & 26 & 72 & 79.57\\
-	\hline
-	8 & 87 & 5 & 18 & 31 & 23 & 39 & 9 & 13 & 701 & 48 & 71.97\\
-	\hline
-	9 & 18 & 14 & 4 & 18 & 47 & 12 & 3 & 41 & 39 & 813 & 80.57\\    
+	3 & 34049 & 3172 & 47383 & 117919 & 58.22\\   
     \hline
   \end{tabular}
 \end{table}
-
 
 \begin{table}[h!]
   \centering
-  \caption{Wyniki jakości klasyfikacji oraz czasu obliczeń k-NN dla bazy STaR dla różnych wartości $k$}
+  \caption{Macierz pomyłek M-W dla bazy tekstur dla cech w dziedzinie czasu}
   \label{tab:tab1}
-  \begin{tabular}{|c|c|c|}
+  \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-	k & jakość & czas[s]\\
+ . & 0 & 1 & 2 & 3 & success ratio \\
     \hline
-	1 & 24.66 & 10.549\\
+ 0 & 1112 & 176046 & 7128 & 0 & 6.12\\
     \hline
-	3 & 28.66 & 4.333\\
-	\hline
-	5 & 30.66 & 4.248\\
-	\hline
-	7 & 32.00 & 4.247\\
-	\hline
-	9 & 34.00 & 4.274\\
-	\hline
-	11 & 34.66 & 4.338\\
-	\hline
-	13 & 32.66 & 4.431\\
-	\hline
-	15 & 29.33 & 4.257\\
-	\hline
-	31 & 29.33 & 4.279\\
-	\hline
-	99 & 24.00 & 4.248\\
-	\hline
+ 1 & 13034 & 180124 & 4807 & 6611 & 88.05\\
+ \hline
+ 2 & 365495 & 37775 & 95981 & 21 & 48.17\\
+ \hline
+ 3 & 58600 & 75239 & 30708 & 37976 & 18.75\\   
+    \hline
   \end{tabular}
 \end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{Macierz pomyłek M-W dla bazy tekstur dla cech w dziedzinie częstotliwości}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+ . & 0 & 1 & 2 & 3 & success ratio \\
+    \hline
+ 0 & 119005 & 675 & 64606 & 0 & 64.58\\
+    \hline
+ 1 & 221 & 82197 & 122158 & 0 & 40.18\\
+ \hline
+ 2 & 367 & 84615 & 110130 & 4160 & 55.27\\
+ \hline
+ 3 & 74712 & 12033 & 54018 & 61760 & 30.75\\   
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{Macierz pomyłek M-W dla bazy tekstur dla cech w dziedzinie czasu oraz częstotliwości}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+ . & 0 & 1 & 2 & 3 & success ratio \\
+    \hline
+ 0 & 119665 & 43814 & 20807 & 0 & 64.93\\
+    \hline
+ 1 & 154 & 113042 & 91380 & 0 & 55.26\\
+ \hline
+ 2 & 364 & 90841 & 98595 & 9472 & 49.48\\
+ \hline
+ 3 & 64842 & 29359 & 46306 & 62016 & 30.62\\   
+    \hline
+  \end{tabular}
+\end{table}
+
 
 \section{Wnioski}
 
-Wyniki dla bazy MNIST przy użyciu jedynie 8 cech są zadowalające. Dodatkowo czasy przetwarzania 10 000 elementów są relatywnie krótkie. Parametr $k$ nie wpływa w naszej implementacji na czas wykonania obliczeń - jedynie na jakość klasyfikacji. Tutaj warto zauważyć, że wraz ze wzrostem $k$ klasyfikator zwracał większa liczbę poprawnych wyników, aczkolwiek wynik najlepszy osiągnęliśmy przy $k=11$: $78.58\%$. Zwiększając coraz bardziej $k$ wynik staje się tylko gorszy. Wybór oraz zdefiniowanie odpowiedniego zestawu cech jest kluczowy przy tym rodzaju klasyfikacji. Mając jednak ich w tym przypadku 8 bardzo ciężko jest wybrać te, które wpłyną na osiągnięcie najlepszego wyniku. Postanowiliśmy sprawdzić to porównując różne zestawy: złożone z najlepszych statystycznie cech oraz tych najgorszych. Możemy powiedzieć, że jeśli istnieje jakiś związek między cechami, a końcową jakością klasyfikacji to będzie to raczej ilość użytych cech, niż fakt użycia najlepszych statystycznie (tu: uzyskujących najlepsze wyniki przy skorzystaniu tylko z jednej cechy). Analizując macierz pomyłek możemy zauważyć, że klasyfikator najlepiej sobie poradził z cyframi 1, 0 i 6 uzyskując wynik ponad $92\%$ dla każdej. Powyżej $70\%$ były kolejno 9, 7, 4, 8 oraz 3. Najgorzej wypadło rozpoznawanie cyfr 2 i 5 (poniżej $65\%$). Warto zauważyć, że najczęściej błędnie były klasyfikowane jako cyfra 3. Możliwe, że przez podobieństwo górnej połowy (do cyfry 2) oraz dolnej (do cyfry 5).
-
-Inaczej ma się niestety sytuacja dla bazy STAR. Dla $k = 11$ uzyskaliśmy najlepszy wynik, aczkolwiek wynosi on niewiele ponad $34\%$. Dalej jest to pozytywny wynik, gdyż osiągnęliśmy 3 razy większą dokładność niż w przypadku gdybyśmy użyli do klasyfikacji funkcji losowej. Czas przeznaczony na samą klasyfikację obiektów znacznie się zmniejszył w stosunku do MNIST, gdyż operowaliśmy na mniejszym zbiorze danych. Zwiększeniu uległ jednak czas przypisywania odpowiednich cech, gdyż wykorzystane operacje na obrazie takie jak podwójna filtracja przeprowadzane są dla każdego obrazka. Klasyfikatorowi nie udało się przypisać dwóch z dziesięciu klas, największą zaś skuteczność otrzymał dla klasy dziewiątej ($86\%$), którą to oznaczyliśmy zdjęcia sznurka.
-Zaskakującym okazał się fakt, iż wykorzystanie momentów Hu nie spowodowało gwałtownego wzrostu w ilości zaklasyfikowanych obiektów. Nie pomogła tu też znacząco normalizacja danych, gdyż zwiększyła ona wyniki zaledwie o parę procent. 
+Dla zaimplementowanej przez nas metody zaobserwować można niestety wyraźny spadek jakości wyników względem metody k-NN. Dla przypadku brania pod uwagę jedynie cech z dziedziny czasu dla lnu zauważyć można rekordowo niską rozpoznawalność (stanowczo poniżej tej zadanej funkcją losującą). Mimo wszystko, sumaryczne wyniki dla każdego przypadku (dla atrybutów z dziedziny czasu, częstotliwości oraz połączonych) prezentują wyniki lepsze niż te dla rozkładu losowego (około 25\% dla każdej z 4 klas). Zauważyć można jednak, że reprezentacja za pomocą centroidów nie jest jednak wystarczająca do otrzymania przyciągających uwagę wyników klasyfikacji. Niewątpliwą zaletą autorskiej metody jest czas wykonania, który jest zauważalnie krótszy.
 
 \end{document}
