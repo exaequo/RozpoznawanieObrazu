@@ -34,19 +34,22 @@ void Statistics::createMistakesMatrix(int numberOfAttributesPerObject)
 
 std::ostream& Statistics::printMistakesMatrix(std::ostream &s) const
 {
+	int setwSize = 7;
+	float wholeSuccess = 0.f;
+
 	s << color(FOREGROUND_BLUE | BACKGROUND_GREEN) << 
-		std::setw(4) << ""<<"\\ ";
+		std::setw(setwSize) << ""<<"\\ ";
 
 	for (int i = 0; i < mistakesMatrix.size(); ++i)
 	{
-		s << std::setw(4) << i << "|";
+		s << std::setw(setwSize) << i << "|";
 	}
 	s << "\n";
 
 	for (int i = 0; i < mistakesMatrix.size(); ++i)
 	{
 		s << color(FOREGROUND_BLUE | BACKGROUND_GREEN)<< 
-			std::setw(4) << i << ". " << white;
+			std::setw(setwSize) << i << ". " << white;
 
 		int properCount{ 0 };
 		int wholeCount{ 0 };
@@ -59,11 +62,15 @@ std::ostream& Statistics::printMistakesMatrix(std::ostream &s) const
 				s << color(FOREGROUND_BLUE | BACKGROUND_GREEN);
 			}
 			wholeCount += mistakesMatrix[i][j];
-			s << std::setw(4) << mistakesMatrix[i][j] << white << "|";
+			s << std::setw(setwSize) << mistakesMatrix[i][j] << white << "|";
 		}
+		float single = (float)properCount / (float)wholeCount;
+		wholeSuccess += single;
 
-		s << "success ratio: " << (float)properCount / (float)wholeCount << "\n";
+		s << "success ratio: " << single << "\n";
 	}
+
+	s << "\nSuccess: " << (wholeSuccess / mistakesMatrix.size()) << "\n";
 	return s;
 }
 

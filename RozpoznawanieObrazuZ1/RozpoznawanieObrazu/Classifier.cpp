@@ -52,18 +52,6 @@ void Classifier::computeTestSet(const dataVector & data, const dataVector & labe
 			});
 		}
 
-		//std::map<int, int> col{};
-
-		//for (int k = 0; k < pixels.size(); ++k)
-		//{
-		//	//std::cout << k << ". " << pixels[k].properClass << "/" << (int)labels[0][k] << "\n";
-		//	++col[(int)labels[i][k]];
-		//}
-
-		//for (auto& item : col)
-		//{
-		//	std::cout << "Color: " << item.first << "/" << item.second << "\n";
-		//}
 		classifyPixels(pixels); //compute knn for pixels of the image
 
 		for (int j = 0; j < pixels.size(); ++j)
@@ -71,6 +59,8 @@ void Classifier::computeTestSet(const dataVector & data, const dataVector & labe
 			//std::cout << j << ". ";
 			pixels[j].predictClass();
 		}
+
+		Statistics::getInstance().printMistakesMatrix(std::cout);
 	}
 }
 
@@ -213,18 +203,9 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 
 	auto startClock = std::chrono::steady_clock::now();
 
-	//for (int i = 0; i < s; ++i)
-	//{
-	//	for (int j = 0; j < s; ++j)
-	//	{
-	//		std::cout << std::setw(3) << (int)pixels[j + s * i].color;
-	//	}
-	//	std::cout << "\n";
-	//}
-
-	for (int i = 0; i <= s - windowSize; i = i + 4)
+	for (int i = 0; i <= s - windowSize; i = i + 16)
 	{
-		for (int j = 0; j <= s - windowSize; j = j + 4)
+		for (int j = 0; j <= s - windowSize; j = j + 16)
 		{		
 			std::vector<unsigned char> window{};
 			//std::cout << "\n\nWINDOW!!!1\n";
@@ -239,8 +220,7 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 				}
 				//std::cout << "\n";
 			}
-			//std::cout << "W: " << window.size() << ", " << "(" << j << "," << i << "), (" << j + windowSize - 1 << "," << i + windowSize - 1 << ")\n";
-			//std::cout << "C: " << (int)window.at(window.size() - 1) << ", " << (int)pixels.at(pixels.size() - 1).color << "\n";
+
 			//create classifable object and compute attributes for it
 			ClassifableObject obj{ (int)attributesToExtract.size(), -1 };
 

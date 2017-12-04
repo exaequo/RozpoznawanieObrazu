@@ -7,16 +7,18 @@
 #include <filesystem>
 #include <fstream>
 
-void printSuccess(Classifier& classifier)
+void printSuccess(Classifier& classifier, bool val = true)
 {
-	int count = 0;
-	for (auto& test : classifier.getTestSet())
+	if (val)
 	{
-		//std::cout << test.toOutputFormat() << std::endl;
-		count += test.getSuccessIdentifier();
+		int count = 0;
+		for (auto& test : classifier.getTestSet())
+		{
+			//std::cout << test.toOutputFormat() << std::endl;
+			count += test.getSuccessIdentifier();
+		}
+		std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) << "\n";
 	}
-	std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) << "\n";
-
 	Statistics::getInstance().printMistakesMatrix(std::cout);
 }
 
@@ -206,7 +208,7 @@ int main()
 
 			//classifier.knn(k, 32);
 
-			printSuccess(classifier);
+			//printSuccess(classifier, false);
 		}
 
 		auto endClock = std::chrono::steady_clock::now();
