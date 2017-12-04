@@ -11,6 +11,7 @@
 #include <tchar.h>
 #include <exception>
 #include <vector>
+#include <iomanip>
 
 #include "targetver.h"
 #include "mnist/mnist_reader.hpp"

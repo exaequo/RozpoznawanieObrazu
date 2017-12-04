@@ -68,7 +68,7 @@ void Classifier::computeTestSet(const dataVector & data, const dataVector & labe
 
 		for (int j = 0; j < pixels.size(); ++j)
 		{
-			std::cout << j << ". ";
+			//std::cout << j << ". ";
 			pixels[j].predictClass();
 		}
 	}
@@ -213,22 +213,34 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 
 	auto startClock = std::chrono::steady_clock::now();
 
-	for (int i = 0; i < s - windowSize; i = i + 16)
+	//for (int i = 0; i < s; ++i)
+	//{
+	//	for (int j = 0; j < s; ++j)
+	//	{
+	//		std::cout << std::setw(3) << (int)pixels[j + s * i].color;
+	//	}
+	//	std::cout << "\n";
+	//}
+
+	for (int i = 0; i <= s - windowSize; i = i + 16)
 	{
-		for (int j = 0; j < s - windowSize; j = j + 16)
+		for (int j = 0; j <= s - windowSize; j = j + 16)
 		{		
 			std::vector<unsigned char> window{};
-
+			//std::cout << "\n\nWINDOW!!!1\n";
 			//create a window
 			for (int m = 0; m < windowSize; ++m)
 			{
 				
 				for (int n = 0; n < windowSize; ++n)
 				{
-					window.push_back(pixels[j + n + (i + m) * windowSize].color);
+					window.push_back(pixels[j + n + (i + m) * (s)].color);
+					//std::cout << std::setw(3) << (int)window[window.size() - 1];
 				}
+				//std::cout << "\n";
 			}
-
+			//std::cout << "W: " << window.size() << ", " << "(" << j << "," << i << "), (" << j + windowSize - 1 << "," << i + windowSize - 1 << ")\n";
+			//std::cout << "C: " << (int)window.at(window.size() - 1) << ", " << (int)pixels.at(pixels.size() - 1).color << "\n";
 			//create classifable object and compute attributes for it
 			ClassifableObject obj{ (int)attributesToExtract.size(), -1 };
 
@@ -248,7 +260,7 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 			{
 				for (int n = 0; n < windowSize; ++n)
 				{
-					++pixels[j + n + (i + m) * windowSize].predicitons[obj.PredictedClass()];
+					++pixels[j + n + (i + m) * s].predicitons[obj.PredictedClass()];
 				}
 			}
 		}
@@ -346,10 +358,10 @@ void Pixel::predictClass()
 	int p = -1;
 	int val = -1;
 
-	std::cout << "[";
+	//std::cout << "[";
 	for (int i = 0; i < 4; ++i)
 	{
-		std::cout << predicitons[i] << ",";
+		//std::cout << predicitons[i] << ",";
 		if (predicitons[i] > val)
 		{
 			p = i;
@@ -357,7 +369,7 @@ void Pixel::predictClass()
 		}
 		
 	}
-	std::cout << "]\n";
+	//std::cout << "]\n";
 	predictedClass = p;
 	Statistics::getInstance().classPrediction(properClass, p);
 }
