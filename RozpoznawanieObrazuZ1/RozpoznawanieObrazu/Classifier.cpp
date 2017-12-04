@@ -38,7 +38,7 @@ void Classifier::computeTestSet(const dataVector & data, std::vector<unsigned ch
 void Classifier::computeTestSet(const dataVector & data, const dataVector & labels, int k)
 {
 	definedK = k;
-	for (int i = 0; i < 1; ++i)//data.size(); ++i)
+	for (int i = 0; i < data.size(); ++i)
 	{
 		std::cout << "PREDICTING IMAGE "<< i <<"...\n";
 		std::vector<Pixel> pixels;
@@ -222,9 +222,9 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 	//	std::cout << "\n";
 	//}
 
-	for (int i = 0; i <= s - windowSize; i = i + 16)
+	for (int i = 0; i <= s - windowSize; i = i + 4)
 	{
-		for (int j = 0; j <= s - windowSize; j = j + 16)
+		for (int j = 0; j <= s - windowSize; j = j + 4)
 		{		
 			std::vector<unsigned char> window{};
 			//std::cout << "\n\nWINDOW!!!1\n";
