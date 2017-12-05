@@ -70,7 +70,8 @@ std::ostream& Statistics::printMistakesMatrix(std::ostream &s) const
 		s << "success ratio: " << single << "\n";
 	}
 
-	s << "\nSuccess: " << (wholeSuccess / mistakesMatrix.size()) << "\n";
+	s << "Success: " << (wholeSuccess / mistakesMatrix.size()) << "\n\n";
+	
 	return s;
 }
 

@@ -19,9 +19,11 @@ public:
 	std::map<std::string, unsigned char> labelsMap;
 
 	static int mapColorToClass(unsigned char color);
+	static unsigned char mapClassToColor(int classNum);
 
+	static void displayImage(const std::vector<unsigned char> & imag);
 private:
 	std::vector<std::string> getAllFilesNamesWithinFolder(const std::string & folder) const;
-	std::vector<unsigned char> getDataVectorFromPngFile(const std::string & filename) const;
+	std::vector<unsigned char> getDataVectorFromPngFile(const std::string & filename, bool shouldNormalize) const;
 };
 

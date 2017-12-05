@@ -410,6 +410,44 @@ float I_7(pointerFunctionType data)
 	return Hu(data, 6);
 }
 
+void normalizePicture(std::vector<unsigned char>& pic)
+{
+	/*float avg = 0.f;
+	float var = 0.f;
+	for (int i = 0; i < pic.size(); ++i)
+	{
+		avg += pic[i];
+	}
+	avg /= pic.size();
+
+	for (int i = 0; i < pic.size(); ++i)
+	{
+		var += (pic[i] - avg)*(pic[i] - avg);
+	}
+	var /= pic.size();
+
+	var = sqrtf(var);
+
+	for (int i = 0; i < pic.size(); ++i)
+	{
+		float val = ((float)pic[i] - avg) / var;
+		pic[i] = (unsigned char)val;
+	}*/
+	
+	float min = 256.f;
+	float max = -1.f;
+	for (int i = 0; i < pic.size(); ++i)
+	{
+		if (pic[i] > max) { max = pic[i]; }
+		if (pic[i] < min) { min = pic[i]; }
+	}
+
+	for (int i = 0; i < pic.size(); ++i)
+	{
+		pic[i] = (unsigned char)((pic[i] - min) * 255 / (max - min));
+	}
+}
+
 void normalize(int newMin, int newMax, std::vector<float> &list, float max, float min)
 {
 	if (max == -1 || min == INFINITY)

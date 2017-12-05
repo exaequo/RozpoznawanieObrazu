@@ -54,13 +54,21 @@ void Classifier::computeTestSet(const dataVector & data, const dataVector & labe
 
 		classifyPixels(pixels); //compute knn for pixels of the image
 
+		std::vector<unsigned char> picture{};
+
 		for (int j = 0; j < pixels.size(); ++j)
 		{
 			//std::cout << j << ". ";
 			pixels[j].predictClass();
+
+			picture.push_back(TexturesReader::mapClassToColor(pixels[j].predictedClass));
 		}
 
+		TexturesReader::displayImage(picture);
+		
 		Statistics::getInstance().printMistakesMatrix(std::cout);
+
+		std::cout << "0 - linen\n1 - salt\n2 - straw\n3 - wood\n\n";
 	}
 }
 
@@ -203,9 +211,9 @@ void Classifier::classifyPixels(std::vector<Pixel>& pixels) const
 
 	auto startClock = std::chrono::steady_clock::now();
 
-	for (int i = 0; i <= s - windowSize; i = i + 8)
+	for (int i = 0; i <= s - windowSize; i = i + 16)
 	{
-		for (int j = 0; j <= s - windowSize; j = j + 8)
+		for (int j = 0; j <= s - windowSize; j = j + 16)
 		{		
 			std::vector<unsigned char> window{};
 			//std::cout << "\n\nWINDOW!!!1\n";

@@ -33,7 +33,7 @@ void TexturesReader::addDataToSetFromFile(dataVector & data, std::vector<unsigne
 			++labelsMap[line]; //we add an entry to the labelsMap that we'll later use to fill proper labels vector
 			std::string filename = p.path().string();
 			std::replace(filename.begin(), filename.end(), '\\', '/');
-			data.push_back(getDataVectorFromPngFile(filename)); //we get the data vector for the given values
+			data.push_back(getDataVectorFromPngFile(filename,true)); //we get the data vector for the given values
 		}
 	}
 
@@ -72,12 +72,12 @@ void TexturesReader::addDataToTestSetFromFile(dataVector & data, dataVector & la
 			if (sName[0] == 'l')
 			{
 				//std::cout << "Adding label\n";
-				labels.push_back(getDataVectorFromPngFile(filename)); //we get the data vector for the given values
+				labels.push_back(getDataVectorFromPngFile(filename, false)); //we get the data vector for the given values
 			}
 			else
 			{
 				//std::cout << "Adding data\n";
-				data.push_back(getDataVectorFromPngFile(filename)); //we get the data vector for the given values
+				data.push_back(getDataVectorFromPngFile(filename, true)); //we get the data vector for the given values
 			}
 		}
 	}
@@ -102,6 +102,40 @@ int TexturesReader::mapColorToClass(unsigned char color)
 	return -1;
 }
 
+unsigned char TexturesReader::mapClassToColor(int classNum)
+{
+	switch (classNum)
+	{
+	case 0:
+		return 224;
+	case 1:
+		return 160;
+	case 2: 
+		return 96;
+	case 3:
+		return 32;
+	}
+	return 0;
+}
+
+void TexturesReader::displayImage(const std::vector<unsigned char>& imag)
+{
+	using namespace cv;
+	Mat src = imread("textures/texture-test/label1.bmp", 1);
+	for (int y = 0; y < src.rows; y++)
+	{
+		for (int x = 0; x < src.cols; x++)
+		{
+			unsigned char t = imag.at(y * src.rows + x);
+			src.at<Vec3b>(y, x)[0] = t;
+			src.at<Vec3b>(y, x)[1] = t;
+			src.at<Vec3b>(y, x)[2] = t;
+		}
+	}
+
+	imwrite(std::to_string(rand()%10000) + ".bmp", src);
+}
+
 std::vector<std::string> TexturesReader::getAllFilesNamesWithinFolder(const std::string & folder) const
 {
 	std::vector<std::string> result{};
@@ -112,7 +146,7 @@ std::vector<std::string> TexturesReader::getAllFilesNamesWithinFolder(const std:
 	return result;
 }
 
-std::vector<unsigned char> TexturesReader::getDataVectorFromPngFile(const std::string & filename) const
+std::vector<unsigned char> TexturesReader::getDataVectorFromPngFile(const std::string & filename, bool shouldNormalize) const
 {
 	using namespace cv;
 
@@ -126,6 +160,14 @@ std::vector<unsigned char> TexturesReader::getDataVectorFromPngFile(const std::s
 			result.push_back(src.at<Vec3b>(y, x)[0]);
 		}
 	}
-
+	/*auto path = FileSaver::divideLine(filename, '\\');
+	std::cout << filename <<"\n";*/
+	if (shouldNormalize)
+	{
+		normalizePicture(result);
+	}
+	
 	return result;
 }
+
+
