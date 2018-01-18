@@ -22,24 +22,72 @@ void printSuccess(Classifier& classifier, bool val = true)
 	Statistics::getInstance().printMistakesMatrix(std::cout);
 }
 
+int isGreen(cv::Scalar s) {
+
+	using namespace cv;
+	Mat rgb(1, 1, CV_8UC3, s);
+	Mat hsv;
+	cvtColor(rgb, hsv, COLOR_BGR2HSV);
+	Scalar hsvS = hsv.at<cv::Vec3b>(0, 0);
+	//std::cout << "S: " << s << std::endl;
+	//std::cout <<  hsvS << std::endl;
+	int backgroundDetector = 20;
+	if (hsvS.val[1] < 40 && hsvS.val[2] > 150) {
+		//std::cout << "GRAY!" << std::endl;
+		return -1;
+	}
+	if (s.val[1] > 100) {
+		//std::cout << "GREEN!" << std::endl;
+	}
+	else {
+		//std::cout << "BLACK" << std::endl;
+	}
+	return s.val[1] > 100 ? 1 : 0;
+}
+
 void countGrapes() {
+
+	int lightGrapes = 0;
+	int darkGrapes = 0;
+
 	std::cout << "countGrapes method - Hi! Let's count some grapes!" << std::endl;
 	using namespace cv;
 	using namespace std;
-	Mat src = imread("grapes/count3.bmp", 1);
+	string file = "grapes/count15.bmp";
+	std::cout << "Loading image " << file << std::endl;
+	Mat src = imread(file, 1);
 	Mat src_gray;
 	cvtColor(src, src_gray, CV_BGR2GRAY);
 	medianBlur(src_gray, src_gray, 5);
 	vector<Vec3f> circles;
-	HoughCircles(src_gray, circles, CV_HOUGH_GRADIENT, 2, 30, 100, 40, 20, 50);
+	HoughCircles(src_gray, circles, CV_HOUGH_GRADIENT, 2, 35, 100, 40, 20, 50);
 	std::cout << circles.size() << std::endl;
+
 	for (int i = 0; i < circles.size(); ++i)
 	{
 		Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
 		int radius = cvRound(circles[i][2]);
-		circle(src, center, 3, Scalar(0, 255, 0), -1, 8, 0);		//draw circle center
-		circle(src, center, radius, Scalar(0, 0, 255), 3, 8, 0);	//draw circle outline
+		Mat1b mask(src.rows, src.cols, uchar(0));
+		circle(mask, center, radius, Scalar(255), -1);
+		Scalar average = mean(src, mask);
+
+		if (isGreen(average) == 1) {
+			Scalar colorForLightGrapes = Scalar(0, 0, 255);
+			colorForLightGrapes = average;
+			circle(src, center, 3, colorForLightGrapes, -1, 8, 0);		//draw circle center
+			circle(src, center, radius, colorForLightGrapes, 3, 8, 0);	//draw circle outline
+			lightGrapes++;
+		}
+		else if (isGreen(average) == 0) {
+			Scalar colorForDarkGrapes = Scalar(0, 255, 0);
+			colorForDarkGrapes = average;
+			circle(src, center, 3, colorForDarkGrapes, -1, 8, 0);		//draw circle center
+			circle(src, center, radius, colorForDarkGrapes, 3, 8, 0);	//draw circle outline
+			darkGrapes++;
+		}
 	}
+	std::cout << "There are " << lightGrapes << " light grapes on image" << std::endl;
+	std::cout << "There are " << darkGrapes << " dark grapes on image" << std::endl;
 	namedWindow("Window", WINDOW_AUTOSIZE);
 	imshow("Window", src);
 	waitKey(0);
