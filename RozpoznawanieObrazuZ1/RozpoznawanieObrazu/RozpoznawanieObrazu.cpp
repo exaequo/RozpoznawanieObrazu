@@ -22,8 +22,37 @@ void printSuccess(Classifier& classifier, bool val = true)
 	Statistics::getInstance().printMistakesMatrix(std::cout);
 }
 
+void countGrapes() {
+	std::cout << "countGrapes method - Hi! Let's count some grapes!" << std::endl;
+	using namespace cv;
+	using namespace std;
+	Mat src = imread("grapes/count3.bmp", 1);
+	Mat src_gray;
+	cvtColor(src, src_gray, CV_BGR2GRAY);
+	medianBlur(src_gray, src_gray, 5);
+	vector<Vec3f> circles;
+	HoughCircles(src_gray, circles, CV_HOUGH_GRADIENT, 2, 30, 100, 40, 20, 50);
+	std::cout << circles.size() << std::endl;
+	for (int i = 0; i < circles.size(); ++i)
+	{
+		Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+		int radius = cvRound(circles[i][2]);
+		circle(src, center, 3, Scalar(0, 255, 0), -1, 8, 0);		//draw circle center
+		circle(src, center, radius, Scalar(0, 0, 255), 3, 8, 0);	//draw circle outline
+	}
+	namedWindow("Window", WINDOW_AUTOSIZE);
+	imshow("Window", src);
+	waitKey(0);
+}
+
 int main()
 {
+	std::cout << "Zadanie 3 - Welcome!" << std::endl;
+	countGrapes();
+	system("pause");
+	return 0;
+
+
 	std::cout << "1. EXTRACTOR:\n";
 	std::cout << "2. CLASIFFIER:\n\n";
 	char option;
