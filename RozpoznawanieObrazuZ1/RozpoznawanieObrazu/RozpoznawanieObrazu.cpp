@@ -45,7 +45,7 @@ int isGreen(cv::Scalar s) {
 	return s.val[1] > 100 ? 1 : 0;
 }
 
-void countGrapes() {
+std::vector<int> countGrapes(const std::string& file) {
 
 	int lightGrapes = 0;
 	int darkGrapes = 0;
@@ -53,7 +53,7 @@ void countGrapes() {
 	std::cout << "countGrapes method - Hi! Let's count some grapes!" << std::endl;
 	using namespace cv;
 	using namespace std;
-	string file = "grapes/count15.bmp";
+
 	std::cout << "Loading image " << file << std::endl;
 	Mat src = imread(file, 1);
 	Mat src_gray;
@@ -73,14 +73,14 @@ void countGrapes() {
 
 		if (isGreen(average) == 1) {
 			Scalar colorForLightGrapes = Scalar(0, 0, 255);
-			colorForLightGrapes = average;
+			//colorForLightGrapes = average;
 			circle(src, center, 3, colorForLightGrapes, -1, 8, 0);		//draw circle center
 			circle(src, center, radius, colorForLightGrapes, 3, 8, 0);	//draw circle outline
 			lightGrapes++;
 		}
 		else if (isGreen(average) == 0) {
 			Scalar colorForDarkGrapes = Scalar(0, 255, 0);
-			colorForDarkGrapes = average;
+			//colorForDarkGrapes = average;
 			circle(src, center, 3, colorForDarkGrapes, -1, 8, 0);		//draw circle center
 			circle(src, center, radius, colorForDarkGrapes, 3, 8, 0);	//draw circle outline
 			darkGrapes++;
@@ -91,12 +91,32 @@ void countGrapes() {
 	namedWindow("Window", WINDOW_AUTOSIZE);
 	imshow("Window", src);
 	waitKey(0);
+
+	return { lightGrapes, darkGrapes };
+}
+
+void countAllObjectsFrom(const std::string& fpath, std::vector<int>(*countingFunction)(const std::string&))
+{
+	namespace fs = std::experimental::filesystem;
+	
+	for (auto & p : fs::recursive_directory_iterator(fpath))
+	{
+		auto dot = FileSaver::divideLine(p.path().filename().string(), '.');
+
+		if (dot.size() == 2) //if lines size would be 1 it means that we are looking at a directory not a file
+		{
+			auto counts = FileSaver::divideLine(dot[0], '_');
+
+			countingFunction(p.path().string());
+		}
+	}
 }
 
 int main()
 {
 	std::cout << "Zadanie 3 - Welcome!" << std::endl;
-	countGrapes();
+	//countGrapes();
+	countAllObjectsFrom("grapes/", &countGrapes);
 	system("pause");
 	return 0;
 
