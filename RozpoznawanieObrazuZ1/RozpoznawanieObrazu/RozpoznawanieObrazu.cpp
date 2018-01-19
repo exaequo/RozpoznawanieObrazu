@@ -6,6 +6,48 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include "functions.h"
+
+struct CountStruct {
+	std::string name;
+	std::vector<int>
+		properCounts,
+		computedCounts;
+};
+void printMistakesMatrix3(const std::map<int, std::pair<int, int>>& countsMap, const std::vector<CountStruct>& counts) 
+{
+	std::cout << "\n"<<std::setw(25) << "filename";
+	for (int i = 0; i < counts[0].properCounts.size(); ++i)
+	{
+		std::stringstream ss;
+		ss << "class " << i;
+		std::cout << std::setw(9) << ss.str() << "|";
+	}
+	std::cout << "\n";
+
+	for (auto& cs : counts)
+	{
+		std::cout << std::setw(25) << cs.name <<" ";
+		for (int i = 0; i < cs.properCounts.size(); ++i)
+		{
+			std::cout << std::setw(3) << cs.computedCounts[i] << "/" << std::setw(3) << cs.properCounts[i] << " | ";
+		}
+		std::cout << "\n";
+	}
+	
+	
+	std::cout << std::setw(25) << "RESULTS:   ";
+	for (auto& p : countsMap)
+	{
+		float
+			proper = p.second.first, //proper
+			calculated = p.second.second; //calculated
+		calculated = proper - fabsf(proper - calculated);
+
+		std::cout << std::setw(9) << (calculated / proper) << "|";
+	}
+	std::cout << "\n\n";
+}
 
 void printSuccess(Classifier& classifier, bool val = true)
 {
@@ -97,8 +139,11 @@ std::vector<int> countGrapes(const std::string& file) {
 
 void countAllObjectsFrom(const std::string& fpath, std::vector<int>(*countingFunction)(const std::string&))
 {
-	namespace fs = std::experimental::filesystem;
 	
+	namespace fs = std::experimental::filesystem;
+	std::map<int, std::pair<int, int>> countsMap{}; //on this map we store the number of the class and then pair consisting of {properCount,calculatedCount}
+	std::vector<CountStruct> countStructVec{};
+
 	for (auto & p : fs::recursive_directory_iterator(fpath))
 	{
 		auto dot = FileSaver::divideLine(p.path().filename().string(), '.');
@@ -106,10 +151,20 @@ void countAllObjectsFrom(const std::string& fpath, std::vector<int>(*countingFun
 		if (dot.size() == 2) //if lines size would be 1 it means that we are looking at a directory not a file
 		{
 			auto counts = FileSaver::divideLine(dot[0], '_');
+			auto computedCounts = countingFunction(p.path().string());
+			std::vector<int> intCounts{};
+			
+			for (int i = 1; i < counts.size(); ++i)
+			{
+				intCounts.push_back( std::stoi(counts[i]) );
+				countsMap[i - 1].first += std::stoi(counts[i]);
+				countsMap[i - 1].second += computedCounts[i - 1];
+			}
 
-			countingFunction(p.path().string());
+			countStructVec.push_back(CountStruct{ p.path().filename().string(), intCounts, computedCounts });
 		}
 	}
+	printMistakesMatrix3( countsMap, countStructVec);
 }
 
 int main()

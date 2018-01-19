@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
+
 #include <string>
 typedef const std::vector<unsigned char> & pointerFunctionType;
 
@@ -103,6 +104,7 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 		{ "I_7T", &I_7T }
 	};
 
+	
 	static std::vector<std::string> getDefaultAttributesList() {
 		return std::vector<std::string>{ "whitePixelOnTopHalfCount", "whitePixelOnBottomHalfCount",
 			"leftSideShape", "rightSideShape",
@@ -115,9 +117,11 @@ struct FunctionStruct {//because it somehow doesnt work without bewing in some s
 	};
 
 	static std::vector<std::string> getTexturesAttributeList() {
-		return std::vector<std::string>{ "laplaceOperator", "I_1T", "I_2T", "I_3T", "I_4T", "I_5T", "I_6T", "I_7T" , "circle_5_10", "circle_10_20", "circle_20_40", "circle_20_32"
+		return std::vector<std::string>{ "laplaceOperator", "I_1T", "I_2T", "I_3T", "I_4T", "I_5T", "I_6T", "I_7T" , "circle_5_10", "circle_10_20", "circle_20_40", "circle_20_32"};
 	};
-	};
+
+
+	
 };
 
 
