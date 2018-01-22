@@ -1,0 +1,126 @@
+% vim:encoding=utf8 ft=tex sts=2 sw=2 et:
+
+\documentclass{classrep}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+
+\studycycle{Informatyka, studia dzienne, mgr II st.}
+\coursesemester{II}
+
+\coursename{Rozpoznawanie obrazów}
+\courseyear{2017/2018}
+
+\courseteacher{dr inż. Bartłomiej Stasiak}
+\coursegroup{wtorek, 12:00}
+
+\author{
+  \studentinfo{Hubert Marcinkowski}{214942} \and
+  \studentinfo{Artur Wróblewski}{214985}
+}
+
+\title{Zadanie 3}
+
+\begin{document}
+\maketitle
+
+
+\section{Cel}
+Zadanie polegało na stworzeniu programu, który będzie w stanie wczytać obraz i automatycznie policzyć ile na nim znajduje się:
+\begin{itemize}
+\item winogron każdego koloru
+\item orzechów danego typu
+\end{itemize}
+Metoda nie została odgórnie narzucona i zależała tylko od naszej inwencji twórczej.
+
+\section{Liczenie winogron}
+
+Wykorzystaliśmy zewnętrzną bibliotekę openCV oraz jej możliwości wykrywania okręgów na obrazach. Dopasowując parametry metody (min. promień maksymalny i minimalny oraz minimalna odległość między okręgami) udało się zaznaczyć prawie wszystkie winogrona. By rozpoznać kolor korzystaliśmy z maski stworzonej z tego okręgu i obliczaliśmy średnią koloru. Wszystkie winogrona zielone miały składową zieloną RGB większą niż 100 (z zakresu 0-255), zaś wszystkie fioletową niższą. Wykrywane były często okręgi nie otaczające żadnego winogrona (obwód koła często leżał na winogronach wokół, natomiast centrum okręgu wskazywało tło obrazu) - takie okręgi były rozpoznawane (po przekształceniu modelu RGB do HSV, ich nasycenie było niskie, a jasność wysoka) i odrzucane.
+
+\subsection{Wyniki}
+
+\begin{table}[H]
+  \centering
+  \caption{}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|}
+    \hline
+          filename & jasne & ciemne\\
+    \hline
+         $count1.bmp$ & 18 / 18 &  23 / 23 \\
+    \hline
+         $count2.bmp$ & 17 / 16 &  25 / 25 \\
+    \hline
+         $count3.bmp$ & 21 / 19 &  23 / 23 \\
+    \hline
+         $count4.bmp$ & 25 / 23 &  25 / 25 \\
+    \hline
+         $count5.bmp$ & 22 / 22 &   5 /  5 \\
+    \hline
+         $count6.bmp$ & 11 / 11 &   9 /  9 \\
+    \hline
+         $count7.bmp$ & 19 / 19 &  21 / 22 \\
+    \hline
+         $count8.bmp$ & 23 / 23 &  24 / 24 \\
+    \hline
+         $count9.bmp$ & 17 / 16 &  16 / 18 \\
+    \hline
+         $count10.bmp$ & 24 / 24 &  13 / 13 \\
+    \hline
+         $count11.bmp$ & 16 / 15 &  12 / 13 \\
+    \hline
+         $count12.bmp$ & 32 / 30 &  29 / 30 \\
+    \hline
+         $count13.bmp$ & 33 / 29 &  29 / 27 \\
+    \hline
+         $count14.bmp$ & 21 / 22 &  21 / 24 \\
+    \hline
+         $count15.bmp$ & 24 / 23 &  19 / 22 \\
+    \hline
+         RESULTS:  &  0.958064& 0.970297\\
+    \hline
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{Liczenie orzechów}
+
+Do tej części zadanie również wykorzystaliśmy bibliotekę openCV oraz jej możliwości wykrywania okręgów na obrazie. Idąc za ciosem wykorzystaliśmy analogiczną metodę co przy winogronach, lecz wciąż mieliśmy na uwadze, że orzechów są 3 rodzaje i jeden z nich (nerkowiec) znacznie odbiega kształtem od okręgu. By rozpoznać kolor korzystaliśmy z maski stworzonej z okręgów i obliczaliśmy średnią koloru. Wszystkie orzechy brązowe miały składową czerwoną RGB mniejszą niż 150 (z zakresu 0-255), zaś wszystkie pozostałe niższą. Podobnie jak przy winogronach wykrywane były często okręgi nie otaczające żadnego orzecha - sposób ich wykrywania i eliminacji był analogiczny. Problemem wciąż były orzechy nerkowca, których kolor był bardzo zbliżony do jasnych orzechów. Zrezygnowaliśmy, więc z liczenia średniej koloru na rzecz liczenia ilości pikseli tła w danym okręgu (a dokładniej jak duża część okręgu to tło). To pozwoliło osiągnąć zadowalające wyniki, które przedstawiamy poniżej.
+
+\subsection{Wyniki}
+
+\begin{table}[H]
+  \centering
+  \caption{}
+  \label{tab:tab1}
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+          filename & ciemny & jasny & nerkowiec\\
+    \hline
+          $3.jpg$  & 13 / 13 &   6 /  6 &   3 /  6 \\
+    \hline
+          $9.jpg$  & 23 / 23 &  11 / 16 &  20 / 19 \\
+    \hline
+          $14.jpg$ & 34 / 39 &  10 / 19 &  15 / 11 \\
+    \hline
+          $33.jpg$ & 34 / 35 &  19 / 26 &  10 / 12 \\
+    \hline
+          $43.jpg$ & 49 / 52 &  22 / 22 &  45 / 66 \\
+    \hline
+          $48.jpg$ & 27 / 29 &   1 /  2 &  16 / 18 \\
+    \hline
+          $52.jpg$ & 39 / 48 &  12 / 26 &  44 / 52 \\
+    \hline
+          RESULTS: &   0.916318& 0.692308& 0.831522\\
+    \hline
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{Wnioski}
+
+Jesteśmy bardzo zadowoleni z uzyskanych wyników. Wykrywanie okręgów było strzałem w dziesiątkę, a przy odpowiednich progach koloru błędy odpowiedzi nie były duże. Warto zaznaczyć jednak, że wynik końcowy był różnicą błędnych odpowiedzi i sumy wszystkich winogron tego samego koloru dzielonym przez liczbę wszystkich winogron. Sytuacja podobnie miała się z orzechami, wszak zadanie polegało na podaniu informacji o ilości obiektów na zdjęciach, nie zaś na prawidłowym ich rozpoznaniu - stąd też, przykładowo gdy jakieś winogrono lub orzech z klasy nr 1 zostało zaklasyfikowane do klasy nr  2 to możliwe, że inne z klasy nr 2 zostało zaklasyfikowane jako to z klasy nr 1 dając ostatecznie prawidłową odpowiedź.
+
+\end{document}

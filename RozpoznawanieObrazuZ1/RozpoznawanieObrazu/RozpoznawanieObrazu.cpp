@@ -56,7 +56,6 @@ void printSuccess(Classifier& classifier, bool val = true)
 		int count = 0;
 		for (auto& test : classifier.getTestSet())
 		{
-			//std::cout << test.toOutputFormat() << std::endl;
 			count += test.getSuccessIdentifier();
 		}
 		std::cout << "\n\nSuccess rate: " << ((float)count / classifier.getTestSet().size()) << "\n";
@@ -65,24 +64,14 @@ void printSuccess(Classifier& classifier, bool val = true)
 }
 
 int isGreen(cv::Scalar s) {
-
 	using namespace cv;
 	Mat rgb(1, 1, CV_8UC3, s);
 	Mat hsv;
 	cvtColor(rgb, hsv, COLOR_BGR2HSV);
 	Scalar hsvS = hsv.at<cv::Vec3b>(0, 0);
-	//std::cout << "S: " << s << std::endl;
-	//std::cout <<  hsvS << std::endl;
 	int backgroundDetector = 20;
 	if (hsvS.val[1] < 40 && hsvS.val[2] > 150) {
-		//std::cout << "GRAY!" << std::endl;
 		return -1;
-	}
-	if (s.val[1] > 100) {
-		//std::cout << "GREEN!" << std::endl;
-	}
-	else {
-		//std::cout << "BLACK" << std::endl;
 	}
 	return s.val[1] > 100 ? 1 : 0;
 }
@@ -103,7 +92,6 @@ std::vector<int> countGrapes(const std::string& file) {
 	medianBlur(src_gray, src_gray, 5);
 	vector<Vec3f> circles;
 	HoughCircles(src_gray, circles, CV_HOUGH_GRADIENT, 2, 35, 100, 40, 20, 50);
-	std::cout << circles.size() << std::endl;
 
 	for (int i = 0; i < circles.size(); ++i)
 	{
@@ -115,14 +103,12 @@ std::vector<int> countGrapes(const std::string& file) {
 
 		if (isGreen(average) == 1) {
 			Scalar colorForLightGrapes = Scalar(0, 0, 255);
-			//colorForLightGrapes = average;
 			circle(src, center, 3, colorForLightGrapes, -1, 8, 0);		//draw circle center
 			circle(src, center, radius, colorForLightGrapes, 3, 8, 0);	//draw circle outline
 			lightGrapes++;
 		}
 		else if (isGreen(average) == 0) {
 			Scalar colorForDarkGrapes = Scalar(0, 255, 0);
-			//colorForDarkGrapes = average;
 			circle(src, center, 3, colorForDarkGrapes, -1, 8, 0);		//draw circle center
 			circle(src, center, radius, colorForDarkGrapes, 3, 8, 0);	//draw circle outline
 			darkGrapes++;
@@ -173,18 +159,9 @@ int isBrown(cv::Scalar s) {
 	Mat hsv;
 	cvtColor(rgb, hsv, COLOR_BGR2HSV);
 	Scalar hsvS = hsv.at<cv::Vec3b>(0, 0);
-	std::cout << "S: " << s << std::endl;
-	std::cout <<  hsvS << std::endl;
 	int backgroundDetector = 20;
 	if (hsvS.val[1] < 40 && hsvS.val[2] > 150) {
-		//std::cout << "GRAY!" << std::endl;
 		return -1;
-	}
-	if (s.val[1] > 100) {
-		//std::cout << "GREEN!" << std::endl;
-	}
-	else {
-		//std::cout << "BLACK" << std::endl;
 	}
 	return hsvS.val[2] < 150 ? 1 : 0;
 }
@@ -196,20 +173,12 @@ boolean isNerkowiec(cv::Scalar s, int radius) {
 	Mat hsv;
 	cvtColor(rgb, hsv, COLOR_BGR2HSV);
 	Scalar hsvS = hsv.at<cv::Vec3b>(0, 0);
-	std::cout << "S: " << s << std::endl;
-	std::cout << hsvS << std::endl;
-	std::cout << radius << std::endl;
 	int backgroundDetector = 20;
-
 	if (hsvS.val[1] < 40 && hsvS.val[2] > 150) {
-		//std::cout << "GRAY!" << std::endl;
 		return -1;
 	}
 	if (radius > 100) {
 		return 1;
-	}
-	if (hsvS.val[1] > 80 && hsvS.val[1] < 130 && hsvS.val[2] > 160 && radius > 100) {
-		//return 1;
 	}
 	return 0;
 }
@@ -223,18 +192,13 @@ std::vector<int> countNuts(const std::string& file) {
 	std::cout << "countNuts method - Hi! Let's count some nuts!" << std::endl;
 	using namespace cv;
 	using namespace std;
-	//3, 9, 14, 33, 43, 48, 52
-	//string file = "nuts/52.jpg";
 	std::cout << "Loading image " << file << std::endl;
 	Mat src = imread(file, 1);
 	Mat src_gray;
 	cvtColor(src, src_gray, CV_BGR2GRAY);
 	medianBlur(src_gray, src_gray, 15);
-	//GaussianBlur(src_gray, src_gray, Size(15, 15), 21);
 	vector<Vec3f> circles;
 	HoughCircles(src_gray, circles, CV_HOUGH_GRADIENT, 2, 120, 100, 60, 80, 200);
-	std::cout << circles.size() << std::endl;
-
 	for (int i = 0; i < circles.size(); ++i)
 	{
 		Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
@@ -246,11 +210,7 @@ std::vector<int> countNuts(const std::string& file) {
 
 		Mat output, outputHSV;
 		src_gray.copyTo(output, mask);
-		//cvtColor(output, outputHSV, COLOR_BGR2HSV);
 		int counter = 0;
-
-		//std::cout << output.rows << "  " << output.cols << std::endl;
-
 		for (int m = 0; m < output.rows - 10; m++) {
 			for (int n = 0; n < output.cols - 10; n++) {
 				if (output.at<cv::Vec3b>(m, n).val[0] > 220 &&
@@ -260,28 +220,23 @@ std::vector<int> countNuts(const std::string& file) {
 				}
 			}
 		}
-
-		
-
-		std::cout << radius << std::endl;
 		if (isBrown(average) == 1) {
 			circle(src, center, 3, Scalar(0, 255, 0), -1, 8, 0);		//draw circle center
 			circle(src, center, radius, Scalar(0, 0, 255), 3, 8, 0);	//draw circle outline
 			darkNuts++;
-		}
-		else if (counter > (M_PI * radius * radius) / 30) {//isNerkowiec(average, radius) == 1)  {
+		} else if (counter > (M_PI * radius * radius) / 30) {
 			circle(src, center, 3, Scalar(0, 255, 0), -1, 8, 0);		//draw circle center
 			circle(src, center, radius, Scalar(0, 255, 0), 3, 8, 0);	//draw circle outline
 			nerkowiecNuts++;
-		}
-		else if (isNerkowiec(average, radius) == 0) {
+		} else if (isNerkowiec(average, radius) == 0) {
 			circle(src, center, 3, Scalar(0, 255, 0), -1, 8, 0);		//draw circle center
 			circle(src, center, radius, Scalar(255, 0, 0), 3, 8, 0);	//draw circle outline
 			lightNuts++;
 		}
 	}
-	//std::cout << "There are " << lightGrapes << " light grapes on image" << std::endl;
-	//std::cout << "There are " << darkGrapes << " dark grapes on image" << std::endl;
+	std::cout << "There are " << darkNuts << " dark nuts on image" << std::endl;
+	std::cout << "There are " << lightNuts << " light nuts on image" << std::endl;
+	std::cout << "There are " << nerkowiecNuts << " nerkowiec nuts on image" << std::endl;
 	namedWindow("Window", WINDOW_NORMAL);
 	imshow("Window", src);
 
@@ -292,16 +247,22 @@ std::vector<int> countNuts(const std::string& file) {
 int main()
 {
 	std::cout << "Zadanie 3 - Welcome!" << std::endl;
-	//countGrapes();
-	//countAllObjectsFrom("grapes/", &countGrapes);
-	countAllObjectsFrom("nuts/", &countNuts);
+	std::cout << "1. GRAPES:\n";
+	std::cout << "2. NUTS:\n\n";
+	char option;
+	std::cin >> option;
+	if (option == '1') {
+		countAllObjectsFrom("grapes/", &countGrapes);
+	} else if (option == '2') {
+		countAllObjectsFrom("nuts/", &countNuts);
+	}
 	system("pause");
 	return 0;
 
 
 	std::cout << "1. EXTRACTOR:\n";
 	std::cout << "2. CLASIFFIER:\n\n";
-	char option;
+	//char option;
 	std::cin >> option;
 
 	if (option == '1')
